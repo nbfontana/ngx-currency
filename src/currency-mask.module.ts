@@ -16,5 +16,5 @@ import {CurrencyMaskDirective} from "./currency-mask.directive";
     CurrencyMaskDirective
   ]
 })
-export class CurrencyMaskModule {
+export class NgxCurrencyModule {
 }
