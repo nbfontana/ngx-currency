@@ -1,4 +1,5 @@
 import {InputService} from "./input.service";
+import {KeyboardUtils} from "ngx-utilities";
 
 export class InputHandler {
 
@@ -77,10 +78,16 @@ export class InputHandler {
   handleKeypress(event: any): void {
     let keyCode = event.which || event.charCode || event.keyCode;
 
+    if (keyCode === 97 && event.ctrlKey) {
+      return;
+    }
+
     switch (keyCode) {
       case undefined:
       case 9:
       case 13:
+      case 37:
+      case 39:
         return;
       case 43:
         this.inputService.changeToPositive();
