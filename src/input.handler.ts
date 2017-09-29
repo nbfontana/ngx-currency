@@ -1,5 +1,4 @@
 import {InputService} from "./input.service";
-import {KeyboardUtils} from "ngx-utilities";
 
 export class InputHandler {
 
