@@ -1,0 +1,590 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>ngx-currency documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	    <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">ngx-currency documentation</a>
+            <button type="button" class="btn btn-default btn-menu fa fa-bars" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+            <div id="book-search-input" role="search">
+                <input type="text" placeholder="Type to search">
+            </div>
+            <nav>
+            
+                <ul class="list">
+            
+                    <li class="title">
+                        <a href="../">ngx-currency documentation</a>
+                    </li>
+            
+                    <li class="divider"></li>
+            
+            
+                    <li class="chapter">
+                        <a data-type="chapter-link" href="../"><span class="fa fa-home"></span>Getting started</a>
+                        <ul class="links">
+                                <li class="link">
+                                    <a href="../" ><span class="fa fa-file-text-o"></span>README</a>
+                                </li>
+                                <li class="link">
+                                    <a 
+                                        
+                                         href="../overview.html" 
+                                         href="../overview.html" 
+                                        >
+                                        <span class="fa fa-th"></span>Overview
+                                    </a>
+                                </li>
+                        </ul>
+                    </li>
+            
+            
+                    <li class="chapter">
+                        <a data-type="chapter-link" href="../modules.html" >
+                            <span class="fa fa-archive"></span>
+                            <span>Modules</span>
+                            <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
+                                    data-target="#xs-modules-links"
+                            ></span>
+                        </a>
+                        <ul class="links collapse in"
+                                id="xs-modules-links"
+                            >
+                                <li class="link">
+                                    <a href="../modules/NgxCurrencyModule.html" >NgxCurrencyModule</a>
+                                </li>
+                        </ul>
+                    </li>
+            
+            
+                    <li class="chapter">
+                        <div class="simple">
+                            <span class="fa fa-code"></span>
+                            <span>Directives</span>
+                            <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
+                                    data-target="#xs-directives-links"
+                                ></span>
+                        </div>
+                        <ul class="links collapse in"
+                                id="xs-directives-links"
+                            >
+                                <li class="link">
+                                    <a href="../directives/CurrencyMaskDirective.html" >CurrencyMaskDirective</a>
+                                </li>
+                        </ul>
+                    </li>
+            
+                    <li class="chapter">
+                        <div class="simple">
+                            <span class="fa fa-file-code-o"></span>
+                            <span>Classes</span>
+                            <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
+                                    data-target="#xs-classes-links"
+                                ></span>
+                        </div>
+                        <ul class="links collapse in"
+                                id="xs-classes-links"
+                            >
+                                <li class="link">
+                                    <a href="../classes/InputHandler.html" >InputHandler</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/InputManager.html"  class="active" >InputManager</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/InputService.html" >InputService</a>
+                                </li>
+                        </ul>
+                    </li>
+            
+            
+            
+            
+            
+                    <li class="chapter">
+                        <a data-type="chapter-link" href="../miscellaneous.html" ><span class="fa fa-cubes"></span>Miscellaneous</a>
+                    </li>
+            
+            
+                    <li class="divider"></li>
+                    <li class="copyright">
+                            Documentation generated using <a href="https://compodoc.github.io/website/" target="_blank">
+                                        <img src="..//images/compodoc-vectorise.svg" class="img-responsive">
+                            </a>
+                    </li>
+            
+                </ul>
+            
+            </nav>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <nav>
+                   
+                       <ul class="list">
+                   
+                           <li class="title">
+                               <a href="../">ngx-currency documentation</a>
+                           </li>
+                   
+                           <li class="divider"></li>
+                   
+                               <div id="book-search-input" role="search">
+                                   <input type="text" placeholder="Type to search">
+                               </div>
+                   
+                           <li class="chapter">
+                               <a data-type="chapter-link" href="../"><span class="fa fa-home"></span>Getting started</a>
+                               <ul class="links">
+                                       <li class="link">
+                                           <a href="../" ><span class="fa fa-file-text-o"></span>README</a>
+                                       </li>
+                                       <li class="link">
+                                           <a 
+                                               
+                                                href="../overview.html" 
+                                                href="../overview.html" 
+                                               >
+                                               <span class="fa fa-th"></span>Overview
+                                           </a>
+                                       </li>
+                               </ul>
+                           </li>
+                   
+                   
+                           <li class="chapter">
+                               <a data-type="chapter-link" href="../modules.html" >
+                                   <span class="fa fa-archive"></span>
+                                   <span>Modules</span>
+                                   <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
+                                           data-target="#modules-links"
+                                   ></span>
+                               </a>
+                               <ul class="links collapse in"
+                                       id="modules-links"
+                   >
+                                       <li class="link">
+                                           <a href="../modules/NgxCurrencyModule.html" >NgxCurrencyModule</a>
+                                       </li>
+                               </ul>
+                           </li>
+                   
+                   
+                           <li class="chapter">
+                               <div class="simple">
+                                   <span class="fa fa-code"></span>
+                                   <span>Directives</span>
+                                   <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
+                                           data-target="#directives-links"
+                   ></span>
+                               </div>
+                               <ul class="links collapse in"
+                                       id="directives-links"
+                   >
+                                       <li class="link">
+                                           <a href="../directives/CurrencyMaskDirective.html" >CurrencyMaskDirective</a>
+                                       </li>
+                               </ul>
+                           </li>
+                   
+                           <li class="chapter">
+                               <div class="simple">
+                                   <span class="fa fa-file-code-o"></span>
+                                   <span>Classes</span>
+                                   <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
+                                           data-target="#classes-links"
+                   ></span>
+                               </div>
+                               <ul class="links collapse in"
+                                       id="classes-links"
+                   >
+                                       <li class="link">
+                                           <a href="../classes/InputHandler.html" >InputHandler</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/InputManager.html"  class="active" >InputManager</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/InputService.html" >InputService</a>
+                                       </li>
+                               </ul>
+                           </li>
+                   
+                   
+                   
+                   
+                   
+                           <li class="chapter">
+                               <a data-type="chapter-link" href="../miscellaneous.html" ><span class="fa fa-cubes"></span>Miscellaneous</a>
+                           </li>
+                   
+                   
+                           <li class="divider"></li>
+                           <li class="copyright">
+                                   Documentation generated using <a href="https://compodoc.github.io/website/" target="_blank">
+                                               <img src="..//images/compodoc-vectorise.svg" class="img-responsive">
+                                   </a>
+                           </li>
+                   
+                       </ul>
+                   
+                   </nav>
+               </div>
+               <div class="content class">
+                   <div class="content-data">
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Classes</li>
+  <li>InputManager</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+    <li class="active">
+        <a href="#infos" id="infos-tab" role="tab" data-toggle="tab">Infos</a>
+    </li>
+    <li>
+        <a href="#source" role="tab" id="source-tab" data-toggle="tab">Source</a>
+    </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="infos">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/input.manager.ts</code>
+        </p>
+
+
+
+
+            <section>
+                <h3 id="constructor">Constructor</h3>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                            <tr>
+                                <td class="col-md-4">
+                                    <code>constructor(htmlInputElement: any)</code>
+                                </td>
+                            </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <div class="io-line">Defined in <a href="" data-line="3" class="link-to-prism">src/input.manager.ts:3</a></div>
+                                    </td>
+                                </tr>
+            
+                        </tbody>
+                    </table>
+            </section>
+
+            <section>
+                
+                    <h3 id="methods">
+                        Methods
+                    </h3>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                            <tr>
+                                <td class="col-md-4">
+                                    <b> setCursorAt</b>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="col-md-4">
+            <code>setCursorAt(position: number)</code>
+                                </td>
+                            </tr>
+            
+                                <tr>
+                                    <td class="col-md-4">
+                                        <div class="io-line">Defined in <a href="" data-line="8" class="link-to-prism">src/input.manager.ts:8</a></div>
+                                    </td>
+                                </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+            
+                                        <div class="io-description">
+                                            <b>Returns: </b>    <code>void</code>
+            
+                                        </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                            <tr>
+                                <td class="col-md-4">
+                                    <b> updateValueAndCursor</b>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="col-md-4">
+            <code>updateValueAndCursor(newRawValue: string, oldLength: number, selectionStart: number)</code>
+                                </td>
+                            </tr>
+            
+                                <tr>
+                                    <td class="col-md-4">
+                                        <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">src/input.manager.ts:21</a></div>
+                                    </td>
+                                </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+            
+                                        <div class="io-description">
+                                            <b>Returns: </b>    <code>void</code>
+            
+                                        </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+            </section>
+
+
+            <section>
+                
+                    <h3 id="inputs">
+                        Properties
+                    </h3>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                            <tr>
+                                <td class="col-md-4">
+                                    <b> canInputMoreNumbers</b>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <code>canInputMoreNumbers:     <code>boolean</code>
+            </bcode>
+                                </td>
+                            </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/input.manager.ts:28</a></div>
+                                    </td>
+                                </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                            <tr>
+                                <td class="col-md-4">
+                                    <b> inputSelection</b>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <code>inputSelection:     <code>any</code>
+            </bcode>
+                                </td>
+                            </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/input.manager.ts:37</a></div>
+                                    </td>
+                                </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                            <tr>
+                                <td class="col-md-4">
+                                    <b> rawValue</b>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <code>rawValue:     <code>string</code>
+            </bcode>
+                                </td>
+                            </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <div class="io-line">Defined in <a href="" data-line="77" class="link-to-prism">src/input.manager.ts:77</a></div>
+                                    </td>
+                                </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                            <tr>
+                                <td class="col-md-4">
+                                    <b> storedRawValue</b>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <code>storedRawValue:     <code>string</code>
+            </bcode>
+                                </td>
+                            </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <div class="io-line">Defined in <a href="" data-line="89" class="link-to-prism">src/input.manager.ts:89</a></div>
+                                    </td>
+                                </tr>
+                        </tbody>
+                    </table>
+            </section>
+    </div>
+    <div class="tab-pane fade tab-source-code" id="source">
+        <pre class="line-numbers"><code class="language-typescript">export class InputManager {
+
+  private _storedRawValue: string;
+
+  constructor(private htmlInputElement: any) {
+  }
+
+  setCursorAt(position: number): void {
+    if (this.htmlInputElement.setSelectionRange) {
+      this.htmlInputElement.focus();
+      this.htmlInputElement.setSelectionRange(position, position);
+    } else if (this.htmlInputElement.createTextRange) {
+      let textRange &#x3D; this.htmlInputElement.createTextRange();
+      textRange.collapse(true);
+      textRange.moveEnd(&quot;character&quot;, position);
+      textRange.moveStart(&quot;character&quot;, position);
+      textRange.select();
+    }
+  }
+
+  updateValueAndCursor(newRawValue: string, oldLength: number, selectionStart: number): void {
+    this.rawValue &#x3D; newRawValue;
+    let newLength &#x3D; newRawValue.length;
+    selectionStart &#x3D; selectionStart - (oldLength - newLength);
+    this.setCursorAt(selectionStart);
+  }
+
+  get canInputMoreNumbers(): boolean {
+    let haventReachedMaxLength &#x3D; !(this.rawValue.length &gt;&#x3D; this.htmlInputElement.maxLength &amp;&amp; this.htmlInputElement.maxLength &gt;&#x3D; 0);
+    let selectionStart &#x3D; this.inputSelection.selectionStart;
+    let selectionEnd &#x3D; this.inputSelection.selectionEnd;
+    let haveNumberSelected &#x3D; (selectionStart !&#x3D; selectionEnd &amp;&amp; this.htmlInputElement.value.substring(selectionStart, selectionEnd).match(/\d/)) ? true : false;
+    let startWithZero &#x3D; (this.htmlInputElement.value.substring(0, 1) &#x3D;&#x3D; &quot;0&quot;);
+    return haventReachedMaxLength || haveNumberSelected || startWithZero;
+  }
+
+  get inputSelection(): any {
+    let selectionStart &#x3D; 0;
+    let selectionEnd &#x3D; 0;
+
+    if (typeof this.htmlInputElement.selectionStart &#x3D;&#x3D; &quot;number&quot; &amp;&amp; typeof this.htmlInputElement.selectionEnd &#x3D;&#x3D; &quot;number&quot;) {
+      selectionStart &#x3D; this.htmlInputElement.selectionStart;
+      selectionEnd &#x3D; this.htmlInputElement.selectionEnd;
+    } else {
+      let range &#x3D; (&lt;any&gt;document).selection.createRange();
+
+      if (range &amp;&amp; range.parentElement() &#x3D;&#x3D; this.htmlInputElement) {
+        let lenght &#x3D; this.htmlInputElement.value.length;
+        let normalizedValue &#x3D; this.htmlInputElement.value.replace(/\r\n/g, &quot;\n&quot;);
+        let startRange &#x3D; this.htmlInputElement.createTextRange();
+        startRange.moveToBookmark(range.getBookmark());
+        let endRange &#x3D; this.htmlInputElement.createTextRange();
+        endRange.collapse(false);
+
+        if (startRange.compareEndPoints(&quot;StartToEnd&quot;, endRange) &gt; -1) {
+          selectionStart &#x3D; selectionEnd &#x3D; lenght;
+        } else {
+          selectionStart &#x3D; -startRange.moveStart(&quot;character&quot;, -lenght);
+          selectionStart +&#x3D; normalizedValue.slice(0, selectionStart).split(&quot;\n&quot;).length - 1;
+
+          if (startRange.compareEndPoints(&quot;EndToEnd&quot;, endRange) &gt; -1) {
+            selectionEnd &#x3D; lenght;
+          } else {
+            selectionEnd &#x3D; -startRange.moveEnd(&quot;character&quot;, -lenght);
+            selectionEnd +&#x3D; normalizedValue.slice(0, selectionEnd).split(&quot;\n&quot;).length - 1;
+          }
+        }
+      }
+    }
+
+    return {
+      selectionStart: selectionStart,
+      selectionEnd: selectionEnd
+    };
+  }
+
+  get rawValue(): string {
+    return this.htmlInputElement &amp;&amp; this.htmlInputElement.value;
+  }
+
+  set rawValue(value: string) {
+    this._storedRawValue &#x3D; value;
+
+    if (this.htmlInputElement) {
+      this.htmlInputElement.value &#x3D; value;
+    }
+  }
+
+  get storedRawValue(): string {
+    return this._storedRawValue;
+  }
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+           </div>
+       </div>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script>var COMPODOC_CURRENT_PAGE_DEPTH = 1;</script>
+
+       <script src="../js/search/search.js"></script>
+       <script src="../js/search/lunr.min.js"></script>
+       <script src="../js/search/search-lunr.js"></script>
+
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+       <script src="../js/search/search_index.js"></script>
+
+    </body>
+</html>
