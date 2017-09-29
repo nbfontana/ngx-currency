@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.1.1"></a>
+## [1.1.1](https://github.com/nbfontana/ngx-currency/compare/v1.1.0...v1.1.1) (2017-09-29)
+
+
+### Bug Fixes
+
+* unused import ([9bdd946](https://github.com/nbfontana/ngx-currency/commit/9bdd946))
+
+
+### Features
+
+* gh-pages branch up ([b1210af](https://github.com/nbfontana/ngx-currency/commit/b1210af))
+* travis.yml ([90517f6](https://github.com/nbfontana/ngx-currency/commit/90517f6))
+
+
+
 <a name="1.1.0"></a>
 # 1.1.0 (2017-09-29)
 
