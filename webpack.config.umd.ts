@@ -8,8 +8,8 @@ const pkg = JSON.parse(fs.readFileSync('./package.json').toString());
 
 export default {
   entry: {
-    'ngx-currency.umd': path.join(__dirname, 'src', 'index.ts'),
-    'ngx-currency.umd.min': path.join(__dirname, 'src', 'index.ts'),
+    'ngx-currency.umd': path.join(__dirname, 'index.ts'),
+    'ngx-currency.umd.min': path.join(__dirname, 'index.ts'),
   },
   output: {
     path: path.join(__dirname, 'dist', 'bundles'),
