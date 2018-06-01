@@ -67,7 +67,7 @@ export class InputHandler {
         this.onModelChange(this.inputService.value);
       }
 
-      if (selectionRangeLength == this.inputService.rawValue.length) {
+      if (selectionRangeLength >= (this.inputService.rawValue.length - this.inputService.prefixLenght())) {
         this.setValue(0);
         this.onModelChange(this.inputService.value);
       }
