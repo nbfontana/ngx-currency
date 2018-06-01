@@ -98,6 +98,10 @@ export class InputService {
     this.value = value;
   }
 
+  prefixLenght():any{
+    return this.options.prefix.length;
+  }
+
   get canInputMoreNumbers(): boolean {
     return this.inputManager.canInputMoreNumbers;
   }
