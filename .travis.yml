@@ -15,7 +15,7 @@ cache:
 after_success:
 - npm run codecov
 
-sudo: required
+sudo: false
 addons:
   chrome: stable
 
