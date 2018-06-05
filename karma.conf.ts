@@ -76,6 +76,12 @@ export default config => {
 
     reporters: ['mocha', 'coverage-istanbul'],
     logLevel: config.LOG_INFO,
-    browsers: ['ChromeHeadless']
+    browsers: ['ChromeHeadless','ChromeHeadlessNoSandbox'],
+    customLaunchers: {
+      ChromeHeadlessNoSandbox: {
+        base: 'ChromeHeadless',
+        flags: ['--no-sandbox']
+      }
+    }
   });
 };
