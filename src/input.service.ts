@@ -1,10 +1,11 @@
 import {InputManager} from "./input.manager";
+import { CurrencyMaskConfig } from "./currency-mask.config";
 
 export class InputService {
 
   private inputManager: InputManager;
 
-  constructor(private htmlInputElement: any, private options: any) {
+  constructor(private htmlInputElement: any, private options: CurrencyMaskConfig) {
     this.inputManager = new InputManager(htmlInputElement);
   }
 
@@ -21,7 +22,7 @@ export class InputService {
   }
 
   applyMask(isNumber: boolean, rawValue: string): string {
-    let {allowNegative, decimal, precision, prefix, suffix, thousands} = this.options;
+    let {allowNegative, decimal, precision, prefix, suffix, thousands, nullable} = this.options;
     rawValue = isNumber ? new Number(rawValue).toFixed(precision) : rawValue;
     let onlyNumbers = rawValue.replace(/[^0-9]/g, "");
 
@@ -48,6 +49,10 @@ export class InputService {
   }
 
   clearMask(rawValue: string): number {
+    
+    if (this.isNullable() && rawValue === "")
+      return null;
+
     let value = (rawValue || "0").replace(this.options.prefix, "").replace(this.options.suffix, "");
 
     if (this.options.thousands) {
@@ -72,6 +77,11 @@ export class InputService {
   }
 
   removeNumber(keyCode: number): void {
+    if (this.isNullable() && this.value == 0){
+      this.rawValue = null;
+      return;
+    }
+    
     let selectionEnd = this.inputSelection.selectionEnd;
     let selectionStart = this.inputSelection.selectionStart;
 
@@ -100,6 +110,10 @@ export class InputService {
 
   prefixLenght():any{
     return this.options.prefix.length;
+  }
+
+  isNullable(){
+    return this.options.nullable;
   }
 
   get canInputMoreNumbers(): boolean {

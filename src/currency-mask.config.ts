@@ -9,6 +9,7 @@ export interface CurrencyMaskConfig {
   prefix: string;
   suffix: string;
   thousands: string;
+  nullable: boolean;
 }
 
 export let CURRENCY_MASK_CONFIG = new InjectionToken<CurrencyMaskConfig>("currency.mask.config");
