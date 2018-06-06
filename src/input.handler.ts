@@ -1,4 +1,4 @@
-import {InputService} from "./input.service";
+import { InputService } from "./input.service";
 
 export class InputHandler {
 
@@ -68,12 +68,14 @@ export class InputHandler {
       }
 
       if (selectionRangeLength >= (this.inputService.rawValue.length - this.inputService.prefixLenght())) {
-        this.setValue(0);
-        this.onModelChange(this.inputService.value);
+        this.clearValue();
       }
     }
   }
-
+  clearValue(){
+    this.setValue(this.inputService.isNullable() ? null : 0);
+    this.onModelChange(this.inputService.value);
+  }
   handleKeypress(event: any): void {
     let keyCode = event.which || event.charCode || event.keyCode;
 

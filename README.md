@@ -73,6 +73,7 @@ Available options:
  * `prefix` - Money prefix (default: `'$ '`)
  * `suffix` - Money suffix (default: `''`)
  * `thousands` - Separator of thousands (default: `','`)
+ * `nullable` - when true, the value of the clean field will be `null`, when false the value will be `0`
 
 You can also set options globally...
 
