@@ -89,7 +89,8 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     precision: 2,
     prefix: "R$ ",
     suffix: "",
-    thousands: "."
+    thousands: ".",
+    nullable: true
 };
 
 @NgModule({
