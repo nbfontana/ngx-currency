@@ -90,11 +90,23 @@ export class InputService {
       selectionStart = this.rawValue.length - this.options.suffix.length;
     }
 
-    const move = this.rawValue.substr(selectionStart - 1, 1).match(/\d/) ? 0 : 1;
+    let move = this.rawValue.substr(selectionStart - 1, 1).match(/\d/) ? 0 : -1;
+    move = (
+      (
+        keyCode == 8 &&
+        selectionStart - 1 === 0 &&
+        !(this.rawValue.substr(selectionStart, 1).match(/\d/))
+      ) ||
+      (
+        (keyCode == 46 || keyCode == 63272) &&
+        selectionStart === 0 &&
+        !(this.rawValue.substr(selectionStart + 1, 1).match(/\d/))
+      )
+    ) ? 1 : move;
     selectionEnd = keyCode == 46 || keyCode == 63272 ? selectionEnd + 1 : selectionEnd;
     selectionStart = keyCode == 8 ? selectionStart - 1 : selectionStart;
     this.rawValue = this.rawValue.substring(0, selectionStart) + this.rawValue.substring(selectionEnd, this.rawValue.length);
-    this.updateFieldValue(selectionStart - move);
+    this.updateFieldValue(selectionStart + move);
   }
 
   updateFieldValue(selectionStart?: number): void {

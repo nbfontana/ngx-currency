@@ -29,7 +29,7 @@ export class DemoComponent {
   public form: FormGroup;
   public value: number;
   public ngxCurrencyOptions = {
-    prefix: 'R$ ',
+    prefix: '',
     thousands: '.',
     decimal: ',',
     allowNegative: false,
