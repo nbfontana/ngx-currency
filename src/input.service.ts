@@ -3,7 +3,7 @@ import { CurrencyMaskConfig } from "./currency-mask.config";
 
 export class InputService {
 
-  private inputManager: InputManager;
+  inputManager: InputManager;
 
   constructor(private htmlInputElement: any, private options: CurrencyMaskConfig) {
     this.inputManager = new InputManager(htmlInputElement);
@@ -91,7 +91,7 @@ export class InputService {
     }
 
     let move = this.rawValue.substr(selectionStart - 1, 1).match(/\d/) ? 0 : -1;
-    move = (
+    if (
       (
         keyCode == 8 &&
         selectionStart - 1 === 0 &&
@@ -102,7 +102,9 @@ export class InputService {
         selectionStart === 0 &&
         !(this.rawValue.substr(selectionStart + 1, 1).match(/\d/))
       )
-    ) ? 1 : move;
+    ) {
+      move = 1;
+    };
     selectionEnd = keyCode == 46 || keyCode == 63272 ? selectionEnd + 1 : selectionEnd;
     selectionStart = keyCode == 8 ? selectionStart - 1 : selectionStart;
     this.rawValue = this.rawValue.substring(0, selectionStart) + this.rawValue.substring(selectionEnd, this.rawValue.length);
