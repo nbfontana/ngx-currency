@@ -49,7 +49,7 @@ export class InputService {
   }
 
   clearMask(rawValue: string): number {
-    
+
     if (this.isNullable() && rawValue === "")
       return null;
 
@@ -81,7 +81,7 @@ export class InputService {
       this.rawValue = null;
       return;
     }
-    
+
     let selectionEnd = this.inputSelection.selectionEnd;
     let selectionStart = this.inputSelection.selectionStart;
 
@@ -90,10 +90,11 @@ export class InputService {
       selectionStart = this.rawValue.length - this.options.suffix.length;
     }
 
+    const move = this.rawValue.substr(selectionStart - 1, 1).match(/\d/) ? 0 : 1;
     selectionEnd = keyCode == 46 || keyCode == 63272 ? selectionEnd + 1 : selectionEnd;
     selectionStart = keyCode == 8 ? selectionStart - 1 : selectionStart;
     this.rawValue = this.rawValue.substring(0, selectionStart) + this.rawValue.substring(selectionEnd, this.rawValue.length);
-    this.updateFieldValue(selectionStart);
+    this.updateFieldValue(selectionStart - move);
   }
 
   updateFieldValue(selectionStart?: number): void {
