@@ -57,7 +57,11 @@ export class InputService {
             return "";
         }
 
-        let integerPart = onlyNumbers.slice(0, onlyNumbers.length - precision).replace(/^\u0660*/g, "").replace(/^\u06F0*/g, "").replace(/^0*/g, "").replace(/\B(?=([0-9\u0660-\u0669\u06F0-\u06F9]{3})+(?![0-9\u0660-\u0669\u06F0-\u06F9]))/g, thousands);
+        let integerPart = onlyNumbers.slice(0, onlyNumbers.length - precision)
+          .replace(/^\u0660*/g, "")
+          .replace(/^\u06F0*/g, "")
+          .replace(/^0*/g, "")
+          .replace(/\B(?=([0-9\u0660-\u0669\u06F0-\u06F9]{3})+(?![0-9\u0660-\u0669\u06F0-\u06F9]))/g, thousands);
 
         if (integerPart.startsWith(thousands)) {
             integerPart = integerPart.substring(1);

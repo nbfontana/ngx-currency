@@ -29,7 +29,8 @@ export class InputManager {
         let haventReachedMaxLength = !(this.rawValue.length >= this.htmlInputElement.maxLength && this.htmlInputElement.maxLength >= 0);
         let selectionStart = this.inputSelection.selectionStart;
         let selectionEnd = this.inputSelection.selectionEnd;
-        let haveNumberSelected = !!(selectionStart != selectionEnd && this.htmlInputElement.value.substring(selectionStart, selectionEnd).match(/[^0-9\u0660-\u0669\u06F0-\u06F9]/));
+        let haveNumberSelected = !!(selectionStart != selectionEnd &&
+                                    this.htmlInputElement.value.substring(selectionStart, selectionEnd).match(/[^0-9\u0660-\u0669\u06F0-\u06F9]/));
         let startWithZero = (this.htmlInputElement.value.substring(0, 1) == "0");
         return haventReachedMaxLength || haveNumberSelected || startWithZero;
     }
