@@ -28,7 +28,7 @@ https://nbfontana.github.io/ngx-currency/
 Install the package by command:
 
 ```sh
-    npm install ngx-currency --save-dev
+    npm install ngx-currency --save
 ```
 
 Import the module
