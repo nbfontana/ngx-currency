@@ -1,26 +1,26 @@
 import {
-    AfterViewInit,
-    Directive,
-    DoCheck,
-    ElementRef,
-    forwardRef,
-    HostListener,
-    Inject,
-    KeyValueDiffer,
-    KeyValueDiffers,
-    Input,
-    OnInit,
-    Optional
+  AfterViewInit,
+  Directive,
+  DoCheck,
+  ElementRef,
+  forwardRef,
+  HostListener,
+  Inject,
+  KeyValueDiffer,
+  KeyValueDiffers,
+  Input,
+  OnInit,
+  Optional
 } from "@angular/core";
-import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
 
+import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
 import {CurrencyMaskConfig, CURRENCY_MASK_CONFIG} from "./currency-mask.config";
 import {InputHandler} from "./input.handler";
 
 export const CURRENCYMASKDIRECTIVE_VALUE_ACCESSOR: any = {
-    provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => CurrencyMaskDirective),
-    multi: true
+  provide: NG_VALUE_ACCESSOR,
+  useExisting: forwardRef(() => CurrencyMaskDirective),
+  multi: true,
 };
 
 @Directive({
@@ -29,103 +29,105 @@ export const CURRENCYMASKDIRECTIVE_VALUE_ACCESSOR: any = {
 })
 export class CurrencyMaskDirective implements AfterViewInit, ControlValueAccessor, DoCheck, OnInit {
 
-    @Input() options: any = {};
+  @Input() options: any = {};
 
-    public inputHandler: InputHandler;
-    public keyValueDiffer: KeyValueDiffer<any, any>;
+  public inputHandler: InputHandler;
+  public keyValueDiffer: KeyValueDiffer<any, any>;
 
-    public optionsTemplate = {
-        align: "right",
-        allowNegative: true,
-        allowZero: true,
-        decimal: ".",
-        precision: 2,
-        prefix: "$ ",
-        suffix: "",
-        thousands: ",",
-        nullable: false
-    };
+  public optionsTemplate = {
+      align: "right",
+      allowNegative: true,
+      allowZero: true,
+      decimal: ".",
+      precision: 2,
+      prefix: "$ ",
+      suffix: "",
+      thousands: ",",
+      nullable: false
+  };
 
-    constructor(@Optional() @Inject(CURRENCY_MASK_CONFIG) private currencyMaskConfig: CurrencyMaskConfig, private elementRef: ElementRef, private keyValueDiffers: KeyValueDiffers) {
-        if (currencyMaskConfig) {
-            this.optionsTemplate = currencyMaskConfig;
-        }
-
-        this.keyValueDiffer = keyValueDiffers.find({}).create();
+  constructor(@Optional() @Inject(CURRENCY_MASK_CONFIG) private currencyMaskConfig: CurrencyMaskConfig,
+                                                        private elementRef: ElementRef,
+                                                        private keyValueDiffers: KeyValueDiffers) {
+    if (currencyMaskConfig) {
+        this.optionsTemplate = currencyMaskConfig;
     }
 
-    ngAfterViewInit() {
-        this.elementRef.nativeElement.style.textAlign = this.options.align ? this.options.align : this.optionsTemplate.align;
-    }
+    this.keyValueDiffer = keyValueDiffers.find({}).create();
+  }
 
-    ngDoCheck() {
-        if (this.keyValueDiffer.diff(this.options)) {
-            this.elementRef.nativeElement.style.textAlign = this.options.align ? this.options.align : this.optionsTemplate.align;
-            this.inputHandler.updateOptions((<any>Object).assign({}, this.optionsTemplate, this.options));
-        }
-    }
+  ngAfterViewInit() {
+    this.elementRef.nativeElement.style.textAlign = this.options.align ? this.options.align : this.optionsTemplate.align;
+  }
 
-    ngOnInit() {
-        this.inputHandler = new InputHandler(this.elementRef.nativeElement, (<any>Object).assign({}, this.optionsTemplate, this.options));
+  ngDoCheck() {
+    if (this.keyValueDiffer.diff(this.options)) {
+      this.elementRef.nativeElement.style.textAlign = this.options.align ? this.options.align : this.optionsTemplate.align;
+      this.inputHandler.updateOptions((<any>Object).assign({}, this.optionsTemplate, this.options));
     }
+  }
 
-    @HostListener("blur", ["$event"])
-    handleBlur(event: any) {
-        this.inputHandler.getOnModelTouched().apply(event);
-    }
+  ngOnInit() {
+    this.inputHandler = new InputHandler(this.elementRef.nativeElement, (<any>Object).assign({}, this.optionsTemplate, this.options));
+  }
 
-    @HostListener("cut", ["$event"])
-    handleCut(event: any) {
-        if (!this.isChromeAndroid()) {
-            this.inputHandler.handleCut(event);
-        }
-    }
+  @HostListener("blur", ["$event"])
+  handleBlur(event: any) {
+    this.inputHandler.getOnModelTouched().apply(event);
+  }
 
-    @HostListener("input", ["$event"])
-    handleInput(event: any) {
-        if (this.isChromeAndroid()) {
-            this.inputHandler.handleInput(event);
-        }
+  @HostListener("cut", ["$event"])
+  handleCut(event: any) {
+    if (!this.isChromeAndroid()) {
+      this.inputHandler.handleCut(event);
     }
+  }
 
-    @HostListener("keydown", ["$event"])
-    handleKeydown(event: any) {
-        if (!this.isChromeAndroid()) {
-            this.inputHandler.handleKeydown(event);
-        }
+  @HostListener("input", ["$event"])
+  handleInput(event: any) {
+    if (this.isChromeAndroid()) {
+      this.inputHandler.handleInput(event);
     }
+  }
 
-    @HostListener("keypress", ["$event"])
-    handleKeypress(event: any) {
-        if (!this.isChromeAndroid()) {
-            this.inputHandler.handleKeypress(event);
-        }
+  @HostListener("keydown", ["$event"])
+  handleKeydown(event: any) {
+    if (!this.isChromeAndroid()) {
+      this.inputHandler.handleKeydown(event);
     }
+  }
 
-    @HostListener("paste", ["$event"])
-    handlePaste(event: any) {
-        if (!this.isChromeAndroid()) {
-            this.inputHandler.handlePaste(event);
-        }
+  @HostListener("keypress", ["$event"])
+  handleKeypress(event: any) {
+    if (!this.isChromeAndroid()) {
+      this.inputHandler.handleKeypress(event);
     }
+  }
 
-    isChromeAndroid(): boolean {
-        return /chrome/i.test(navigator.userAgent) && /android/i.test(navigator.userAgent);
+  @HostListener("paste", ["$event"])
+  handlePaste(event: any) {
+    if (!this.isChromeAndroid()) {
+      this.inputHandler.handlePaste(event);
     }
+  }
 
-    registerOnChange(callbackFunction: Function): void {
-        this.inputHandler.setOnModelChange(callbackFunction);
-    }
+  isChromeAndroid(): boolean {
+    return /chrome/i.test(navigator.userAgent) && /android/i.test(navigator.userAgent);
+  }
 
-    registerOnTouched(callbackFunction: Function): void {
-        this.inputHandler.setOnModelTouched(callbackFunction);
-    }
+  registerOnChange(callbackFunction: Function): void {
+    this.inputHandler.setOnModelChange(callbackFunction);
+  }
 
-    setDisabledState(value: boolean): void {
-        this.elementRef.nativeElement.disabled = value;
-    }
+  registerOnTouched(callbackFunction: Function): void {
+    this.inputHandler.setOnModelTouched(callbackFunction);
+  }
 
-    writeValue(value: number): void {
-        this.inputHandler.setValue(value);
-    }
+  setDisabledState(value: boolean): void {
+    this.elementRef.nativeElement.disabled = value;
+  }
+
+  writeValue(value: number): void {
+    this.inputHandler.setValue(value);
+  }
 }

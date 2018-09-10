@@ -3,7 +3,6 @@ import * as path from 'path';
 import * as ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 
 export default config => {
-
   config.set({
     basePath: './',
     frameworks: ['mocha'],
