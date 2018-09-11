@@ -79,9 +79,8 @@ You can also set options globally...
 
 ```ts
 import { NgxCurrencyModule } from "ngx-currency";
-import { CurrencyMaskConfig, CURRENCY_MASK_CONFIG } from "ngx-currency/src/currency-mask.config";
 
-export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
+export const customCurrencyMaskConfig = {
     align: "right",
     allowNegative: true,
     allowZero: true,
@@ -96,12 +95,10 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
 @NgModule({
     imports: [
         ...
-        NgxCurrencyModule
+        NgxCurrencyModule.forRoot(customCurrencyMaskConfig)
     ],
     declarations: [...],
-    providers: [
-        { provide: CURRENCY_MASK_CONFIG, useValue: CustomCurrencyMaskConfig }
-    ],
+    providers: [...],
     bootstrap: [AppComponent]
 })
 export class AppModule {}
