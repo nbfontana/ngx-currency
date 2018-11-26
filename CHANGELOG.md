@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.5.1"></a>
+## [1.5.1](https://github.com/nbfontana/ngx-currency/compare/v1.5.0...v1.5.1) (2018-11-26)
+
+
+### Bug Fixes
+
+* **README:** Updated readme to use forRoot module configuration ([48d8ed4](https://github.com/nbfontana/ngx-currency/commit/48d8ed4))
+
+
+
 <a name="1.5.0"></a>
 # [1.5.0](https://github.com/nbfontana/ngx-currency/compare/1.4.0...1.5.0) (2018-09-11)
 
