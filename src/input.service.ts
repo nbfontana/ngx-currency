@@ -63,7 +63,7 @@ export class InputService {
           .replace(/^0*/g, "")
           .replace(/\B(?=([0-9\u0660-\u0669\u06F0-\u06F9]{3})+(?![0-9\u0660-\u0669\u06F0-\u06F9]))/g, thousands);
 
-        if (integerPart.startsWith(thousands)) {
+        if (thousands && integerPart.startsWith(thousands)) {
             integerPart = integerPart.substring(1);
         }
 
