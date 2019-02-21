@@ -54,5 +54,18 @@ describe('Testing InputService', () => {
       inputService.removeNumber(8);
       expect(inputService.updateFieldValue).to.be.calledWith(4);
     });
+
+    it('should return a value without spaces when thousands separator is empty', () => {
+      options.thousands = "";
+      options.precision = 0;
+
+      inputService = new InputService({
+        selectionStart: 6,
+        selectionEnd: 6,
+      }, options);
+
+      const result = inputService.applyMask(false, '234567');
+      expect(result).to.equal('234567');
+    });
   });
 });
