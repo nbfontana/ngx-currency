@@ -149,6 +149,6 @@ export class InputHandler {
     private setCursorPosition(event: any): void {
         setTimeout(function () {
             event.target.setSelectionRange(event.target.value.length, event.target.value.length);
-        }, 0);
+        }, event.target.value.length);
     }
 }

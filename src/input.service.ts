@@ -44,7 +44,8 @@ export class InputService {
         let keyChar = String.fromCharCode(keyCode);
         let selectionStart = this.inputSelection.selectionStart;
         let selectionEnd = this.inputSelection.selectionEnd;
-        this.rawValue = this.rawValue.substring(0, selectionStart) + keyChar + this.rawValue.substring(selectionEnd, this.rawValue.length);
+       // this.rawValue = this.rawValue.substring(0, selectionStart) + keyChar + this.rawValue.substring(selectionEnd, this.rawValue.length);
+        this.rawValue =   this.rawValue+ keyChar;
         this.updateFieldValue(selectionStart + 1);
     }
 
