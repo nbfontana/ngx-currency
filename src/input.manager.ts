@@ -22,6 +22,9 @@ export class InputManager {
         this.rawValue = newRawValue;
         let newLength = newRawValue.length;
         selectionStart = selectionStart - (oldLength - newLength);
+       if(oldLength!= newLength && selectionStart == 0)
+       selectionStart = selectionStart - 1;
+        
         this.setCursorAt(selectionStart);
     }
 
