@@ -29,7 +29,7 @@ export const CURRENCYMASKDIRECTIVE_VALUE_ACCESSOR: any = {
 })
 export class CurrencyMaskDirective implements AfterViewInit, ControlValueAccessor, DoCheck, OnInit {
 
-  @Input() options: any = {};
+  @Input() options: Partial<CurrencyMaskConfig> = {};
 
   public inputHandler: InputHandler;
   public keyValueDiffer: KeyValueDiffer<any, any>;
