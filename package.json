@@ -9,7 +9,7 @@
     "start": "concurrently --raw \"webpack-dev-server --open\" \"npm run test:watch\"",
     "demo": "npm start",
     "build:demo": "webpack -p",
-    "build:umd": "webpack --config webpack.config.umd.ts",
+    "build:umd": "webpack --mode=production --config webpack.config.umd.ts",
     "build:ngc": "ngc -p tsconfig-ngc.json",
     "build:dist": "npm run build:umd && npm run build:ngc",
     "build:clean": "del-cli dist",
