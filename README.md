@@ -50,7 +50,7 @@ export class AppModule {}
 ### Using 
 
 ```html
-    <input currencyMask [(ngModel)]="value" />
+    <input currencyMask formControlName="value" />
 ```
 
  * `ngModel` An attribute of type number. If is displayed `'$ 25.63'`, the attribute will be `'25.63'`.
@@ -61,7 +61,7 @@ You can set options...
 
 ```html
     <!-- example for pt-BR money -->
-    <input currencyMask [(ngModel)]="value" [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }"/>
+    <input currencyMask formControlName="value" [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }"/>
 ```  
 
 Available options: 
@@ -112,7 +112,7 @@ Input not working on mobile keyboard
 
 ```html
 <!-- Change the type to 'tel' -->
-    <input currencyMask type="tel" [(ngModel)]="value" />
+    <input currencyMask type="tel" formControlName="value" />
 ```
 
 Input focus get hide by the mobile keyboard
@@ -120,7 +120,7 @@ Input focus get hide by the mobile keyboard
 on HTML
 ```html
 <!-- Change the type to 'tel' -->
-    <input currencyMask type="tel" [(ngModel)]="value" [id]="'yourInputId' + index" (focus)="scrollTo(index)" />
+    <input currencyMask type="tel" formControlName="value" [id]="'yourInputId' + index" (focus)="scrollTo(index)" />
 ```
 
 on .ts
