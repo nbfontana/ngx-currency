@@ -62,10 +62,8 @@ export class InputHandler {
             event.preventDefault();
             let selectionRangeLength = Math.abs(this.inputService.inputSelection.selectionEnd - this.inputService.inputSelection.selectionStart);
 
-            if (selectionRangeLength == 0) {
-                this.inputService.removeNumber(keyCode);
-                this.onModelChange(this.inputService.value);
-            }
+            this.inputService.removeNumber(keyCode);
+            this.onModelChange(this.inputService.value);
 
             if (selectionRangeLength >= (this.inputService.rawValue.length - this.inputService.prefixLength())) {
                 this.clearValue();
