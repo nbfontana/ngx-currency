@@ -1,6 +1,20 @@
-# Change Log
+# Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+### [2.0.1](https://github.com/nbfontana/ngx-currency/compare/v2.0.0...v2.0.1) (2019-11-23)
+
+
+### Bug Fixes
+
+* **applyMask:** Apply mask was not considering precision ([58fb5fd](https://github.com/nbfontana/ngx-currency/commit/58fb5fd))
+
+
+### Tests
+
+* **applyMask:** Unit test to method applyMask ([c3556b4](https://github.com/nbfontana/ngx-currency/commit/c3556b4))
+
+
 
 <a name="1.5.2"></a>
 ## [1.5.2](https://github.com/nbfontana/ngx-currency/compare/v1.5.1...v1.5.2) (2019-03-27)
