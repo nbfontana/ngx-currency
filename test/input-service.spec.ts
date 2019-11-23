@@ -1,5 +1,4 @@
 import { InputService } from './../src/input.service';
-import { fakeAsync } from "@angular/core/testing";
 import { expect } from "chai";
 import { stub } from 'sinon';
 import {CurrencyMaskConfig} from "../src/currency-mask.config";
@@ -66,6 +65,56 @@ describe('Testing InputService', () => {
 
       const result = inputService.applyMask(false, '234567');
       expect(result).to.equal('234567');
+    });
+  });
+  
+  describe('applyMask', ()=> {
+    it('should use precision 2 and consider decimal part when typing 1 with empty value', () => {        
+      options.precision = 2;
+
+      inputService = new InputService({
+        selectionStart: 0,
+        selectionEnd: 0
+      }, options);
+
+      const result = inputService.applyMask(false, '1');
+      expect(result).to.be.equal('0,01');
+    });
+
+    it('should use precision 3 and consider decimal part when typing 1 with empty value', () => {
+      options.precision = 3;
+
+      inputService = new InputService({
+        selectionStart: 0,
+        selectionEnd: 0
+      }, options);
+
+      const result = inputService.applyMask(false, '1');
+      expect(result).to.be.equal('0,001');
+    });
+
+    it('should use precision 2 when typing a key with previous value', () => {
+      options.precision = 2;
+
+      inputService = new InputService({
+        selectionStart: 6,
+        selectionEnd: 6
+      }, options);
+      
+      const result = inputService.applyMask(false, '12345');
+      expect(result).to.be.equal('123,45');
+    });
+
+    it('should use precision 3 when typing a key with previous value', () => {
+      options.precision = 3;
+
+      inputService = new InputService({
+          selectionStart: 6,
+          selectionEnd: 6
+        }, options);
+
+      const result = inputService.applyMask(false, '234567');
+      expect(result).to.be.equal('234,567');
     });
   });
 });

@@ -76,7 +76,11 @@ export class InputService {
         let decimalPart = onlyNumbers.slice(onlyNumbers.length - precision);
 
         if (precision > 0) {
-            newRawValue += decimal + decimalPart;
+            if (newRawValue == "0" && decimalPart.length < precision) {
+                newRawValue += decimal + "0".repeat(precision - 1) + decimalPart;
+            } else {
+                newRawValue += decimal + decimalPart;
+            }
         }
 
         let isZero = parseInt(integerPart) == 0 && (parseInt(decimalPart) == 0 || decimalPart == "");
