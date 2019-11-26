@@ -294,25 +294,27 @@
         </div>
     </div>
     <div class="tab-pane fade tab-source-code" id="source">
-        <pre class="line-numbers"><code class="language-typescript">import {CommonModule} from &quot;@angular/common&quot;;
-import {FormsModule} from &quot;@angular/forms&quot;;
-import {NgModule} from &quot;@angular/core&quot;;
-
+        <pre class="line-numbers"><code class="language-typescript">import {ModuleWithProviders, NgModule} from &#x27;@angular/core&#x27;;
+import {CommonModule} from &#x27;@angular/common&#x27;;
+import {FormsModule} from &#x27;@angular/forms&#x27;;
 import {CurrencyMaskDirective} from &quot;./currency-mask.directive&quot;;
+import {CURRENCY_MASK_CONFIG, CurrencyMaskConfig} from &quot;./currency-mask.config&quot;;
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule
-  ],
-  declarations: [
-    CurrencyMaskDirective
-  ],
-  exports: [
-    CurrencyMaskDirective
-  ]
+  imports: [ CommonModule, FormsModule ],
+  declarations: [ CurrencyMaskDirective ],
+  exports: [ CurrencyMaskDirective ]
 })
 export class NgxCurrencyModule {
+  static forRoot(config: CurrencyMaskConfig): ModuleWithProviders {
+    return {
+      ngModule: NgxCurrencyModule,
+      providers: [{
+        provide: CURRENCY_MASK_CONFIG,
+        useValue: config,
+      }]
+    }
+  }
 }
 </code></pre>
     </div>

@@ -247,7 +247,7 @@
                <div class="content readme">
                    <div class="content-data">
 <h1 id="ngx-currency">ngx-currency</h1>
-<p><a href="https://travis-ci.org/nbfontana/ngx-currency"><img src="https://travis-ci.org/nbfontana/ngx-currency.svg?branch=master" alt="Build Status" class="img-responsive"></a><br><a href="http://badge.fury.io/js/ngx-currency"><img src="https://badge.fury.io/js/ngx-currency.svg" alt="npm version" class="img-responsive"></a><br><a href="https://david-dm.org/nbfontana/ngx-currency?type=dev"><img src="https://david-dm.org/nbfontana/ngx-currency/dev-status.svg" alt="devDependency Status" class="img-responsive"></a><br><a href="https://github.com/nbfontana/ngx-currency/issues"><img src="https://img.shields.io/github/issues/nbfontana/ngx-currency.svg" alt="GitHub issues" class="img-responsive"></a><br><a href="https://github.com/nbfontana/ngx-currency/stargazers"><img src="https://img.shields.io/github/stars/nbfontana/ngx-currency.svg" alt="GitHub stars" class="img-responsive"></a><br><a href="https://raw.githubusercontent.com/nbfontana/ngx-currency/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="GitHub license" class="img-responsive"></a></p>
+<p><a href="https://travis-ci.org/nbfontana/ngx-currency"><img src="https://travis-ci.org/nbfontana/ngx-currency.svg?branch=master" alt="Build Status" class="img-responsive"></a><br><a href="http://badge.fury.io/js/ngx-currency"><img src="https://badge.fury.io/js/ngx-currency.png" alt="npm version" class="img-responsive"></a><br><a href="https://david-dm.org/nbfontana/ngx-currency?type=dev"><img src="https://david-dm.org/nbfontana/ngx-currency/dev-status.png" alt="devDependency Status" class="img-responsive"></a><br><a href="https://github.com/nbfontana/ngx-currency/issues"><img src="https://img.shields.io/github/issues/nbfontana/ngx-currency.png" alt="GitHub issues" class="img-responsive"></a><br><a href="https://github.com/nbfontana/ngx-currency/stargazers"><img src="https://img.shields.io/github/stars/nbfontana/ngx-currency.png" alt="GitHub stars" class="img-responsive"></a><br><a href="https://raw.githubusercontent.com/nbfontana/ngx-currency/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.png" alt="GitHub license" class="img-responsive"></a></p>
 <h2 id="demo">Demo</h2>
 <p><a href="https://nbfontana.github.io/ngx-currency/">https://nbfontana.github.io/ngx-currency/</a></p>
 <h2 id="table-of-contents">Table of contents</h2>
@@ -262,7 +262,7 @@
 <h2 id="getting-started">Getting Started</h2>
 <h3 id="installing-and-importing">Installing and Importing</h3>
 <p>Install the package by command:</p>
-<pre class="line-numbers"><code class="language-sh">    npm install ngx-currency --save-dev</code></pre><p>Import the module</p>
+<pre class="line-numbers"><code class="language-sh">    npm install ngx-currency --save</code></pre><p>Import the module</p>
 <pre class="line-numbers"><code class="language-ts">import { NgxCurrencyModule } from "ngx-currency";
 
 @NgModule({
@@ -274,13 +274,13 @@
     providers: [...]
 })
 export class AppModule {}</code></pre><h3 id="using">Using</h3>
-<pre class="line-numbers"><code class="language-html">    <input currencyMask [(ngModel)]="value" /></code></pre><ul>
+<pre class="line-numbers"><code class="language-html">    <input currencyMask formControlName="value" /></code></pre><ul>
 <li><code>ngModel</code> An attribute of type number. If is displayed <code>&#39;$ 25.63&#39;</code>, the attribute will be <code>&#39;25.63&#39;</code>.</li>
 </ul>
 <h3 id="options">Options</h3>
 <p>You can set options...</p>
 <pre class="line-numbers"><code class="language-html">    <!-- example for pt-BR money -->
-    <input currencyMask [(ngModel)]="value" [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }"/></code></pre><p>Available options: </p>
+    <input currencyMask formControlName="value" [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }"/></code></pre><p>Available options: </p>
 <ul>
 <li><code>align</code> - Text alignment in input. (default: <code>right</code>)</li>
 <li><code>allowNegative</code> - If <code>true</code> can input negative values.  (default: <code>true</code>)</li>
@@ -289,12 +289,12 @@ export class AppModule {}</code></pre><h3 id="using">Using</h3>
 <li><code>prefix</code> - Money prefix (default: <code>&#39;$ &#39;</code>)</li>
 <li><code>suffix</code> - Money suffix (default: <code>&#39;&#39;</code>)</li>
 <li><code>thousands</code> - Separator of thousands (default: <code>&#39;,&#39;</code>)</li>
+<li><code>nullable</code> - when true, the value of the clean field will be <code>null</code>, when false the value will be <code>0</code></li>
 </ul>
 <p>You can also set options globally...</p>
 <pre class="line-numbers"><code class="language-ts">import { NgxCurrencyModule } from "ngx-currency";
-import { CurrencyMaskConfig, CURRENCY_MASK_CONFIG } from "ngx-currency/src/currency-mask.config";
 
-export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
+export const customCurrencyMaskConfig = {
     align: "right",
     allowNegative: true,
     allowZero: true,
@@ -302,28 +302,27 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     precision: 2,
     prefix: "R$ ",
     suffix: "",
-    thousands: "."
+    thousands: ".",
+    nullable: true
 };
 
 @NgModule({
     imports: [
         ...
-        NgxCurrencyModule
+        NgxCurrencyModule.forRoot(customCurrencyMaskConfig)
     ],
     declarations: [...],
-    providers: [
-        { provide: CURRENCY_MASK_CONFIG, useValue: CustomCurrencyMaskConfig }
-    ],
+    providers: [...],
     bootstrap: [AppComponent]
 })
 export class AppModule {}</code></pre><h2 id="quick-fixes">Quick fixes</h2>
 <h3 id="ionic-2-3">Ionic 2-3</h3>
 <p>Input not working on mobile keyboard</p>
 <pre class="line-numbers"><code class="language-html"><!-- Change the type to 'tel' -->
-    <input currencyMask type="tel" [(ngModel)]="value" /></code></pre><p>Input focus get hide by the mobile keyboard</p>
+    <input currencyMask type="tel" formControlName="value" /></code></pre><p>Input focus get hide by the mobile keyboard</p>
 <p>on HTML</p>
 <pre class="line-numbers"><code class="language-html"><!-- Change the type to 'tel' -->
-    <input currencyMask type="tel" [(ngModel)]="value" [id]="'yourInputId' + index" (focus)="scrollTo(index)" /></code></pre><p>on .ts</p>
+    <input currencyMask type="tel" formControlName="value" [id]="'yourInputId' + index" (focus)="scrollTo(index)" /></code></pre><p>on .ts</p>
 <pre class="line-numbers"><code class="language-ts">import { Content } from 'ionic-angular';
 
 export class...

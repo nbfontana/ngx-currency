@@ -405,7 +405,7 @@
                             </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/input.manager.ts:37</a></div>
+                                        <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">src/input.manager.ts:38</a></div>
                                     </td>
                                 </tr>
                         </tbody>
@@ -425,7 +425,7 @@
                             </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <div class="io-line">Defined in <a href="" data-line="77" class="link-to-prism">src/input.manager.ts:77</a></div>
+                                        <div class="io-line">Defined in <a href="" data-line="78" class="link-to-prism">src/input.manager.ts:78</a></div>
                                     </td>
                                 </tr>
                         </tbody>
@@ -445,7 +445,7 @@
                             </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <div class="io-line">Defined in <a href="" data-line="89" class="link-to-prism">src/input.manager.ts:89</a></div>
+                                        <div class="io-line">Defined in <a href="" data-line="90" class="link-to-prism">src/input.manager.ts:90</a></div>
                                     </td>
                                 </tr>
                         </tbody>
@@ -455,95 +455,96 @@
     <div class="tab-pane fade tab-source-code" id="source">
         <pre class="line-numbers"><code class="language-typescript">export class InputManager {
 
-  private _storedRawValue: string;
+    private _storedRawValue: string;
 
-  constructor(private htmlInputElement: any) {
-  }
-
-  setCursorAt(position: number): void {
-    if (this.htmlInputElement.setSelectionRange) {
-      this.htmlInputElement.focus();
-      this.htmlInputElement.setSelectionRange(position, position);
-    } else if (this.htmlInputElement.createTextRange) {
-      let textRange &#x3D; this.htmlInputElement.createTextRange();
-      textRange.collapse(true);
-      textRange.moveEnd(&quot;character&quot;, position);
-      textRange.moveStart(&quot;character&quot;, position);
-      textRange.select();
+    constructor(private htmlInputElement: any) {
     }
-  }
 
-  updateValueAndCursor(newRawValue: string, oldLength: number, selectionStart: number): void {
-    this.rawValue &#x3D; newRawValue;
-    let newLength &#x3D; newRawValue.length;
-    selectionStart &#x3D; selectionStart - (oldLength - newLength);
-    this.setCursorAt(selectionStart);
-  }
-
-  get canInputMoreNumbers(): boolean {
-    let haventReachedMaxLength &#x3D; !(this.rawValue.length &gt;&#x3D; this.htmlInputElement.maxLength &amp;&amp; this.htmlInputElement.maxLength &gt;&#x3D; 0);
-    let selectionStart &#x3D; this.inputSelection.selectionStart;
-    let selectionEnd &#x3D; this.inputSelection.selectionEnd;
-    let haveNumberSelected &#x3D; (selectionStart !&#x3D; selectionEnd &amp;&amp; this.htmlInputElement.value.substring(selectionStart, selectionEnd).match(/\d/)) ? true : false;
-    let startWithZero &#x3D; (this.htmlInputElement.value.substring(0, 1) &#x3D;&#x3D; &quot;0&quot;);
-    return haventReachedMaxLength || haveNumberSelected || startWithZero;
-  }
-
-  get inputSelection(): any {
-    let selectionStart &#x3D; 0;
-    let selectionEnd &#x3D; 0;
-
-    if (typeof this.htmlInputElement.selectionStart &#x3D;&#x3D; &quot;number&quot; &amp;&amp; typeof this.htmlInputElement.selectionEnd &#x3D;&#x3D; &quot;number&quot;) {
-      selectionStart &#x3D; this.htmlInputElement.selectionStart;
-      selectionEnd &#x3D; this.htmlInputElement.selectionEnd;
-    } else {
-      let range &#x3D; (&lt;any&gt;document).selection.createRange();
-
-      if (range &amp;&amp; range.parentElement() &#x3D;&#x3D; this.htmlInputElement) {
-        let lenght &#x3D; this.htmlInputElement.value.length;
-        let normalizedValue &#x3D; this.htmlInputElement.value.replace(/\r\n/g, &quot;\n&quot;);
-        let startRange &#x3D; this.htmlInputElement.createTextRange();
-        startRange.moveToBookmark(range.getBookmark());
-        let endRange &#x3D; this.htmlInputElement.createTextRange();
-        endRange.collapse(false);
-
-        if (startRange.compareEndPoints(&quot;StartToEnd&quot;, endRange) &gt; -1) {
-          selectionStart &#x3D; selectionEnd &#x3D; lenght;
-        } else {
-          selectionStart &#x3D; -startRange.moveStart(&quot;character&quot;, -lenght);
-          selectionStart +&#x3D; normalizedValue.slice(0, selectionStart).split(&quot;\n&quot;).length - 1;
-
-          if (startRange.compareEndPoints(&quot;EndToEnd&quot;, endRange) &gt; -1) {
-            selectionEnd &#x3D; lenght;
-          } else {
-            selectionEnd &#x3D; -startRange.moveEnd(&quot;character&quot;, -lenght);
-            selectionEnd +&#x3D; normalizedValue.slice(0, selectionEnd).split(&quot;\n&quot;).length - 1;
-          }
+    setCursorAt(position: number): void {
+        if (this.htmlInputElement.setSelectionRange) {
+            this.htmlInputElement.focus();
+            this.htmlInputElement.setSelectionRange(position, position);
+        } else if (this.htmlInputElement.createTextRange) {
+            let textRange &#x3D; this.htmlInputElement.createTextRange();
+            textRange.collapse(true);
+            textRange.moveEnd(&quot;character&quot;, position);
+            textRange.moveStart(&quot;character&quot;, position);
+            textRange.select();
         }
-      }
     }
 
-    return {
-      selectionStart: selectionStart,
-      selectionEnd: selectionEnd
-    };
-  }
-
-  get rawValue(): string {
-    return this.htmlInputElement &amp;&amp; this.htmlInputElement.value;
-  }
-
-  set rawValue(value: string) {
-    this._storedRawValue &#x3D; value;
-
-    if (this.htmlInputElement) {
-      this.htmlInputElement.value &#x3D; value;
+    updateValueAndCursor(newRawValue: string, oldLength: number, selectionStart: number): void {
+        this.rawValue &#x3D; newRawValue;
+        let newLength &#x3D; newRawValue.length;
+        selectionStart &#x3D; selectionStart - (oldLength - newLength);
+        this.setCursorAt(selectionStart);
     }
-  }
 
-  get storedRawValue(): string {
-    return this._storedRawValue;
-  }
+    get canInputMoreNumbers(): boolean {
+        let haventReachedMaxLength &#x3D; !(this.rawValue.length &gt;&#x3D; this.htmlInputElement.maxLength &amp;&amp; this.htmlInputElement.maxLength &gt;&#x3D; 0);
+        let selectionStart &#x3D; this.inputSelection.selectionStart;
+        let selectionEnd &#x3D; this.inputSelection.selectionEnd;
+        let haveNumberSelected &#x3D; !!(selectionStart !&#x3D; selectionEnd &amp;&amp;
+                                    this.htmlInputElement.value.substring(selectionStart, selectionEnd).match(/[^0-9\u0660-\u0669\u06F0-\u06F9]/));
+        let startWithZero &#x3D; (this.htmlInputElement.value.substring(0, 1) &#x3D;&#x3D; &quot;0&quot;);
+        return haventReachedMaxLength || haveNumberSelected || startWithZero;
+    }
+
+    get inputSelection(): any {
+        let selectionStart &#x3D; 0;
+        let selectionEnd &#x3D; 0;
+
+        if (typeof this.htmlInputElement.selectionStart &#x3D;&#x3D; &quot;number&quot; &amp;&amp; typeof this.htmlInputElement.selectionEnd &#x3D;&#x3D; &quot;number&quot;) {
+            selectionStart &#x3D; this.htmlInputElement.selectionStart;
+            selectionEnd &#x3D; this.htmlInputElement.selectionEnd;
+        } else {
+            let range &#x3D; (&lt;any&gt;document).selection.createRange();
+
+            if (range &amp;&amp; range.parentElement() &#x3D;&#x3D; this.htmlInputElement) {
+                let lenght &#x3D; this.htmlInputElement.value.length;
+                let normalizedValue &#x3D; this.htmlInputElement.value.replace(/\r\n/g, &quot;\n&quot;);
+                let startRange &#x3D; this.htmlInputElement.createTextRange();
+                startRange.moveToBookmark(range.getBookmark());
+                let endRange &#x3D; this.htmlInputElement.createTextRange();
+                endRange.collapse(false);
+
+                if (startRange.compareEndPoints(&quot;StartToEnd&quot;, endRange) &gt; -1) {
+                    selectionStart &#x3D; selectionEnd &#x3D; lenght;
+                } else {
+                    selectionStart &#x3D; -startRange.moveStart(&quot;character&quot;, -lenght);
+                    selectionStart +&#x3D; normalizedValue.slice(0, selectionStart).split(&quot;\n&quot;).length - 1;
+
+                    if (startRange.compareEndPoints(&quot;EndToEnd&quot;, endRange) &gt; -1) {
+                        selectionEnd &#x3D; lenght;
+                    } else {
+                        selectionEnd &#x3D; -startRange.moveEnd(&quot;character&quot;, -lenght);
+                        selectionEnd +&#x3D; normalizedValue.slice(0, selectionEnd).split(&quot;\n&quot;).length - 1;
+                    }
+                }
+            }
+        }
+
+        return {
+            selectionStart: selectionStart,
+            selectionEnd: selectionEnd
+        };
+    }
+
+    get rawValue(): string {
+        return this.htmlInputElement &amp;&amp; this.htmlInputElement.value;
+    }
+
+    set rawValue(value: string) {
+        this._storedRawValue &#x3D; value;
+
+        if (this.htmlInputElement) {
+            this.htmlInputElement.value &#x3D; value;
+        }
+    }
+
+    get storedRawValue(): string {
+        return this._storedRawValue;
+    }
 }
 </code></pre>
     </div>
