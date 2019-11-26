@@ -37,11 +37,10 @@ export default {
   resolve: {
     extensions: ['.ts', '.js']
   },
+  optimization: {
+    minimize: true
+  },
   plugins: [
-    new webpack.optimize.UglifyJsPlugin({
-      include: /\.min\.js$/,
-      sourceMap: true
-    }),
     new webpack.ContextReplacementPlugin(
       /angular(\\|\/)core(\\|\/)(esm(\\|\/)src|src)(\\|\/)linker/,
       path.join(__dirname, 'src')

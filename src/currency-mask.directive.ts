@@ -12,49 +12,52 @@ import {
   OnInit,
   Optional
 } from "@angular/core";
-import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
 
+import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
 import {CurrencyMaskConfig, CURRENCY_MASK_CONFIG} from "./currency-mask.config";
 import {InputHandler} from "./input.handler";
 
 export const CURRENCYMASKDIRECTIVE_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
   useExisting: forwardRef(() => CurrencyMaskDirective),
-  multi: true
+  multi: true,
 };
 
 @Directive({
-  selector: "[currencyMask]",
-  providers: [CURRENCYMASKDIRECTIVE_VALUE_ACCESSOR]
+    selector: "[currencyMask]",
+    providers: [CURRENCYMASKDIRECTIVE_VALUE_ACCESSOR]
 })
 export class CurrencyMaskDirective implements AfterViewInit, ControlValueAccessor, DoCheck, OnInit {
 
-  @Input() options: any = {};
+  @Input() options: Partial<CurrencyMaskConfig> = {};
 
   public inputHandler: InputHandler;
   public keyValueDiffer: KeyValueDiffer<any, any>;
 
   public optionsTemplate = {
-    align: "right",
-    allowNegative: true,
-    allowZero: true,
-    decimal: ".",
-    precision: 2,
-    prefix: "$ ",
-    suffix: "",
-    thousands: ","
+      align: "right",
+      allowNegative: true,
+      allowZero: true,
+      decimal: ".",
+      precision: 2,
+      prefix: "$ ",
+      suffix: "",
+      thousands: ",",
+      nullable: false
   };
 
-  constructor(@Optional() @Inject(CURRENCY_MASK_CONFIG) private currencyMaskConfig: CurrencyMaskConfig, private elementRef: ElementRef, private keyValueDiffers: KeyValueDiffers) {
+  constructor(@Optional() @Inject(CURRENCY_MASK_CONFIG) private currencyMaskConfig: CurrencyMaskConfig,
+                                                        private elementRef: ElementRef,
+                                                        private keyValueDiffers: KeyValueDiffers) {
     if (currencyMaskConfig) {
-      this.optionsTemplate = currencyMaskConfig;
+        this.optionsTemplate = currencyMaskConfig;
     }
 
-    this.keyValueDiffer = keyValueDiffers.find({}).create(null);
+    this.keyValueDiffer = keyValueDiffers.find({}).create();
   }
 
   ngAfterViewInit() {
-    this.elementRef.nativeElement.style.textAlign = this.options.align ? this.options.align : this.optionsTemplate.align;
+    this.elementRef.nativeElement.style.textAlign = this.options && this.options.align ? this.options.align : this.optionsTemplate.align;
   }
 
   ngDoCheck() {

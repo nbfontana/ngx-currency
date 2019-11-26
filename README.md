@@ -1,11 +1,11 @@
 # ngx-currency
 
 [![Build Status](https://travis-ci.org/nbfontana/ngx-currency.svg?branch=master)](https://travis-ci.org/nbfontana/ngx-currency)
-[![npm version](https://badge.fury.io/js/ngx-currency.svg)](http://badge.fury.io/js/ngx-currency)
-[![devDependency Status](https://david-dm.org/nbfontana/ngx-currency/dev-status.svg)](https://david-dm.org/nbfontana/ngx-currency?type=dev)
-[![GitHub issues](https://img.shields.io/github/issues/nbfontana/ngx-currency.svg)](https://github.com/nbfontana/ngx-currency/issues)
-[![GitHub stars](https://img.shields.io/github/stars/nbfontana/ngx-currency.svg)](https://github.com/nbfontana/ngx-currency/stargazers)
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/nbfontana/ngx-currency/master/LICENSE)
+[![npm version](https://badge.fury.io/js/ngx-currency.png)](http://badge.fury.io/js/ngx-currency)
+[![devDependency Status](https://david-dm.org/nbfontana/ngx-currency/dev-status.png)](https://david-dm.org/nbfontana/ngx-currency?type=dev)
+[![GitHub issues](https://img.shields.io/github/issues/nbfontana/ngx-currency.png)](https://github.com/nbfontana/ngx-currency/issues)
+[![GitHub stars](https://img.shields.io/github/stars/nbfontana/ngx-currency.png)](https://github.com/nbfontana/ngx-currency/stargazers)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.png)](https://raw.githubusercontent.com/nbfontana/ngx-currency/master/LICENSE)
 
 ## Demo
 
@@ -28,7 +28,7 @@ https://nbfontana.github.io/ngx-currency/
 Install the package by command:
 
 ```sh
-    npm install ngx-currency --save-dev
+    npm install ngx-currency --save
 ```
 
 Import the module
@@ -50,7 +50,7 @@ export class AppModule {}
 ### Using 
 
 ```html
-    <input currencyMask [(ngModel)]="value" />
+    <input currencyMask formControlName="value" />
 ```
 
  * `ngModel` An attribute of type number. If is displayed `'$ 25.63'`, the attribute will be `'25.63'`.
@@ -61,7 +61,7 @@ You can set options...
 
 ```html
     <!-- example for pt-BR money -->
-    <input currencyMask [(ngModel)]="value" [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }"/>
+    <input currencyMask formControlName="value" [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }"/>
 ```  
 
 Available options: 
@@ -73,14 +73,14 @@ Available options:
  * `prefix` - Money prefix (default: `'$ '`)
  * `suffix` - Money suffix (default: `''`)
  * `thousands` - Separator of thousands (default: `','`)
+ * `nullable` - when true, the value of the clean field will be `null`, when false the value will be `0`
 
 You can also set options globally...
 
 ```ts
 import { NgxCurrencyModule } from "ngx-currency";
-import { CurrencyMaskConfig, CURRENCY_MASK_CONFIG } from "ngx-currency/src/currency-mask.config";
 
-export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
+export const customCurrencyMaskConfig = {
     align: "right",
     allowNegative: true,
     allowZero: true,
@@ -88,18 +88,17 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     precision: 2,
     prefix: "R$ ",
     suffix: "",
-    thousands: "."
+    thousands: ".",
+    nullable: true
 };
 
 @NgModule({
     imports: [
         ...
-        NgxCurrencyModule
+        NgxCurrencyModule.forRoot(customCurrencyMaskConfig)
     ],
     declarations: [...],
-    providers: [
-        { provide: CURRENCY_MASK_CONFIG, useValue: CustomCurrencyMaskConfig }
-    ],
+    providers: [...],
     bootstrap: [AppComponent]
 })
 export class AppModule {}
@@ -113,7 +112,7 @@ Input not working on mobile keyboard
 
 ```html
 <!-- Change the type to 'tel' -->
-    <input currencyMask type="tel" [(ngModel)]="value" />
+    <input currencyMask type="tel" formControlName="value" />
 ```
 
 Input focus get hide by the mobile keyboard
@@ -121,7 +120,7 @@ Input focus get hide by the mobile keyboard
 on HTML
 ```html
 <!-- Change the type to 'tel' -->
-    <input currencyMask type="tel" [(ngModel)]="value" [id]="'yourInputId' + index" (focus)="scrollTo(index)" />
+    <input currencyMask type="tel" formControlName="value" [id]="'yourInputId' + index" (focus)="scrollTo(index)" />
 ```
 
 on .ts
