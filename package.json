@@ -1,17 +1,13 @@
 {
+  "$schema": "./node_modules/ng-packagr/package.schema.json",
   "name": "ngx-currency",
   "version": "2.0.2",
   "description": "A very simple currency mask directive that allows using a number attribute with the ngModel.",
-  "main": "./bundles/ngx-currency.umd.js",
-  "module": "./index.js",
-  "typings": "./index.d.ts",
   "scripts": {
     "start": "concurrently --raw \"webpack-dev-server --open\" \"npm run test:watch\"",
     "demo": "npm start",
     "build:demo": "webpack -p",
-    "build:umd": "webpack --mode=production --config webpack.config.umd.ts",
-    "build:ngc": "ngc -p tsconfig-ngc.json",
-    "build:dist": "npm run build:umd && npm run build:ngc",
+    "build:dist": "ng-packagr -p package.json",
     "build:clean": "del-cli dist",
     "test": "nyc --reporter=html karma start --coverage --single-run && npm run build:dist && npm run build:clean",
     "test:watch": "karma start --auto-watch",
@@ -86,6 +82,7 @@
     "karma-sourcemap-loader": "0.3.7",
     "karma-webpack": "^4.0.0-rc.6",
     "mocha": "6.1.4",
+    "ng-packagr": "^5.7.1",
     "nyc": "14.1.0",
     "rxjs": "6.5.1",
     "rxjs-compat": "6.5.1",
@@ -113,6 +110,11 @@
   "husky": {
     "hooks": {
       "commit-msg": "validate-commit-msg"
+    }
+  },
+  "ngPackage": {
+    "lib": {
+      "entryFile": "index.ts"
     }
   }
 }
