@@ -50,7 +50,7 @@ export class AppModule {}
 ### Using 
 
 ```html
-    <input currencyMask formControlName="value" />
+<input currencyMask formControlName="value" />
 ```
 
  * `ngModel` An attribute of type number. If is displayed `'$ 25.63'`, the attribute will be `'25.63'`.
@@ -60,8 +60,8 @@ export class AppModule {}
 You can set options...
 
 ```html
-    <!-- example for pt-BR money -->
-    <input currencyMask formControlName="value" [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }"/>
+<!-- example for pt-BR money -->
+<input currencyMask formControlName="value" [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }"/>
 ```  
 
 Available options: 
