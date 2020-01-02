@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.2.1](https://github.com/nbfontana/ngx-currency/compare/v2.2.0...v2.2.1) (2020-01-02)
+
+
+### Bug Fixes
+
+* remove copyfile script from release script ([84ffbe9](https://github.com/nbfontana/ngx-currency/commit/84ffbe9))
+
+
+
 ## [2.2.0](https://github.com/nbfontana/ngx-currency/compare/v2.0.2...v2.2.0) (2019-12-26)
 
 
