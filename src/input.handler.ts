@@ -103,7 +103,7 @@ export class InputHandler {
                     let selectionRangeLength = Math.abs(this.inputService.inputSelection.selectionEnd - this.inputService.inputSelection.selectionStart);
 
                     if (selectionRangeLength == this.inputService.rawValue.length) {
-                        this.setValue(0);
+                        this.setValue(null);
                     }
 
                     this.inputService.addNumber(keyCode);
