@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.2.2](https://github.com/nbfontana/ngx-currency/compare/v2.2.1...v2.2.2) (2020-01-24)
+
+
+### Features
+
+* **applyMask:** Adds support for min and max ([6843124](https://github.com/nbfontana/ngx-currency/commit/6843124))
+
+
+
 ### [2.2.1](https://github.com/nbfontana/ngx-currency/compare/v2.2.0...v2.2.1) (2020-01-02)
 
 
