@@ -32,7 +32,8 @@ export class DemoComponent {
     thousands: '.',
     decimal: ',',
     allowNegative: false,
-    nullable: true
+    nullable: true,
+    max: 250_000_000,
   };
 
   constructor(private formBuilder: FormBuilder) {
