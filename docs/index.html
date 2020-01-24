@@ -274,13 +274,13 @@
     providers: [...]
 })
 export class AppModule {}</code></pre><h3 id="using">Using</h3>
-<pre class="line-numbers"><code class="language-html">    <input currencyMask formControlName="value" /></code></pre><ul>
+<pre class="line-numbers"><code class="language-html"><input currencyMask formControlName="value" /></code></pre><ul>
 <li><code>ngModel</code> An attribute of type number. If is displayed <code>&#39;$ 25.63&#39;</code>, the attribute will be <code>&#39;25.63&#39;</code>.</li>
 </ul>
 <h3 id="options">Options</h3>
 <p>You can set options...</p>
-<pre class="line-numbers"><code class="language-html">    <!-- example for pt-BR money -->
-    <input currencyMask formControlName="value" [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }"/></code></pre><p>Available options: </p>
+<pre class="line-numbers"><code class="language-html"><!-- example for pt-BR money -->
+<input currencyMask formControlName="value" [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }"/></code></pre><p>Available options: </p>
 <ul>
 <li><code>align</code> - Text alignment in input. (default: <code>right</code>)</li>
 <li><code>allowNegative</code> - If <code>true</code> can input negative values.  (default: <code>true</code>)</li>
