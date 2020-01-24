@@ -37,19 +37,21 @@ export class InputService {
     }
 
     addNumber(keyCode: number): void {
-        if (!this.rawValue) {
-            this.rawValue = this.applyMask(false, "0");
-        }
-
         let keyChar = String.fromCharCode(keyCode);
-        let selectionStart = this.inputSelection.selectionStart;
-        let selectionEnd = this.inputSelection.selectionEnd;
-        this.rawValue = this.rawValue.substring(0, selectionStart) + keyChar + this.rawValue.substring(selectionEnd, this.rawValue.length);
-        this.updateFieldValue(selectionStart + 1);
+
+        if (!this.rawValue) {
+            this.rawValue = this.applyMask(false, keyChar);
+            this.updateFieldValue();
+        } else {
+            let selectionStart = this.inputSelection.selectionStart;
+            let selectionEnd = this.inputSelection.selectionEnd;
+            this.rawValue = this.rawValue.substring(0, selectionStart) + keyChar + this.rawValue.substring(selectionEnd, this.rawValue.length);
+            this.updateFieldValue(selectionStart + 1);
+        }
     }
 
     applyMask(isNumber: boolean, rawValue: string): string {
-        let {allowNegative, decimal, precision, prefix, suffix, thousands, nullable} = this.options;
+        let {allowNegative, decimal, precision, prefix, suffix, thousands, nullable, min, max} = this.options;
         rawValue = isNumber ? new Number(rawValue).toFixed(precision) : rawValue;
         let onlyNumbers = rawValue.replace(/[^0-9\u0660-\u0669\u06F0-\u06F9]/g, "");
 
@@ -60,20 +62,35 @@ export class InputService {
         let integerPart = onlyNumbers.slice(0, onlyNumbers.length - precision)
           .replace(/^\u0660*/g, "")
           .replace(/^\u06F0*/g, "")
-          .replace(/^0*/g, "")
-          .replace(/\B(?=([0-9\u0660-\u0669\u06F0-\u06F9]{3})+(?![0-9\u0660-\u0669\u06F0-\u06F9]))/g, thousands);
-
-        if (thousands && integerPart.startsWith(thousands)) {
-            integerPart = integerPart.substring(1);
-        }
-
+          .replace(/^0*/g, "");
 
         if (integerPart == "") {
             integerPart = "0";
         }
+        let integerValue = parseInt(integerPart);
+
+        integerPart = integerPart.replace(/\B(?=([0-9\u0660-\u0669\u06F0-\u06F9]{3})+(?![0-9\u0660-\u0669\u06F0-\u06F9]))/g, thousands);
+        if (thousands && integerPart.startsWith(thousands)) {
+            integerPart = integerPart.substring(1);
+        }
 
         let newRawValue = integerPart;
         let decimalPart = onlyNumbers.slice(onlyNumbers.length - precision);
+        let decimalValue = parseInt(decimalPart) || 0;
+
+        let isNegative = rawValue.indexOf("-") > -1;
+
+        // Ensure max is at least as large as min.
+        max = (this.isNullOrUndefined(max) || this.isNullOrUndefined(min)) ? max : Math.max(max, min);
+
+        // Restrict to the min and max values.
+        let newValue = integerValue + (decimalValue / 100);
+        newValue = isNegative ? -newValue : newValue;
+        if (!this.isNullOrUndefined(max) && newValue > max) {
+            return this.applyMask(true, max + '');
+        } else if (!this.isNullOrUndefined(min) && newValue < min) {
+            return this.applyMask(true, min + '');
+        }
 
         if (precision > 0) {
             if (newRawValue == "0" && decimalPart.length < precision) {
@@ -83,8 +100,8 @@ export class InputService {
             }
         }
 
-        let isZero = parseInt(integerPart) == 0 && (parseInt(decimalPart) == 0 || decimalPart == "");
-        let operator = (rawValue.indexOf("-") > -1 && allowNegative && !isZero) ? "-" : "";
+        let isZero = newValue == 0;
+        let operator = (isNegative && allowNegative && !isZero) ? "-" : "";
         return operator + prefix + newRawValue + suffix;
     }
 
@@ -111,12 +128,14 @@ export class InputService {
 
     changeToNegative(): void {
         if (this.options.allowNegative && this.rawValue != "" && this.rawValue.charAt(0) != "-" && this.value != 0) {
-            this.rawValue = "-" + this.rawValue;
+            // Apply the mask to ensure the min and max values are enforced.
+            this.rawValue = this.applyMask(false, "-" + this.rawValue);
         }
     }
 
     changeToPositive(): void {
-        this.rawValue = this.rawValue.replace("-", "");
+            // Apply the mask to ensure the min and max values are enforced.
+            this.rawValue = this.applyMask(false, this.rawValue.replace("-", ""));
     }
 
     removeNumber(keyCode: number): void {
@@ -199,5 +218,9 @@ export class InputService {
 
     set value(value: number) {
         this.rawValue = this.applyMask(true, "" + value);
+    }
+
+    private isNullOrUndefined(value: any) {
+        return value === null || value === undefined;
     }
 }
