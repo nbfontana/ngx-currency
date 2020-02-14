@@ -89,6 +89,29 @@ describe('Testing InputService', () => {
     });
   });
 
+  describe('canInputMoreNumbers', () => {
+    it('should return false when length of numbersOnlyInput >= maxLength', () => {
+      inputService = new InputService({
+        selectionStart: 0,
+        selectionEnd: 0,
+        maxLength: 6,
+        value: 0
+      }, options);
+      inputService.inputManager.rawValue = '$1,234.56';
+      expect(inputService.canInputMoreNumbers).to.be.false;
+    });
+    it('should return true when length of numbersOnlyInput < maxLength', () => {
+      inputService = new InputService({
+        selectionStart: 0,
+        selectionEnd: 0,
+        maxLength: 6,
+        value: 0
+      }, options);
+      inputService.inputManager.rawValue = '$123.45';
+      expect(inputService.canInputMoreNumbers).to.be.true;
+    });
+  });
+
   describe('applyMask', ()=> {
     it('should use precision 2 and consider decimal part when typing 1 with empty value', () => {        
       options.precision = 2;
