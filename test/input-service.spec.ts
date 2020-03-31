@@ -87,6 +87,57 @@ describe('Testing InputService', () => {
       inputService.addNumber(50); // '2'
       expect(inputService.value).to.be.equal(10);
     });
+
+    it('should move past decimal when decimal typed', () => {
+      const htmlInputElement = new MockHtmlInputElement(2, 2);
+      options.precision = 2;
+      inputService = new InputService(htmlInputElement, options);
+      inputService.inputManager.rawValue = '12,34';
+
+      // Typing , moves past the decimal separator.
+      inputService.addNumber(44); // ','
+      expect(inputService.value).to.be.equal(12.34);
+      expect(htmlInputElement.selectionStart).to.be.equal(3);
+      expect(htmlInputElement.selectionEnd).to.be.equal(3);
+
+      // Typing it again should not move selection because we're already passed the separator.
+      inputService.addNumber(44); // ','
+      expect(inputService.value).to.be.equal(12.34);
+      expect(htmlInputElement.selectionStart).to.be.equal(3);
+      expect(htmlInputElement.selectionEnd).to.be.equal(3);
+    });
+
+    it('should move past decimal when decimal typed with selection range', () => {
+      const htmlInputElement = new MockHtmlInputElement(1, 3);
+      options.precision = 2;
+      inputService = new InputService(htmlInputElement, options);
+      inputService.inputManager.rawValue = '123,45';
+
+      // "23" are selected. Typing , deletes the selection AND moves past the decimal separator.
+      inputService.addNumber(44); // ','
+      expect(inputService.value).to.be.equal(1.45);
+      expect(htmlInputElement.selectionStart).to.be.equal(2);
+      expect(htmlInputElement.selectionEnd).to.be.equal(2);
+    });
+
+    it('should move past thousands separator when thousands separator typed', () => {
+      const htmlInputElement = new MockHtmlInputElement(1, 1);
+      options.precision = 2;
+      inputService = new InputService(htmlInputElement, options);
+      inputService.inputManager.rawValue = '1.234,56';
+
+      // Typing . moves past the thousands separator.
+      inputService.addNumber(46); // '.'
+      expect(inputService.value).to.be.equal(1234.56);
+      expect(htmlInputElement.selectionStart).to.be.equal(2);
+      expect(htmlInputElement.selectionEnd).to.be.equal(2);
+
+      // Typing it again should not move selection because we're already passed the separator.
+      inputService.addNumber(46); // '.'
+      expect(inputService.value).to.be.equal(1234.56);
+      expect(htmlInputElement.selectionStart).to.be.equal(2);
+      expect(htmlInputElement.selectionEnd).to.be.equal(2);
+    });
   });
 
   describe('applyMask', ()=> {
@@ -211,3 +262,22 @@ describe('Testing InputService', () => {
     });
   });
 });
+
+class MockHtmlInputElement {
+
+  public focused: boolean;
+
+  constructor(
+    public selectionStart: number,
+    public selectionEnd: number,
+  ) {}
+
+  public focus(): void {
+    this.focused = true;    
+  }
+
+  public setSelectionRange(selectionStart: number, selectionEnd: number): void {
+    this.selectionStart = selectionStart;
+    this.selectionEnd = selectionEnd;
+  }
+}

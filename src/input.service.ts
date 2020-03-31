@@ -45,8 +45,19 @@ export class InputService {
         } else {
             let selectionStart = this.inputSelection.selectionStart;
             let selectionEnd = this.inputSelection.selectionEnd;
-            this.rawValue = this.rawValue.substring(0, selectionStart) + keyChar + this.rawValue.substring(selectionEnd, this.rawValue.length);
-            this.updateFieldValue(selectionStart + 1);
+            const rawValueStart = this.rawValue.substring(0, selectionStart);
+            const rawValueEnd = this.rawValue.substring(selectionEnd, this.rawValue.length);
+            this.rawValue = rawValueStart + keyChar + rawValueEnd;
+            let nextSelectionStart = selectionStart + 1;
+
+            // If the cursor is just before the decimal or thousands separator and the user types the
+            // decimal or thousands separator, move the cursor past it.
+            if ((keyChar === this.options.decimal || keyChar === this.options.thousands) && 
+                keyChar === rawValueEnd.substring(0, 1)) {
+                nextSelectionStart++;
+            }
+
+            this.updateFieldValue(nextSelectionStart);
         }
     }
 
