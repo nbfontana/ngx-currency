@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { CurrencyMaskInputMode } from '../src/currency-mask.config';
 
 @Component({
   selector: 'demo-app',
@@ -9,8 +10,8 @@ import { FormBuilder, FormGroup } from '@angular/forms';
         <div class="col-md-3 col-sm-5 form-group">
           <label>Example</label>
           <input
+            #valueInput
             class="form-control"
-            maxlength="20"
             currencyMask
             formControlName="value"
             [placeholder]="'R$ 0,00'"
@@ -18,14 +19,40 @@ import { FormBuilder, FormGroup } from '@angular/forms';
           />
         </div>
       </div>
+      <div class="row">
+        <div class="col-md-3 col-sm-5 form-group">
+          <label>Input Mode</label>
+          <div>
+            <label class="radio-inline">
+              <input
+                type="radio"
+                name="inputMode"
+                formControlName="inputMode"
+                [value]="0"
+              />Financial</label>
+            <label class="radio-inline">
+              <input
+                type="radio"
+                name="inputMode"
+                formControlName="inputMode"
+                [value]="1"
+              />Natural</label>
+            </div>
+          </div>
+      </div>
+
 
       <div class="row col-md-4 col-sm-6 form-group">
-        <pre style="width: 100%">{{ form.value | json }}</pre>
+        <label>Value</label>
+        <pre style="width: 100%">{{ form.get('value').value | json }}</pre>
       </div>
     </form>
   `
 })
 export class DemoComponent {
+
+  @ViewChild('valueInput', { static: true }) valueInput: ElementRef;
+
   public form: FormGroup;
   public ngxCurrencyOptions = {
     prefix: 'R$ ',
@@ -34,15 +61,27 @@ export class DemoComponent {
     allowNegative: false,
     nullable: true,
     max: 250_000_000,
+    inputMode: CurrencyMaskInputMode.FINANCIAL,
   };
 
   constructor(private formBuilder: FormBuilder) {
-    this.buildForm();
   }
 
-  private buildForm() {
+  ngOnInit() {
     this.form = this.formBuilder.group({
-      value: [null]
+      value: null,
+      inputMode: this.ngxCurrencyOptions.inputMode,
     });
+
+    this.form.get('inputMode').valueChanges.subscribe(val => {
+      this.ngxCurrencyOptions.inputMode = val;
+
+      // Clear and focus the value input when the input mode is changed.container
+      this.form.get('value').setValue(null);
+      this.valueInput.nativeElement.focus();
+    });
+
+    // Focus on the value input when the demo starts.
+    this.valueInput.nativeElement.focus();
   }
 }
