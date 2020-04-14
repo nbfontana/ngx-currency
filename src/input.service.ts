@@ -1,5 +1,5 @@
-import {InputManager} from "./input.manager";
-import {CurrencyMaskConfig} from "./currency-mask.config";
+import { InputManager } from "./input.manager";
+import { CurrencyMaskConfig } from "./currency-mask.config";
 
 
 export class InputService {
@@ -51,7 +51,7 @@ export class InputService {
     }
 
     applyMask(isNumber: boolean, rawValue: string): string {
-        let {allowNegative, decimal, precision, prefix, suffix, thousands, nullable, min, max} = this.options;
+        let { allowNegative, decimal, precision, prefix, suffix, thousands, nullable, min, max } = this.options;
         rawValue = isNumber ? new Number(rawValue).toFixed(precision) : rawValue;
         let onlyNumbers = rawValue.replace(/[^0-9\u0660-\u0669\u06F0-\u06F9]/g, "");
 
@@ -60,9 +60,9 @@ export class InputService {
         }
 
         let integerPart = onlyNumbers.slice(0, onlyNumbers.length - precision)
-          .replace(/^\u0660*/g, "")
-          .replace(/^\u06F0*/g, "")
-          .replace(/^0*/g, "");
+            .replace(/^\u0660*/g, "")
+            .replace(/^\u06F0*/g, "")
+            .replace(/^0*/g, "");
 
         if (integerPart == "") {
             integerPart = "0";
@@ -134,8 +134,8 @@ export class InputService {
     }
 
     changeToPositive(): void {
-            // Apply the mask to ensure the min and max values are enforced.
-            this.rawValue = this.applyMask(false, this.rawValue.replace("-", ""));
+        // Apply the mask to ensure the min and max values are enforced.
+        this.rawValue = this.applyMask(false, this.rawValue.replace("-", ""));
     }
 
     removeNumber(keyCode: number): void {
@@ -152,25 +152,20 @@ export class InputService {
             selectionStart = this.rawValue.length - this.options.suffix.length;
         }
 
-    let move = this.rawValue.substr(selectionStart - 1, 1).match(/\d/) ? 0 : -1;
-    if ((
-          keyCode == 8 &&
-          selectionStart - 1 === 0 &&
-          !(this.rawValue.substr(selectionStart, 1).match(/\d/))
-        ) ||
-        (
-          (keyCode == 46 || keyCode == 63272) &&
-          selectionStart === 0 &&
-          !(this.rawValue.substr(selectionStart + 1, 1).match(/\d/))
-        )
-    ) {
-      move = 1;
-    };
-    selectionEnd = keyCode == 46 || keyCode == 63272 ? selectionEnd + 1 : selectionEnd;
-    selectionStart = keyCode == 8 ? selectionStart - 1 : selectionStart;
-    this.rawValue = this.rawValue.substring(0, selectionStart) + this.rawValue.substring(selectionEnd, this.rawValue.length);
-    this.updateFieldValue(selectionStart + move);
-  }
+        let move = this.rawValue.substr(selectionStart - 1, 1).match(/\d/) ? 0 : -1;
+        if (
+            (keyCode == 8 && selectionStart - 1 === 0 && !(this.rawValue.substr(selectionStart, 1).match(/\d/))) ||
+            ((keyCode == 46 || keyCode == 63272) && selectionStart === 0 && !(this.rawValue.substr(selectionStart + 1, 1).match(/\d/)))
+        ) {
+            move = 1;
+        } else if ((keyCode == 46 || keyCode == 63272) && selectionStart !== 0 && !(this.rawValue.substr(selectionStart - 1, 1).match(/\d/))) {
+            move = 0;
+        };
+        selectionEnd = keyCode == 46 || keyCode == 63272 ? selectionEnd + 1 : selectionEnd;
+        selectionStart = keyCode == 8 ? selectionStart - 1 : selectionStart;
+        this.rawValue = this.rawValue.substring(0, selectionStart) + this.rawValue.substring(selectionEnd, this.rawValue.length);
+        this.updateFieldValue(selectionStart + move);
+    }
 
     updateFieldValue(selectionStart?: number): void {
         let newRawValue = this.applyMask(false, this.rawValue || "");
