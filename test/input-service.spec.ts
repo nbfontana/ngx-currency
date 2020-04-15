@@ -35,6 +35,18 @@ describe('Testing InputService', () => {
       expect(inputService.updateFieldValue).to.be.calledWith(1);
     });
 
+    it('should call updateFieldValue with 2 when deleting the number after the .', () => {
+      inputService = new InputService({
+        selectionStart: 2,
+        selectionEnd: 2,
+      }, options);
+
+      inputService.inputManager.rawValue = '0.01';
+      inputService.updateFieldValue = stub();
+      inputService.removeNumber(46);
+      expect(inputService.updateFieldValue).to.be.calledWith(2);
+    });
+
     it('should call updateFieldValue with 1 when backspacing the first number followed by a .', () => {
       inputService = new InputService({
         selectionStart: 1,

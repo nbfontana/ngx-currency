@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.2.4](https://github.com/nbfontana/ngx-currency/compare/v2.2.3...v2.2.4) (2020-04-15)
+
+
+### Bug Fixes
+
+* issue with drag and drop partial selections. ([4f8044d](https://github.com/nbfontana/ngx-currency/commit/4f8044d))
+* issue with entering special characters. ([b7b1c59](https://github.com/nbfontana/ngx-currency/commit/b7b1c59))
+* readOnly issue ([64e3d1d](https://github.com/nbfontana/ngx-currency/commit/64e3d1d))
+
+
+### Build System
+
+* **Compodoc:** Bump version ([eb10495](https://github.com/nbfontana/ngx-currency/commit/eb10495))
+
+
+
+### [2.2.3](https://github.com/nbfontana/ngx-currency/compare/v2.2.2...v2.2.3) (2020-04-14)
+
+
+### Bug Fixes
+
+* Delete button not clearing the value entirely. ([dfb7518](https://github.com/nbfontana/ngx-currency/commit/dfb7518))
+
+
+
 ### [2.2.2](https://github.com/nbfontana/ngx-currency/compare/v2.2.1...v2.2.2) (2020-01-24)
 
 
