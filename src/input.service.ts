@@ -2,9 +2,8 @@ import { InputManager } from "./input.manager";
 import { CurrencyMaskConfig, CurrencyMaskInputMode } from "./currency-mask.config";
 
 export class InputService {
-
-    private static readonly SINGLE_DIGIT_REGEX = /^[0-9\u0660-\u0669\u06F0-\u06F9]$/;
-    private static readonly ONLY_NUMBERS_REGEX = /[^0-9\u0660-\u0669\u06F0-\u06F9]/g;
+    private SINGLE_DIGIT_REGEX: RegExp = new RegExp(/^[0-9\u0660-\u0669\u06F0-\u06F9]$/);
+    private ONLY_NUMBERS_REGEX: RegExp = new RegExp(/[^0-9\u0660-\u0669\u06F0-\u06F9]/g);
 
     PER_AR_NUMBER: Map<string, string> = new Map<string, string>();
 
@@ -73,7 +72,7 @@ export class InputService {
                 // If the cursor is just before the decimal or thousands separator and the user types the
                 // decimal or thousands separator, move the cursor past it.
                 nextSelectionStart++;
-            } else if (!InputService.SINGLE_DIGIT_REGEX.test(keyChar)) {
+            } else if (!this.SINGLE_DIGIT_REGEX.test(keyChar)) {
                 // Ignore other non-numbers.
                 return;
             }
@@ -85,9 +84,9 @@ export class InputService {
 
     applyMask(isNumber: boolean, rawValue: string): string {
         let {allowNegative, decimal, precision, prefix, suffix, thousands, min, max, inputMode} = this.options;
-      
+
         rawValue = isNumber ? new Number(rawValue).toFixed(precision) : rawValue;
-        let onlyNumbers = rawValue.replace(InputService.ONLY_NUMBERS_REGEX, "");
+        let onlyNumbers = rawValue.replace(this.ONLY_NUMBERS_REGEX, "");
 
         if (!onlyNumbers && rawValue !== decimal) {
             return "";
@@ -95,7 +94,7 @@ export class InputService {
 
         if (inputMode === CurrencyMaskInputMode.NATURAL && !isNumber) {
             rawValue = this.padOrTrimPrecision(rawValue);
-            onlyNumbers = rawValue.replace(InputService.ONLY_NUMBERS_REGEX, "");
+            onlyNumbers = rawValue.replace(this.ONLY_NUMBERS_REGEX, "");
         }
 
         let integerPart = onlyNumbers.slice(0, onlyNumbers.length - precision)
@@ -153,12 +152,12 @@ export class InputService {
             rawValue += decimal;
         }
 
-        let decimalPortion = rawValue.substring(decimalIndex).replace(InputService.ONLY_NUMBERS_REGEX, "");
+        let decimalPortion = rawValue.substring(decimalIndex).replace(this.ONLY_NUMBERS_REGEX, "");
         const actualPrecision = decimalPortion.length;
         if (actualPrecision < precision) {
             for (let i = actualPrecision; i < precision; i++) {
                 decimalPortion += '0';
-            }    
+            }
         } else if (actualPrecision > precision) {
             decimalPortion = decimalPortion.substring(0, decimalPortion.length + precision - actualPrecision);
         }
