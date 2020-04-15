@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/ng-packagr/package.schema.json",
   "name": "ngx-currency",
-  "version": "2.2.4",
+  "version": "2.3.0",
   "description": "A very simple currency mask directive that allows using a number attribute with the ngModel.",
   "scripts": {
     "start": "concurrently --raw \"webpack-dev-server --open\" \"npm run test:watch\"",
@@ -29,6 +29,7 @@
     "angular",
     "angular2",
     "angular4",
+    "angular9",
     "currency",
     "mask",
     "model",
