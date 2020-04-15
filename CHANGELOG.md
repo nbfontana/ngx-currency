@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.2.3](https://github.com/nbfontana/ngx-currency/compare/v2.2.2...v2.2.3) (2020-04-14)
+
+
+### Bug Fixes
+
+* Delete button not clearing the value entirely. ([dfb7518](https://github.com/nbfontana/ngx-currency/commit/dfb7518))
+
+
+
 ### [2.2.2](https://github.com/nbfontana/ngx-currency/compare/v2.2.1...v2.2.2) (2020-01-24)
 
 
