@@ -48,6 +48,7 @@ export class InputHandler {
                     }
 
                     this.inputService.addNumber(keyCode);
+                    break;
             }
         }
 
@@ -57,7 +58,6 @@ export class InputHandler {
 
     handleKeydown(event: any): void {
         let keyCode = event.which || event.charCode || event.keyCode;
-
         if (keyCode == 8 || keyCode == 46 || keyCode == 63272) {
             event.preventDefault();
             let selectionRangeLength = Math.abs(this.inputService.inputSelection.selectionEnd - this.inputService.inputSelection.selectionStart);
@@ -80,7 +80,7 @@ export class InputHandler {
 
     handleKeypress(event: any): void {
         let keyCode = event.which || event.charCode || event.keyCode;
-
+        event.preventDefault();
         if (keyCode === 97 && event.ctrlKey) {
             return;
         }
@@ -89,8 +89,6 @@ export class InputHandler {
             case undefined:
             case 9:
             case 13:
-            case 37:
-            case 39:
                 return;
             case 43:
                 this.inputService.changeToPositive();
@@ -108,9 +106,9 @@ export class InputHandler {
 
                     this.inputService.addNumber(keyCode);
                 }
+                break;
         }
 
-        event.preventDefault();
         this.onModelChange(this.inputService.value);
     }
 

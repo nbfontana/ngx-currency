@@ -79,40 +79,51 @@ export class CurrencyMaskDirective implements AfterViewInit, ControlValueAccesso
   @HostListener("cut", ["$event"])
   handleCut(event: any) {
     if (!this.isChromeAndroid()) {
-      this.inputHandler.handleCut(event);
+      !this.isReadOnly() && this.inputHandler.handleCut(event);
     }
   }
 
   @HostListener("input", ["$event"])
   handleInput(event: any) {
     if (this.isChromeAndroid()) {
-      this.inputHandler.handleInput(event);
+      !this.isReadOnly() && this.inputHandler.handleInput(event);
     }
   }
 
   @HostListener("keydown", ["$event"])
   handleKeydown(event: any) {
     if (!this.isChromeAndroid()) {
-      this.inputHandler.handleKeydown(event);
+      !this.isReadOnly() && this.inputHandler.handleKeydown(event);
     }
   }
 
   @HostListener("keypress", ["$event"])
   handleKeypress(event: any) {
     if (!this.isChromeAndroid()) {
-      this.inputHandler.handleKeypress(event);
+      !this.isReadOnly() && this.inputHandler.handleKeypress(event);
     }
   }
 
   @HostListener("paste", ["$event"])
   handlePaste(event: any) {
     if (!this.isChromeAndroid()) {
-      this.inputHandler.handlePaste(event);
+      !this.isReadOnly() && this.inputHandler.handlePaste(event);
+    }
+  }
+
+  @HostListener("drop", ["$event"])
+  handleDrop(event: any) {
+    if (!this.isChromeAndroid()) {
+      event.preventDefault();
     }
   }
 
   isChromeAndroid(): boolean {
     return /chrome/i.test(navigator.userAgent) && /android/i.test(navigator.userAgent);
+  }
+
+  isReadOnly(): boolean {
+    return this.elementRef.nativeElement.hasAttribute('readonly')
   }
 
   registerOnChange(callbackFunction: Function): void {
