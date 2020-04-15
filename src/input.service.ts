@@ -1,8 +1,11 @@
 import { InputManager } from "./input.manager";
-import { CurrencyMaskConfig } from "./currency-mask.config";
-
+import { CurrencyMaskConfig, CurrencyMaskInputMode } from "./currency-mask.config";
 
 export class InputService {
+
+    private static readonly SINGLE_DIGIT_REGEX = /^[0-9\u0660-\u0669\u06F0-\u06F9]$/;
+    private static readonly ONLY_NUMBERS_REGEX = /[^0-9\u0660-\u0669\u06F0-\u06F9]/g;
+
     PER_AR_NUMBER: Map<string, string> = new Map<string, string>();
 
     initialize() {
@@ -37,26 +40,62 @@ export class InputService {
     }
 
     addNumber(keyCode: number): void {
+        const {decimal, precision, inputMode} = this.options;
         let keyChar = String.fromCharCode(keyCode);
+        const isDecimalChar = keyChar === this.options.decimal;
 
         if (!this.rawValue) {
             this.rawValue = this.applyMask(false, keyChar);
-            this.updateFieldValue();
+            let selectionStart:number = undefined;
+            if (inputMode === CurrencyMaskInputMode.NATURAL && precision > 0) {
+                selectionStart = this.rawValue.indexOf(decimal);
+                if (isDecimalChar) {
+                    selectionStart++;
+                }
+            }
+            this.updateFieldValue(selectionStart);
         } else {
             let selectionStart = this.inputSelection.selectionStart;
             let selectionEnd = this.inputSelection.selectionEnd;
-            this.rawValue = this.rawValue.substring(0, selectionStart) + keyChar + this.rawValue.substring(selectionEnd, this.rawValue.length);
-            this.updateFieldValue(selectionStart + 1);
+            const rawValueStart = this.rawValue.substring(0, selectionStart);
+            let rawValueEnd = this.rawValue.substring(selectionEnd, this.rawValue.length);
+
+            // In natural mode, replace decimals instead of shifting them.
+            const inDecimalPortion = rawValueStart.indexOf(decimal) !== -1;
+            if (inputMode === CurrencyMaskInputMode.NATURAL && inDecimalPortion && selectionStart === selectionEnd) {
+              rawValueEnd = rawValueEnd.substring(1);
+            }
+
+            const newValue = rawValueStart + keyChar + rawValueEnd;
+            let nextSelectionStart = selectionStart + 1;
+            const isDecimalOrThousands = isDecimalChar || keyChar === this.options.thousands;
+            if (isDecimalOrThousands && keyChar === rawValueEnd[0]) {
+                // If the cursor is just before the decimal or thousands separator and the user types the
+                // decimal or thousands separator, move the cursor past it.
+                nextSelectionStart++;
+            } else if (!InputService.SINGLE_DIGIT_REGEX.test(keyChar)) {
+                // Ignore other non-numbers.
+                return;
+            }
+
+            this.rawValue = newValue;
+            this.updateFieldValue(nextSelectionStart);
         }
     }
 
     applyMask(isNumber: boolean, rawValue: string): string {
-        let { allowNegative, decimal, precision, prefix, suffix, thousands, nullable, min, max } = this.options;
+        let {allowNegative, decimal, precision, prefix, suffix, thousands, min, max, inputMode} = this.options;
+      
         rawValue = isNumber ? new Number(rawValue).toFixed(precision) : rawValue;
-        let onlyNumbers = rawValue.replace(/[^0-9\u0660-\u0669\u06F0-\u06F9]/g, "");
+        let onlyNumbers = rawValue.replace(InputService.ONLY_NUMBERS_REGEX, "");
 
-        if (!onlyNumbers) {
+        if (!onlyNumbers && rawValue !== decimal) {
             return "";
+        }
+
+        if (inputMode === CurrencyMaskInputMode.NATURAL && !isNumber) {
+            rawValue = this.padOrTrimPrecision(rawValue);
+            onlyNumbers = rawValue.replace(InputService.ONLY_NUMBERS_REGEX, "");
         }
 
         let integerPart = onlyNumbers.slice(0, onlyNumbers.length - precision)
@@ -103,6 +142,28 @@ export class InputService {
         let isZero = newValue == 0;
         let operator = (isNegative && allowNegative && !isZero) ? "-" : "";
         return operator + prefix + newRawValue + suffix;
+    }
+
+    padOrTrimPrecision(rawValue: string): string {
+        let {decimal, precision} = this.options;
+
+        let decimalIndex = rawValue.lastIndexOf(decimal);
+        if (decimalIndex === -1) {
+            decimalIndex = rawValue.length;
+            rawValue += decimal;
+        }
+
+        let decimalPortion = rawValue.substring(decimalIndex).replace(InputService.ONLY_NUMBERS_REGEX, "");
+        const actualPrecision = decimalPortion.length;
+        if (actualPrecision < precision) {
+            for (let i = actualPrecision; i < precision; i++) {
+                decimalPortion += '0';
+            }    
+        } else if (actualPrecision > precision) {
+            decimalPortion = decimalPortion.substring(0, decimalPortion.length + precision - actualPrecision);
+        }
+
+        return rawValue.substring(0, decimalIndex) + decimal + decimalPortion;
     }
 
     clearMask(rawValue: string): number {
@@ -170,6 +231,7 @@ export class InputService {
     updateFieldValue(selectionStart?: number): void {
         let newRawValue = this.applyMask(false, this.rawValue || "");
         selectionStart = selectionStart == undefined ? this.rawValue.length : selectionStart;
+        selectionStart = Math.max(this.options.prefix.length, Math.min(selectionStart, this.rawValue.length - this.options.suffix.length));
         this.inputManager.updateValueAndCursor(newRawValue, this.rawValue.length, selectionStart);
     }
 

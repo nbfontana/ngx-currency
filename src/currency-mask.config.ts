@@ -12,6 +12,12 @@ export interface CurrencyMaskConfig {
   nullable: boolean;
   min?: number;
   max?: number;
+  inputMode? : CurrencyMaskInputMode;
+}
+
+export enum CurrencyMaskInputMode {
+  FINANCIAL,
+  NATURAL,
 }
 
 export let CURRENCY_MASK_CONFIG = new InjectionToken<CurrencyMaskConfig>("currency.mask.config");

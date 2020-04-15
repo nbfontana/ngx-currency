@@ -2,6 +2,47 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.3.0](https://github.com/nbfontana/ngx-currency/compare/v2.2.4...v2.3.0) (2020-04-15)
+
+
+### Bug Fixes
+
+* Ignore special characters when validating maxLength ([0dec5e1](https://github.com/nbfontana/ngx-currency/commit/0dec5e1))
+
+
+### Build System
+
+* **deps-dev:** bump codecov from 3.4.0 to 3.6.5 ([3fcbd48](https://github.com/nbfontana/ngx-currency/commit/3fcbd48))
+
+
+### Features
+
+* **addNumber:** Adds support for natural input mode ([7a18ef6](https://github.com/nbfontana/ngx-currency/commit/7a18ef6))
+* **addNumber:** Typing decimal or thousands advances cursor ([975e782](https://github.com/nbfontana/ngx-currency/commit/975e782))
+
+
+### Tests
+
+* **canInputMoreNumbers:** Add unit test for maxLength validation ([7bf990b](https://github.com/nbfontana/ngx-currency/commit/7bf990b))
+
+
+
+### [2.2.4](https://github.com/nbfontana/ngx-currency/compare/v2.2.3...v2.2.4) (2020-04-15)
+
+
+### Bug Fixes
+
+* issue with drag and drop partial selections. ([4f8044d](https://github.com/nbfontana/ngx-currency/commit/4f8044d))
+* issue with entering special characters. ([b7b1c59](https://github.com/nbfontana/ngx-currency/commit/b7b1c59))
+* readOnly issue ([64e3d1d](https://github.com/nbfontana/ngx-currency/commit/64e3d1d))
+
+
+### Build System
+
+* **Compodoc:** Bump version ([eb10495](https://github.com/nbfontana/ngx-currency/commit/eb10495))
+
+
+
 ### [2.2.3](https://github.com/nbfontana/ngx-currency/compare/v2.2.2...v2.2.3) (2020-04-14)
 
 
