@@ -2,6 +2,7 @@ import { InputService } from './../src/input.service';
 import { expect } from "chai";
 import { stub } from 'sinon';
 import {CurrencyMaskConfig, CurrencyMaskInputMode} from "../src/currency-mask.config";
+import { MockHtmlInputElement } from './mock-html-input-element';
 
 describe('Testing InputService', () => {
   
@@ -18,12 +19,12 @@ describe('Testing InputService', () => {
       nullable: false,
       align: 'right',
       allowZero: true,
-      precision: undefined,
+      precision: 2,
     };
   });
 
   describe('removeNumber', () => {
-    it('should call updateFieldValue with 1 when deleting the first number followed by a .', () => {
+    it('should remove leading . when deleting the first number followed by a .', () => {
       inputService = new InputService({
         selectionStart: 0,
         selectionEnd: 0,
@@ -32,7 +33,8 @@ describe('Testing InputService', () => {
       inputService.inputManager.rawValue = '1.234,50';
       inputService.updateFieldValue = stub();
       inputService.removeNumber(46);
-      expect(inputService.updateFieldValue).to.be.calledWith(1);
+      expect(inputService.inputManager.rawValue).to.be.equal('234,50');
+      expect(inputService.updateFieldValue).to.be.calledWith(0);
     });
 
     it('should call updateFieldValue with 2 when deleting the number after the .', () => {
@@ -47,7 +49,7 @@ describe('Testing InputService', () => {
       expect(inputService.updateFieldValue).to.be.calledWith(2);
     });
 
-    it('should call updateFieldValue with 1 when backspacing the first number followed by a .', () => {
+    it('should remove leading . when backspacing the first number followed by a .', () => {
       inputService = new InputService({
         selectionStart: 1,
         selectionEnd: 1,
@@ -56,7 +58,8 @@ describe('Testing InputService', () => {
       inputService.inputManager.rawValue = '1.234,50';
       inputService.updateFieldValue = stub();
       inputService.removeNumber(8);
-      expect(inputService.updateFieldValue).to.be.calledWith(1);
+      expect(inputService.inputManager.rawValue).to.be.equal('234,50');
+      expect(inputService.updateFieldValue).to.be.calledWith(0);
     });
 
     it('should call updateFieldValue with 2 less than the current position when backspacing any non-number character', () => {
@@ -71,17 +74,187 @@ describe('Testing InputService', () => {
       expect(inputService.updateFieldValue).to.be.calledWith(4);
     });
 
-    it('should return a value without spaces when thousands separator is empty', () => {
-      options.thousands = "";
-      options.precision = 0;
-
+    it('should ignore backspace at beginning of string', () => {
+      options.prefix = '$$';
+      options.suffix = 'SUF';
       inputService = new InputService({
-        selectionStart: 6,
-        selectionEnd: 6,
+        selectionStart: 2,
+        selectionEnd: 2,
       }, options);
 
-      const result = inputService.applyMask(false, '234567');
-      expect(result).to.equal('234567');
+      inputService.inputManager.rawValue = '$$1.234,50SUF';
+      inputService.updateFieldValue = stub();
+      inputService.removeNumber(8);
+      expect(inputService.updateFieldValue).not.to.be.called
+    });
+
+    it('should ignore delete at end of string', () => {
+      options.prefix = '$$';
+      options.suffix = 'SUF';
+      inputService = new InputService({
+        selectionStart: 10,
+        selectionEnd: 10,
+      }, options);
+
+      inputService.inputManager.rawValue = '$$1.234,50SUF';
+      inputService.updateFieldValue = stub();
+      inputService.removeNumber(46);
+      expect(inputService.updateFieldValue).not.to.be.called
+    });
+
+    it('should remove number before . on backspace', () => {
+      const htmlInputElement = new MockHtmlInputElement(8, 8);
+      options.prefix = '$$';
+      options.suffix = 'SUF';
+      inputService = new InputService(htmlInputElement, options);
+
+      inputService.rawValue = '$$1.234.567,89SUF';
+      inputService.removeNumber(8);
+      expect(inputService.rawValue).to.be.equal('$$123.567,89SUF');
+      expect(htmlInputElement.selectionStart).to.be.equal(6);
+      expect(htmlInputElement.selectionEnd).to.be.equal(6);
+    });
+
+    it('should remove number before , on backspace', () => {
+      const htmlInputElement = new MockHtmlInputElement(8, 8);
+      options.prefix = '$$';
+      options.suffix = 'SUF';
+      inputService = new InputService(htmlInputElement, options);
+
+      inputService.rawValue = '$$1.234,56SUF';
+      inputService.removeNumber(8);
+      expect(inputService.rawValue).to.be.equal('$$123,56SUF');
+      expect(htmlInputElement.selectionStart).to.be.equal(6);
+      expect(htmlInputElement.selectionEnd).to.be.equal(6);
+    });
+
+    it('should remove number after . on delete', () => {
+      const htmlInputElement = new MockHtmlInputElement(5, 5);
+      options.prefix = '$$';
+      options.suffix = 'SUF';
+      inputService = new InputService(htmlInputElement, options);
+
+      inputService.rawValue = '$$123.456,78SUF';
+      inputService.removeNumber(46);
+      expect(inputService.rawValue).to.be.equal('$$12.356,78SUF');
+      expect(htmlInputElement.selectionStart).to.be.equal(6);
+      expect(htmlInputElement.selectionEnd).to.be.equal(6);
+    });
+
+    it('should replace decimals with 0s and shift selection back one when backspacing in natural mode', () => {
+      const htmlInputElement = new MockHtmlInputElement(10, 10);
+      options.prefix = '$$';
+      options.suffix = 'SUF';
+      options.inputMode = CurrencyMaskInputMode.NATURAL
+      inputService = new InputService(htmlInputElement, options);
+      inputService.rawValue = '$$1.234,56SUF';
+
+      inputService.removeNumber(8);
+      expect(inputService.rawValue).to.be.equal('$$1.234,50SUF');
+      expect(htmlInputElement.selectionStart).to.be.equal(9);
+      expect(htmlInputElement.selectionEnd).to.be.equal(9);
+
+      inputService.removeNumber(8);
+      expect(inputService.rawValue).to.be.equal('$$1.234,00SUF');
+      expect(htmlInputElement.selectionStart).to.be.equal(8);
+      expect(htmlInputElement.selectionEnd).to.be.equal(8);
+
+      inputService.removeNumber(8);
+      expect(inputService.rawValue).to.be.equal('$$123,00SUF');
+      expect(htmlInputElement.selectionStart).to.be.equal(5);
+      expect(htmlInputElement.selectionEnd).to.be.equal(5);
+
+      inputService.removeNumber(8);
+      expect(inputService.rawValue).to.be.equal('$$12,00SUF');
+      expect(htmlInputElement.selectionStart).to.be.equal(4);
+      expect(htmlInputElement.selectionEnd).to.be.equal(4);
+    });
+
+    it('should replace decimals with 0s when deleting in natural mode', () => {
+      const htmlInputElement = new MockHtmlInputElement(7, 7);
+      options.prefix = '$$';
+      options.suffix = 'SUF';
+      options.inputMode = CurrencyMaskInputMode.NATURAL
+      inputService = new InputService(htmlInputElement, options);
+      inputService.rawValue = '$$1.234,56SUF';
+
+      inputService.removeNumber(46);
+      expect(inputService.rawValue).to.be.equal('$$1.234,06SUF');
+      expect(htmlInputElement.selectionStart).to.be.equal(9);
+      expect(htmlInputElement.selectionEnd).to.be.equal(9);
+
+      inputService.removeNumber(46);
+      expect(inputService.rawValue).to.be.equal('$$1.234,00SUF');
+      expect(htmlInputElement.selectionStart).to.be.equal(10);
+      expect(htmlInputElement.selectionEnd).to.be.equal(10);
+    });
+
+    it('should delete if no precision in natural mode', () => {
+      const htmlInputElement = new MockHtmlInputElement(4, 4);
+      options.prefix = '$$';
+      options.suffix = 'SUF';
+      options.precision = 0;
+      options.inputMode = CurrencyMaskInputMode.NATURAL
+      inputService = new InputService(htmlInputElement, options);
+      inputService.rawValue = '$$1.234SUF';
+
+      inputService.removeNumber(46);
+      expect(inputService.rawValue).to.be.equal('$$134SUF');
+      expect(htmlInputElement.selectionStart).to.be.equal(3);
+      expect(htmlInputElement.selectionEnd).to.be.equal(3);
+    });
+
+    it('should only delete selected range when deleting', () => {
+      const htmlInputElement = new MockHtmlInputElement(5, 9);
+      options.prefix = '$$';
+      options.suffix = 'SUF';
+      inputService = new InputService(htmlInputElement, options);
+      inputService.rawValue = '$$1.234,56SUF';
+
+      inputService.removeNumber(46);
+      expect(inputService.rawValue).to.be.equal('$$1,26SUF');
+      expect(htmlInputElement.selectionStart).to.be.equal(5);
+      expect(htmlInputElement.selectionEnd).to.be.equal(5);
+    });
+
+    it('should shift numbers into decimal when backspacing over decimal in natural mode', () => {
+      const htmlInputElement = new MockHtmlInputElement(5, 9);
+      options.prefix = '$$';
+      options.suffix = 'SUF';
+      options.inputMode = CurrencyMaskInputMode.NATURAL;
+      inputService = new InputService(htmlInputElement, options);
+      inputService.rawValue = '$$1.234,56SUF';
+
+      inputService.removeNumber(8);
+      expect(inputService.rawValue).to.be.equal('$$1,26SUF');
+      expect(htmlInputElement.selectionStart).to.be.equal(5);
+      expect(htmlInputElement.selectionEnd).to.be.equal(5);
+    });
+
+    it('should move selection without removing numbers if selection range is entirely in prefix', () => {
+      const htmlInputElement = new MockHtmlInputElement(0, 1);
+      options.prefix = '$$';
+      options.suffix = 'SUF';
+      inputService = new InputService(htmlInputElement, options);
+      inputService.rawValue = '$$1.234,56SUF';
+
+      inputService.removeNumber(46);
+      expect(inputService.rawValue).to.be.equal('$$1.234,56SUF');
+      expect(htmlInputElement.selectionStart).to.be.equal(2);
+      expect(htmlInputElement.selectionEnd).to.be.equal(2);
+    });
+
+    it('should move selection without removing numbers if selection range is entirely in suffix', () => {
+      const htmlInputElement = new MockHtmlInputElement(10, 12);
+      options.prefix = '$$';
+      options.suffix = 'SUF';
+      inputService = new InputService(htmlInputElement, options);
+      inputService.rawValue = '$$1.234,56SUF';
+
+      inputService.removeNumber(8);
+      expect(inputService.rawValue).to.be.equal('$$1.234,56SUF');
+      expect(htmlInputElement.selectionStart).to.be.equal(10);
+      expect(htmlInputElement.selectionEnd).to.be.equal(10);
     });
   });
 
@@ -370,6 +543,9 @@ describe('Testing InputService', () => {
       expect(inputService.applyMask(false, '1')).to.be.equal('1,00');
       expect(inputService.applyMask(false, '12,34')).to.be.equal('12,34');
       expect(inputService.applyMask(false, '12,345')).to.be.equal('12,34');
+
+      // Verify disabling pad and trim works too.
+      expect(inputService.applyMask(false, '1', true)).to.be.equal('0,01');
     });
 
     it('should return formatted string when decimal char typed', () => {
@@ -422,24 +598,18 @@ describe('Testing InputService', () => {
       expect(inputService.padOrTrimPrecision('1.234,56')).to.be.equal('1.234,');
       expect(inputService.padOrTrimPrecision('1.234')).to.be.equal('1.234,');
     });
+
+    it('should return a value without spaces when thousands separator is empty', () => {
+      options.thousands = "";
+      options.precision = 0;
+
+      inputService = new InputService({
+        selectionStart: 6,
+        selectionEnd: 6,
+      }, options);
+
+      const result = inputService.applyMask(false, '234567');
+      expect(result).to.equal('234567');
+    });
   });
 });
-
-class MockHtmlInputElement {
-
-  public focused: boolean;
-
-  constructor(
-    public selectionStart: number,
-    public selectionEnd: number,
-  ) {}
-
-  public focus(): void {
-    this.focused = true;    
-  }
-
-  public setSelectionRange(selectionStart: number, selectionEnd: number): void {
-    this.selectionStart = selectionStart;
-    this.selectionEnd = selectionEnd;
-  }
-}

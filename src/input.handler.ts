@@ -60,15 +60,13 @@ export class InputHandler {
         let keyCode = event.which || event.charCode || event.keyCode;
         if (keyCode == 8 || keyCode == 46 || keyCode == 63272) {
             event.preventDefault();
-            let selectionRangeLength = Math.abs(this.inputService.inputSelection.selectionEnd - this.inputService.inputSelection.selectionStart);
 
-            if (selectionRangeLength == 0) {
+            if (this.inputService.inputSelection.selectionStart <= this.inputService.prefixLength() &&
+                this.inputService.inputSelection.selectionEnd >= this.inputService.rawValue.length - this.inputService.suffixLength()) {
+                this.clearValue();
+            } else {
                 this.inputService.removeNumber(keyCode);
                 this.onModelChange(this.inputService.value);
-            }
-
-            if (selectionRangeLength >= (this.inputService.rawValue.length - this.inputService.prefixLength())) {
-                this.clearValue();
             }
         }
     }
