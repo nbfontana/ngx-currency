@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.3.2](https://github.com/nbfontana/ngx-currency/compare/v2.3.1...v2.3.2) (2020-04-17)
+
+
+### Bug Fixes
+
+* added the CurrencyMaskInputMode to the exports ([95059e6](https://github.com/nbfontana/ngx-currency/commit/95059e6))
+
+
+
 ### [2.3.1](https://github.com/nbfontana/ngx-currency/compare/v2.3.0...v2.3.1) (2020-04-15)
 
 
