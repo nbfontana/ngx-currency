@@ -14,7 +14,7 @@ import {
 } from "@angular/core";
 
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
-import {CurrencyMaskConfig, CURRENCY_MASK_CONFIG} from "./currency-mask.config";
+import {CurrencyMaskConfig, CURRENCY_MASK_CONFIG, CurrencyMaskInputMode} from "./currency-mask.config";
 import {InputHandler} from "./input.handler";
 
 export const CURRENCYMASKDIRECTIVE_VALUE_ACCESSOR: any = {
@@ -34,7 +34,7 @@ export class CurrencyMaskDirective implements AfterViewInit, ControlValueAccesso
   public inputHandler: InputHandler;
   public keyValueDiffer: KeyValueDiffer<any, any>;
 
-  public optionsTemplate = {
+  public optionsTemplate: CurrencyMaskConfig = {
       align: "right",
       allowNegative: true,
       allowZero: true,
@@ -43,7 +43,8 @@ export class CurrencyMaskDirective implements AfterViewInit, ControlValueAccesso
       prefix: "$ ",
       suffix: "",
       thousands: ",",
-      nullable: false
+      nullable: false,
+      inputMode: CurrencyMaskInputMode.FINANCIAL
   };
 
   constructor(@Optional() @Inject(CURRENCY_MASK_CONFIG) private currencyMaskConfig: CurrencyMaskConfig,
