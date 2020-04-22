@@ -82,7 +82,7 @@ export class InputService {
         }
     }
 
-    applyMask(isNumber: boolean, rawValue: string): string {
+    applyMask(isNumber: boolean, rawValue: string, disablePadAndTrim = false): string {
         let {allowNegative, decimal, precision, prefix, suffix, thousands, min, max, inputMode} = this.options;
 
         rawValue = isNumber ? new Number(rawValue).toFixed(precision) : rawValue;
@@ -92,7 +92,7 @@ export class InputService {
             return "";
         }
 
-        if (inputMode === CurrencyMaskInputMode.NATURAL && !isNumber) {
+        if (inputMode === CurrencyMaskInputMode.NATURAL && !isNumber && !disablePadAndTrim) {
             rawValue = this.padOrTrimPrecision(rawValue);
             onlyNumbers = rawValue.replace(this.ONLY_NUMBERS_REGEX, "");
         }
@@ -199,6 +199,8 @@ export class InputService {
     }
 
     removeNumber(keyCode: number): void {
+        let {decimal, thousands, prefix, suffix, inputMode} = this.options;
+
         if (this.isNullable() && this.value == 0) {
             this.rawValue = null;
             return;
@@ -207,28 +209,77 @@ export class InputService {
         let selectionEnd = this.inputSelection.selectionEnd;
         let selectionStart = this.inputSelection.selectionStart;
 
-        if (selectionStart > this.rawValue.length - this.options.suffix.length) {
-            selectionEnd = this.rawValue.length - this.options.suffix.length;
-            selectionStart = this.rawValue.length - this.options.suffix.length;
+        const suffixStart = this.rawValue.length - suffix.length;
+        selectionEnd = Math.min(suffixStart, Math.max(selectionEnd, prefix.length));
+        selectionStart = Math.min(suffixStart, Math.max(selectionStart, prefix.length));
+
+        // Check if selection was entirely in the prefix or suffix. 
+        if (selectionStart === selectionEnd &&
+            this.inputSelection.selectionStart !== this.inputSelection.selectionEnd) {
+            this.updateFieldValue(selectionStart);
+            return;
         }
 
-        let move = this.rawValue.substr(selectionStart - 1, 1).match(/\d/) ? 0 : -1;
-        if (
-            (keyCode == 8 && selectionStart - 1 === 0 && !(this.rawValue.substr(selectionStart, 1).match(/\d/))) ||
-            ((keyCode == 46 || keyCode == 63272) && selectionStart === 0 && !(this.rawValue.substr(selectionStart + 1, 1).match(/\d/)))
-        ) {
-            move = 1;
-        } else if ((keyCode == 46 || keyCode == 63272) && selectionStart !== 0 && !(this.rawValue.substr(selectionStart - 1, 1).match(/\d/))) {
-            move = 0;
-        };
-        selectionEnd = keyCode == 46 || keyCode == 63272 ? selectionEnd + 1 : selectionEnd;
-        selectionStart = keyCode == 8 ? selectionStart - 1 : selectionStart;
-        this.rawValue = this.rawValue.substring(0, selectionStart) + this.rawValue.substring(selectionEnd, this.rawValue.length);
-        this.updateFieldValue(selectionStart + move);
+        let decimalIndex = this.rawValue.indexOf(decimal);
+        if (decimalIndex === -1) {
+            decimalIndex = this.rawValue.length;
+        }
+
+        let shiftSelection = 0;
+        let insertChars = '';   
+        if (selectionEnd === selectionStart) {
+            if (keyCode == 8) {
+                if (selectionStart <= prefix.length) {
+                    return;
+                }
+                selectionStart--;
+
+                // If previous char isn't a number, go back one more.
+                if (!this.rawValue.substr(selectionStart, 1).match(/\d/)) {
+                    selectionStart--;
+                }
+
+                // In natural mode, jump backwards when in decimal portion of number.
+                if (inputMode === CurrencyMaskInputMode.NATURAL && decimalIndex < selectionEnd) {
+                    shiftSelection = -1;
+                }
+            } else if (keyCode == 46 || keyCode == 63272) {
+                if (selectionStart === suffixStart) {
+                    return;
+                }
+                selectionEnd++;
+
+                // If next char isn't a number, go one more.
+                if (!this.rawValue.substr(selectionStart, 1).match(/\d/)) {
+                    selectionStart++;
+                    selectionEnd++;
+                }
+            }
+        }
+
+        // In natural mode, replace decimals with 0s.
+        if (inputMode === CurrencyMaskInputMode.NATURAL && selectionStart > decimalIndex) {
+            const replacedDecimalCount = selectionEnd - selectionStart;
+            for (let i = 0; i < replacedDecimalCount; i++) {
+                insertChars += '0';
+            }
+        }
+
+        let selectionFromEnd = this.rawValue.length - selectionEnd;
+        this.rawValue = this.rawValue.substring(0, selectionStart) + insertChars + this.rawValue.substring(selectionEnd);
+
+        // Remove leading thousand separator from raw value.
+        const startChar = this.rawValue.substr(prefix.length, 1);
+        if (startChar === thousands) {
+            this.rawValue = this.rawValue.substring(0, prefix.length) + this.rawValue.substring(prefix.length + 1);
+            selectionFromEnd = Math.min(selectionFromEnd, this.rawValue.length - prefix.length);
+        }
+
+        this.updateFieldValue(this.rawValue.length - selectionFromEnd + shiftSelection, true);
     }
 
-    updateFieldValue(selectionStart?: number): void {
-        let newRawValue = this.applyMask(false, this.rawValue || "");
+    updateFieldValue(selectionStart?: number, disablePadAndTrim = false): void {
+        let newRawValue = this.applyMask(false, this.rawValue || "", disablePadAndTrim);
         selectionStart = selectionStart == undefined ? this.rawValue.length : selectionStart;
         selectionStart = Math.max(this.options.prefix.length, Math.min(selectionStart, this.rawValue.length - this.options.suffix.length));
         this.inputManager.updateValueAndCursor(newRawValue, this.rawValue.length, selectionStart);
@@ -242,6 +293,10 @@ export class InputService {
 
     prefixLength(): any {
         return this.options.prefix.length;
+    }
+
+    suffixLength(): any {
+        return this.options.suffix.length;
     }
 
     isNullable() {
