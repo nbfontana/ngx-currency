@@ -89,6 +89,6 @@ export class InputManager {
     }
 
     get storedRawValue(): string {
-        return this._storedRawValue;
+        return this._storedRawValue || '';
     }
 }
