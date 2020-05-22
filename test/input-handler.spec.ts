@@ -20,6 +20,7 @@ describe('Testing InputHandler', () => {
             thousands: '.',
             decimal: ',',
             allowNegative: false,
+            showNegativeOperator: false,
             nullable: false,
             align: 'right',
             allowZero: true,
