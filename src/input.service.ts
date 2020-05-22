@@ -83,7 +83,7 @@ export class InputService {
     }
 
     applyMask(isNumber: boolean, rawValue: string, disablePadAndTrim = false): string {
-        let {allowNegative, decimal, precision, prefix, suffix, thousands, min, max, inputMode} = this.options;
+        let {allowNegative, showNegativeOperator, decimal, precision, prefix, suffix, thousands, min, max, inputMode} = this.options;
 
         rawValue = isNumber ? new Number(rawValue).toFixed(precision) : rawValue;
         let onlyNumbers = rawValue.replace(this.ONLY_NUMBERS_REGEX, "");
@@ -139,7 +139,7 @@ export class InputService {
         }
 
         let isZero = newValue == 0;
-        let operator = (isNegative && allowNegative && !isZero) ? "-" : "";
+        let operator = (isNegative && allowNegative && showNegativeOperator && !isZero) ? "-" : "";
         return operator + prefix + newRawValue + suffix;
     }
 
