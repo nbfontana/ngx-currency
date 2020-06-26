@@ -115,5 +115,8 @@
     "lib": {
       "entryFile": "index.ts"
     }
+  },
+  "dependencies": {
+    "@angular-devkit/schematics": "^10.0.0"
   }
 }
