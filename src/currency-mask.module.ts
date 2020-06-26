@@ -10,7 +10,7 @@ import {CURRENCY_MASK_CONFIG, CurrencyMaskConfig} from "./currency-mask.config";
   exports: [ CurrencyMaskDirective ]
 })
 export class NgxCurrencyModule {
-  static forRoot(config: CurrencyMaskConfig): ModuleWithProviders {
+  static forRoot(config: CurrencyMaskConfig): ModuleWithProviders<NgxCurrencyModule> {
     return {
       ngModule: NgxCurrencyModule,
       providers: [{
