@@ -61,7 +61,7 @@
     "@types/sinon-chai": "3.2.2",
     "@types/webpack": "4.4.31",
     "chai": "4.2.0",
-    "codecov": "3.6.5",
+    "codecov": "3.7.1",
     "codelyzer": "4.5.0",
     "commitizen": "3.1.1",
     "concurrently": "4.1.0",
