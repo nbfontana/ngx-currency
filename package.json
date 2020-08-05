@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/ng-packagr/package.schema.json",
   "name": "ngx-currency",
-  "version": "2.4.1",
+  "version": "2.5.0",
   "description": "A very simple currency mask directive that allows using a number attribute with the ngModel.",
   "scripts": {
     "start": "concurrently --raw \"webpack-dev-server --open\" \"npm run test:watch\"",
@@ -53,6 +53,7 @@
     "@angular/language-service": "10.0.0",
     "@angular/platform-browser": "10.0.0",
     "@angular/platform-browser-dynamic": "10.0.0",
+    "@angular-devkit/schematics": "^10.0.0",
     "@compodoc/compodoc": "^1.1.11",
     "@types/chai": "4.1.7",
     "@types/html-webpack-plugin": "3.2.0",
@@ -116,8 +117,5 @@
     "lib": {
       "entryFile": "index.ts"
     }
-  },
-  "dependencies": {
-    "@angular-devkit/schematics": "^10.0.0"
   }
 }
