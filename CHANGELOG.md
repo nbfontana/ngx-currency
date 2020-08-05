@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.4.0](https://github.com/nbfontana/ngx-currency/compare/v2.3.3...v2.4.0) (2020-08-05)
+
+
+### Bug Fixes
+
+* fix android chrome support ([c718534](https://github.com/nbfontana/ngx-currency/commit/c718534)), closes [#90](https://github.com/nbfontana/ngx-currency/issues/90) [#100](https://github.com/nbfontana/ngx-currency/issues/100)
+
+
+### Build System
+
+* **deps-dev:** bump codecov from 3.6.5 to 3.7.1 ([64a2cf1](https://github.com/nbfontana/ngx-currency/commit/64a2cf1))
+* **deps-dev:** bump standard-version from 6.0.1 to 8.0.1 ([1041bc0](https://github.com/nbfontana/ngx-currency/commit/1041bc0))
+
+
+
 ### [2.3.3](https://github.com/nbfontana/ngx-currency/compare/v2.3.2...v2.3.3) (2020-04-22)
 
 
