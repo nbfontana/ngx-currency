@@ -213,7 +213,7 @@ export class InputService {
         selectionEnd = Math.min(suffixStart, Math.max(selectionEnd, prefix.length));
         selectionStart = Math.min(suffixStart, Math.max(selectionStart, prefix.length));
 
-        // Check if selection was entirely in the prefix or suffix. 
+        // Check if selection was entirely in the prefix or suffix.
         if (selectionStart === selectionEnd &&
             this.inputSelection.selectionStart !== this.inputSelection.selectionEnd) {
             this.updateFieldValue(selectionStart);
@@ -226,7 +226,7 @@ export class InputService {
         }
 
         let shiftSelection = 0;
-        let insertChars = '';   
+        let insertChars = '';
         if (selectionEnd === selectionStart) {
             if (keyCode == 8) {
                 if (selectionStart <= prefix.length) {
@@ -301,6 +301,14 @@ export class InputService {
 
     isNullable() {
         return this.options.nullable;
+    }
+
+    getOptions() {
+        return this.options;
+    }
+
+    setCursorPosition(position) {
+        this.inputManager.setCursorAt(position);
     }
 
     get canInputMoreNumbers(): boolean {

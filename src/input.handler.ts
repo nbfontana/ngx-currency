@@ -1,4 +1,5 @@
 import {InputService} from "./input.service";
+import {CurrencyMaskInputMode} from "./currency-mask.config";
 
 export class InputHandler {
 
@@ -19,15 +20,22 @@ export class InputHandler {
     }
 
     handleInput(event: any): void {
-        let keyCode = this.inputService.rawValue.charCodeAt(this.inputService.rawValue.length - 1);
+        let keyPressed = event.data;
         let rawValueLength = this.inputService.rawValue.length;
-        let rawValueSelectionEnd = this.inputService.inputSelection.selectionEnd;
         let storedRawValueLength = this.inputService.storedRawValue.length;
-        this.inputService.rawValue = this.inputService.storedRawValue;
+        let inputSelection = this.inputService.inputSelection;
 
-        if (rawValueLength != rawValueSelectionEnd || Math.abs(rawValueLength - storedRawValueLength) != 1) {
-            this.setCursorPosition(event);
-            return;
+        this.setInputFieldValueAndResetCursor(this.inputService.storedRawValue);
+
+        if (this.isFinancialMode()) {
+            if (rawValueLength != inputSelection.selectionEnd ||
+                Math.abs(rawValueLength - storedRawValueLength) != 1) {
+                this.setCursorPositionToEnd(event);
+                this.fixateCursorAfterZeroTimeout();
+                return;
+            }
+        } else {
+            this.adjustCursorForNaturalMode(keyPressed === null, inputSelection.selectionStart);
         }
 
         if (rawValueLength < storedRawValueLength) {
@@ -35,11 +43,11 @@ export class InputHandler {
         }
 
         if (rawValueLength > storedRawValueLength) {
-            switch (keyCode) {
-                case 43:
+            switch (keyPressed) {
+                case "+":
                     this.inputService.changeToPositive();
                     break;
-                case 45:
+                case "-":
                     this.inputService.changeToNegative();
                     break;
                 default:
@@ -47,12 +55,12 @@ export class InputHandler {
                         return;
                     }
 
-                    this.inputService.addNumber(keyCode);
+                    this.inputService.addNumber(keyPressed.charCodeAt(0));
                     break;
             }
         }
 
-        this.setCursorPosition(event);
+        this.fixateCursorAfterZeroTimeout();
         this.onModelChange(this.inputService.value);
     }
 
@@ -142,9 +150,30 @@ export class InputHandler {
         this.inputService.value = value;
     }
 
-    private setCursorPosition(event: any): void {
-        setTimeout(function () {
-            event.target.setSelectionRange(event.target.value.length, event.target.value.length);
-        }, 0);
+    private adjustCursorForNaturalMode(isRemoval: boolean, savedPosition: number): void {
+        if (isRemoval) {
+            this.inputService.setCursorPosition(savedPosition + 1);
+        } else {
+            this.inputService.setCursorPosition(savedPosition - 1);
+        }
+    }
+
+    private setInputFieldValueAndResetCursor(rawValue) {
+        this.inputService.rawValue = rawValue;
+    }
+
+    private fixateCursorAfterZeroTimeout(): void {
+        let position = this.inputService.inputSelection.selectionStart;
+        setTimeout(() =>
+                this.inputService.setCursorPosition(position),
+            0);
+    }
+
+    private isFinancialMode(): boolean {
+        return this.inputService.getOptions().inputMode === CurrencyMaskInputMode.FINANCIAL;
+    }
+
+    private setCursorPositionToEnd(event: any): void {
+        event.target.setSelectionRange(event.target.value.length, event.target.value.length);
     }
 }
