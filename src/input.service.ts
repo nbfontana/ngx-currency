@@ -245,7 +245,7 @@ export class InputService {
                 if (inputMode === CurrencyMaskInputMode.NATURAL && isCursorInDecimals) {
                     shiftSelection = -1;
                     // when removing a single whole number, replace it with 0
-                    if (isCursorImmediatelyAfterDecimalPoint && this.value < 10) {
+                    if (isCursorImmediatelyAfterDecimalPoint && this.value < 10 && this.value > -10) {
                         insertChars += '0';
                     }
                 }
