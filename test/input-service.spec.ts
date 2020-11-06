@@ -168,6 +168,21 @@ describe('Testing InputService', () => {
       expect(inputService.rawValue).to.be.equal('$$12,00SUF');
       expect(htmlInputElement.selectionStart).to.be.equal(4);
       expect(htmlInputElement.selectionEnd).to.be.equal(4);
+
+      inputService.removeNumber(8);
+      expect(inputService.rawValue).to.be.equal('$$1,00SUF');
+      expect(htmlInputElement.selectionStart).to.be.equal(3);
+      expect(htmlInputElement.selectionEnd).to.be.equal(3);
+
+      inputService.removeNumber(8);
+      expect(inputService.rawValue).to.be.equal('$$0,00SUF');
+      expect(htmlInputElement.selectionStart).to.be.equal(3);
+      expect(htmlInputElement.selectionEnd).to.be.equal(3);
+
+      inputService.removeNumber(8);
+      expect(inputService.rawValue).to.be.equal('$$0,00SUF');
+      expect(htmlInputElement.selectionStart).to.be.equal(3);
+      expect(htmlInputElement.selectionEnd).to.be.equal(3);
     });
 
     it('should replace decimals with 0s when deleting in natural mode', () => {
@@ -187,6 +202,20 @@ describe('Testing InputService', () => {
       expect(inputService.rawValue).to.be.equal('$$1.234,00SUF');
       expect(htmlInputElement.selectionStart).to.be.equal(10);
       expect(htmlInputElement.selectionEnd).to.be.equal(10);
+    });
+
+    it('should replace single whole numbers with 0s when backspacing in natural mode', () => {
+      const htmlInputElement = new MockHtmlInputElement(4, 4);
+      options.prefix = '$$';
+      options.suffix = 'SUF';
+      options.inputMode = CurrencyMaskInputMode.NATURAL
+      inputService = new InputService(htmlInputElement, options);
+      inputService.rawValue = '$$1,00SUF';
+
+      inputService.removeNumber(8);
+      expect(inputService.rawValue).to.be.equal('$$0,00SUF');
+      expect(htmlInputElement.selectionStart).to.be.equal(3);
+      expect(htmlInputElement.selectionEnd).to.be.equal(3);
     });
 
     it('should delete if no precision in natural mode', () => {
