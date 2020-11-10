@@ -226,7 +226,9 @@ export class InputService {
         }
 
         let shiftSelection = 0;
-        let insertChars = '';   
+        let insertChars = '';
+        const isCursorInDecimals = decimalIndex < selectionEnd;
+        const isCursorImmediatelyAfterDecimalPoint = decimalIndex + 1 === selectionEnd;
         if (selectionEnd === selectionStart) {
             if (keyCode == 8) {
                 if (selectionStart <= prefix.length) {
@@ -240,8 +242,12 @@ export class InputService {
                 }
 
                 // In natural mode, jump backwards when in decimal portion of number.
-                if (inputMode === CurrencyMaskInputMode.NATURAL && decimalIndex < selectionEnd) {
+                if (inputMode === CurrencyMaskInputMode.NATURAL && isCursorInDecimals) {
                     shiftSelection = -1;
+                    // when removing a single whole number, replace it with 0
+                    if (isCursorImmediatelyAfterDecimalPoint && this.value < 10 && this.value > -10) {
+                        insertChars += '0';
+                    }
                 }
             } else if (keyCode == 46 || keyCode == 63272) {
                 if (selectionStart === suffixStart) {
