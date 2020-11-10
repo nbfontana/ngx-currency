@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.5.2](https://github.com/nbfontana/ngx-currency/compare/v2.5.1...v2.5.2) (2020-11-10)
+
+
+### Bug Fixes
+
+* Account for negative numbers ([5542dc6](https://github.com/nbfontana/ngx-currency/commit/5542dc650ad2385b4410454708f0d9334e2d138f))
+* allow backspacing of single whole numbers in Natural mode prior to the decimal ([9530c9c](https://github.com/nbfontana/ngx-currency/commit/9530c9c5b14467e28d8399fb18f8ccb992304b56))
+
 ### [2.5.1](https://github.com/nbfontana/ngx-currency/compare/v2.4.1...v2.5.1) (2020-08-05)
 
 
