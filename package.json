@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/ng-packagr/package.schema.json",
-  "name": "ngx-currency",
-  "version": "2.5.2",
+  "name": "@jlabanca/ngx-currency",
+  "version": "100.5.2",
   "description": "A very simple currency mask directive that allows using a number attribute with the ngModel.",
   "scripts": {
     "start": "concurrently --raw \"webpack-dev-server --open\" \"npm run test:watch\"",
@@ -22,9 +22,8 @@
     "postrelease": "npm run build:clean && npm run gh-pages",
     "codecov": "cat coverage/lcov.info | codecov"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/nbfontana/ngx-currency.git"
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/jlabanca"
   },
   "keywords": [
     "angular",
