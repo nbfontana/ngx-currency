@@ -89,7 +89,7 @@ export class InputService {
         let onlyNumbers = rawValue.replace(this.ONLY_NUMBERS_REGEX, "");
 
         if (!onlyNumbers && rawValue !== decimal) {
-            return "";
+            return this.options.nullable ? "" : this.applyMask(true, '0');
         }
 
         if (inputMode === CurrencyMaskInputMode.NATURAL && !isNumber && !disablePadAndTrim) {

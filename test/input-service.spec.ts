@@ -589,6 +589,140 @@ describe('Testing InputService', () => {
 
       expect(inputService.applyMask(false, ',')).to.be.equal('0,00');
     });
+
+    describe('with no numbers present', () => {
+      describe('when nullable == true', () => { 
+        it('should return empty string if min/max not specified', () => {
+          options = {
+            prefix: '$ ',
+            suffix: '',
+            thousands: '.',
+            decimal: ',',
+            allowNegative: true,
+            nullable: true,
+            align: 'right',
+            allowZero: true,
+            precision: 0,
+          };
+          inputService = new InputService({
+            selectionStart: 0,
+            selectionEnd: 0,
+          }, options);   
+          expect(inputService.applyMask(false, '')).to.be.equal('');
+          expect(inputService.applyMask(false, '$ ')).to.be.equal('');
+        });
+
+        it('should return empty string even if min/max is specified', () => {
+          options = {
+            prefix: '$ ',
+            suffix: '',
+            thousands: '.',
+            decimal: ',',
+            allowNegative: true,
+            nullable: true,
+            align: 'right',
+            allowZero: true,
+            precision: 0,
+            min: 1,
+            max: 10,
+          };
+          inputService = new InputService({
+            selectionStart: 0,
+            selectionEnd: 0,
+          }, options);   
+          expect(inputService.applyMask(false, '')).to.be.equal('');
+          expect(inputService.applyMask(false, '$ ')).to.be.equal('');
+        });
+      });
+
+      describe('when nullable == false', () => { 
+        it('should return 0 if min/max not specified', () => {
+          options = {
+            prefix: '$ ',
+            suffix: '',
+            thousands: '.',
+            decimal: ',',
+            allowNegative: true,
+            nullable: false,
+            align: 'right',
+            allowZero: true,
+            precision: 0,
+          };
+          inputService = new InputService({
+            selectionStart: 0,
+            selectionEnd: 0,
+          }, options);   
+          expect(inputService.applyMask(false, '')).to.be.equal('$ 0');
+          expect(inputService.applyMask(false, '$ ')).to.be.equal('$ 0');
+        });
+
+        it('should return 0 if min/max is specified and 0 is in range', () => {
+          options = {
+            prefix: '$ ',
+            suffix: '',
+            thousands: '.',
+            decimal: ',',
+            allowNegative: true,
+            nullable: false,
+            align: 'right',
+            allowZero: true,
+            precision: 0,
+            min: -10,
+            max: 10,
+          };
+          inputService = new InputService({
+            selectionStart: 0,
+            selectionEnd: 0,
+          }, options);   
+          expect(inputService.applyMask(false, '')).to.be.equal('$ 0');
+          expect(inputService.applyMask(false, '$ ')).to.be.equal('$ 0');
+        });
+
+        it('should return min if min/max is specified and min > 0', () => {
+          options = {
+            prefix: '$ ',
+            suffix: '',
+            thousands: '.',
+            decimal: ',',
+            allowNegative: true,
+            nullable: false,
+            align: 'right',
+            allowZero: true,
+            precision: 0,
+            min: 5,
+            max: 10,
+          };
+          inputService = new InputService({
+            selectionStart: 0,
+            selectionEnd: 0,
+          }, options);   
+          expect(inputService.applyMask(false, '')).to.be.equal('$ 5');
+          expect(inputService.applyMask(false, '$ ')).to.be.equal('$ 5');
+        });
+
+        it('should return max if min/max is specified max < 0', () => {
+          options = {
+            prefix: '$ ',
+            suffix: '',
+            thousands: '.',
+            decimal: ',',
+            allowNegative: true,
+            nullable: false,
+            align: 'right',
+            allowZero: true,
+            precision: 0,
+            min: -10,
+            max: -5,
+          };
+          inputService = new InputService({
+            selectionStart: 0,
+            selectionEnd: 0,
+          }, options);   
+          expect(inputService.applyMask(false, '')).to.be.equal('-$ 5');
+          expect(inputService.applyMask(false, '$ ')).to.be.equal('-$ 5');
+        });
+      });
+    });
   });
 
   describe('padOrTrimPrecision', () => {
