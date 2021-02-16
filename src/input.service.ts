@@ -58,6 +58,7 @@ export class InputService {
             let selectionEnd = this.inputSelection.selectionEnd;
             const rawValueStart = this.rawValue.substring(0, selectionStart);
             let rawValueEnd = this.rawValue.substring(selectionEnd, this.rawValue.length);
+            const removedChars = this.rawValue.substring(selectionStart, selectionEnd);
 
             // In natural mode, replace decimals instead of shifting them.
             const inDecimalPortion = rawValueStart.indexOf(decimal) !== -1;
@@ -79,7 +80,12 @@ export class InputService {
 
             this.rawValue = newValue;
             this.updateFieldValue(nextSelectionStart);
-        }
+
+            // If selection spans the decimal, reposition the cursor to just before the decimal.
+            if (inputMode === CurrencyMaskInputMode.NATURAL && removedChars.indexOf(decimal) !== -1) {
+                this.inputManager.setCursorAt(this.rawValue.indexOf(decimal));
+            }
+          }
     }
 
     applyMask(isNumber: boolean, rawValue: string, disablePadAndTrim = false): string {

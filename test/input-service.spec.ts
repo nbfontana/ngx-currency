@@ -385,6 +385,38 @@ describe('Testing InputService', () => {
       expect(htmlInputElement.selectionEnd).to.be.equal(5);
     });
 
+    it('should place cursor before decimal when replacing entire string', () => {
+      const htmlInputElement = new MockHtmlInputElement(0, 12);
+      options.precision = 2;
+      options.prefix = '$$$',
+      options.suffix =  '!!!',
+      options.inputMode = CurrencyMaskInputMode.NATURAL;
+      inputService = new InputService(htmlInputElement, options);
+      inputService.inputManager.rawValue = '$$$123,45!!!';
+
+      inputService.addNumber(50); // '2'
+      expect(inputService.value).to.be.equal(2);
+      expect(inputService.rawValue).to.be.equal('$$$2,00!!!');
+      expect(htmlInputElement.selectionStart).to.be.equal(4);
+      expect(htmlInputElement.selectionEnd).to.be.equal(4);
+    });
+
+    it('should place cursor before decimal when cursor within selection', () => {
+      const htmlInputElement = new MockHtmlInputElement(4, 8);
+      options.precision = 2;
+      options.prefix = '$$$',
+      options.suffix =  '!!!',
+      options.inputMode = CurrencyMaskInputMode.NATURAL;
+      inputService = new InputService(htmlInputElement, options);
+      inputService.inputManager.rawValue = '$$$123,45!!!';
+
+      inputService.addNumber(50); // '2'
+      expect(inputService.value).to.be.equal(125);
+      expect(inputService.rawValue).to.be.equal('$$$125,00!!!');
+      expect(htmlInputElement.selectionStart).to.be.equal(6);
+      expect(htmlInputElement.selectionEnd).to.be.equal(6);
+    });
+
     it('should replace decimals in natural mode', () => {
       const htmlInputElement = new MockHtmlInputElement(6, 6);
       options.precision = 2;
