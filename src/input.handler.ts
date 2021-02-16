@@ -99,12 +99,6 @@ export class InputHandler {
                 break;
             default:
                 if (this.inputService.canInputMoreNumbers) {
-                    let selectionRangeLength = Math.abs(this.inputService.inputSelection.selectionEnd - this.inputService.inputSelection.selectionStart);
-
-                    if (selectionRangeLength == this.inputService.rawValue.length) {
-                        this.setValue(null);
-                    }
-
                     this.inputService.addNumber(keyCode);
                 }
                 break;
