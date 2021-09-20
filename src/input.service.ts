@@ -121,8 +121,13 @@ export class InputService {
         // Ensure max is at least as large as min.
         max = (this.isNullOrUndefined(max) || this.isNullOrUndefined(min)) ? max : Math.max(max, min);
 
+        // Ensure precision number works well with more than 2 digits
+        // 23 / 100... 233 / 1000 and so on
+        const divideBy = Number('1'.padEnd(precision + 1, '0'));
+        
         // Restrict to the min and max values.
-        let newValue = integerValue + (decimalValue / 100);
+        let newValue = integerValue + (decimalValue / divideBy);
+
         newValue = isNegative ? -newValue : newValue;
         if (!this.isNullOrUndefined(max) && newValue > max) {
             return this.applyMask(true, max + '');
