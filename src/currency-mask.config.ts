@@ -3,6 +3,7 @@ import {InjectionToken} from "@angular/core";
 export interface CurrencyMaskConfig {
   align: string;
   allowNegative: boolean;
+  showNegativeOperator: boolean;
   allowZero: boolean;
   decimal: string;
   precision: number;
