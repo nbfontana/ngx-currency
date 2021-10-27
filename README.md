@@ -30,7 +30,7 @@ Install the package by command:
     npm install ngx-currency --save
 ```
 
-Import the module
+Import the module (app.module.ts)
 
 ```ts
 import { NgxCurrencyModule } from "ngx-currency";
@@ -47,6 +47,13 @@ export class AppModule {}
 ```
 
 ### Using 
+
+app.component.ts
+
+```ts
+import { CurrencyMaskInputMode } from 'ngx-currency';
+```
+HTML
 
 ```html
 <input currencyMask formControlName="value" />
@@ -156,6 +163,45 @@ export class...
         this.content.scrollTo(0, yOffset + 20);
     }
 ```
+Strict mode errors when running demo - Angular 12 - Node 12
+
+TS2564 - Property 'valueInput' has no initializer and is not definitely assigned in the constructor.
+
+```ts
+    valueInput: ElementRef;
+  public form: FormGroup;
+```
+Append (!) to the variable to definitely type it
+
+```ts
+    valueInput!: ElementRef;
+  public form!: FormGroup;
+```
+TS2531 - Object is possibly 'null'.
+
+```ts
+this.form.get('inputMode').valueChanges.subscribe(val => {
+      this.ngxCurrencyOptions.inputMode = val;
+
+      // Clear and focus the value input when the input mode is changed.container
+      this.form.get('value').setValue(null);
+      this.valueInput.nativeElement.focus();
+    });
+
+```
+Use optional chaining to fix the error
+
+```ts
+this.form.get('inputMode')?.valueChanges.subscribe(val => {
+      this.ngxCurrencyOptions.inputMode = val;
+
+      // Clear and focus the value input when the input mode is changed.container
+      this.form.get('value')?.setValue(null);
+      this.valueInput.nativeElement.focus();
+    });
+
+```
+
 
 ## Development
 
