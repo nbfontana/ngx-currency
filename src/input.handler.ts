@@ -121,6 +121,14 @@ export class InputHandler {
         }, 1);
     }
 
+    handleChange(event: any): void {
+        setTimeout(() => {
+            this.inputService.updateFieldValue();
+            this.setValue(this.inputService.value);
+            this.onModelChange(this.inputService.value);
+        }, 1);
+    }
+
     updateOptions(options: any): void {
         this.inputService.updateOptions(options);
     }
