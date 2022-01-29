@@ -24,13 +24,13 @@ https://nbfontana.github.io/ngx-currency/
 
 ### Installing and Importing
 
-Install the package by command:
+Installing the package:
 
 ```sh
     npm install ngx-currency --save
 ```
 
-Import the module
+Importing the module:
 
 ```ts
 import { NgxCurrencyModule } from "ngx-currency";
@@ -52,47 +52,18 @@ export class AppModule {}
 <input currencyMask formControlName="value" />
 ```
 
- * `ngModel` An attribute of type number. If is displayed `'$ 25.63'`, the attribute will be `'25.63'`.
+ * `ngModel`  should be an attribute of type number. For example, if `$ 25.63` is being displayed, the attribute's value will be `'25.63'`.
 
 ### Options 
 
-You can set options...
+You can pass options as input to a specific field:
 
 ```html
 <!-- example for pt-BR money -->
 <input currencyMask formControlName="value" [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }"/>
-```  
+```
 
-Available options: 
-
- * `align` - Text alignment in input. (default: `right`)
- * `allowNegative` - If `true` can input negative values.  (default: `true`)
- * `decimal` -  Separator of decimals (default: `'.'`)
- * `precision` - Number of decimal places (default: `2`)
- * `prefix` - Money prefix (default: `'$ '`)
- * `suffix` - Money suffix (default: `''`)
- * `thousands` - Separator of thousands (default: `','`)
- * `nullable` - when true, the value of the clean field will be `null`, when false the value will be `0`
- * `min` - The minimum value (default: `undefined`)
- * `max` - The maximum value (default: `undefined`)
- * `inputMode` - Determines how to handle numbers as the user types them (default: `FINANCIAL`)
-
-Input Modes:
-
- * `FINANCIAL` - Numbers start at the highest precision decimal. Typing a number shifts numbers left.
-                 The decimal character is ignored. Most cash registers work this way. For example:
-   * Typing `'12'` results in `'0.12'`
-   * Typing `'1234'` results in `'12.34'`
-   * Typing `'1.234'` results in `'12.34'`
- * `NATURAL` - Numbers start to the left of the decimal. Typing a number to the left of the decimal shifts
-               numbers left; typing to the right of the decimal replaces the next number. Most text inputs
-               and spreadsheets work this way. For example:
-   * Typing `'1234'` results in `'1234'`
-   * Typing `'1.234'` results in `'1.23'`
-   * Typing `'12.34'` results in `'12.34'`
-   * Typing `'123.4'` results in `'123.40'`
-
-You can also set options globally...
+Or you can set them globally:
 
 ```ts
 import { CurrencyMaskInputMode, NgxCurrencyModule } from "ngx-currency";
@@ -123,6 +94,37 @@ export const customCurrencyMaskConfig = {
 })
 export class AppModule {}
 ```
+
+**Options available:**
+
+| Key | Description | Default value |
+|------|--------------|-------------|
+`align` | The input field's text alignment | `right` |
+`allowNegative` | When `true`, allows the user to input negative values | `false` |
+`decimal` | The character used to separate decimals | `.`
+`precision` | Number of decimal places | `2`
+`prefix` | Currency prefix | `$`
+`suffix` | Currency suffix | `''`
+`thousands` | Thousands separator | `,`
+`nullable` | If this is true, the empty field will have a value of `null`. If it is false, the value will be `0`. | 
+`min` | The minimum value allowed | `undefined`
+`max` | The maximum value allowed | `undefined`
+`inputMode` | How to handle numbers as the user types them | `FINANCIAL`
+
+**Input modes**
+
+ * `FINANCIAL` - Numbers start at the highest precision decimal. Typing a number shifts numbers left.
+                 The decimal character is ignored. Most cash registers work this way. For example:
+   * Typing `'12'` results in `'0.12'`
+   * Typing `'1234'` results in `'12.34'`
+   * Typing `'1.234'` results in `'12.34'`
+ * `NATURAL` - Numbers start to the left of the decimal. Typing a number to the left of the decimal shifts
+               numbers left; typing to the right of the decimal replaces the next number. Most text inputs
+               and spreadsheets work this way. For example:
+   * Typing `'1234'` results in `'1234'`
+   * Typing `'1.234'` results in `'1.23'`
+   * Typing `'12.34'` results in `'12.34'`
+   * Typing `'123.4'` results in `'123.40'`
 
 ## Quick fixes
 
