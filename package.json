@@ -17,8 +17,8 @@
     "gh-pages": "git checkout gh-pages && git merge master --no-edit --no-ff && npm run build:demo && npm run compodoc && git add . && git commit -m \"chore: build demo and docs\" && git push && git checkout master",
     "release": "npm run release:git && npm run release:npm",
     "prerelease": "npm test",
-    "release:git": "git add package.json && git commit -m \"chore(release): bump version number\" && standard-version --first-release --no-verify && git push --follow-tags origin master",
-    "release:npm": "npm run build:dist && npm publish dist",
+    "release:git": "git add package.json && git commit -m \"chore(release): bump version number\" && standard-version --no-verify && git push --follow-tags origin master",
+    "release:npm": "npm run build:dist && npm publish ./dist",
     "postrelease": "npm run build:clean && npm run gh-pages",
     "codecov": "cat coverage/lcov.info | codecov"
   },
