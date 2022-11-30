@@ -16,6 +16,13 @@ All notable changes to this project will be documented in this file. See [standa
 
 * allow negative at start of entry ([dad7b33](https://github.com/nbfontana/ngx-currency/commit/dad7b331749598494148997bc88db87d0ff7203b))
 
+## [3.0.0](https://github.com/nbfontana/ngx-currency/compare/v2.5.3...v3.0.0) (2022-11-30)
+
+
+### Bug Fixes
+
+* allow negative at start of entry ([dad7b33](https://github.com/nbfontana/ngx-currency/commit/dad7b331749598494148997bc88db87d0ff7203b))
+
 ### [2.5.3](https://github.com/nbfontana/ngx-currency/compare/v2.5.1...v2.5.3) (2021-09-20)
 
 
