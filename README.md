@@ -2,7 +2,6 @@
 
 [![Build Status](https://travis-ci.org/nbfontana/ngx-currency.svg?branch=master)](https://travis-ci.org/nbfontana/ngx-currency)
 [![npm version](https://badge.fury.io/js/ngx-currency.png)](http://badge.fury.io/js/ngx-currency)
-[![devDependency Status](https://david-dm.org/nbfontana/ngx-currency/dev-status.png)](https://david-dm.org/nbfontana/ngx-currency?type=dev)
 [![GitHub issues](https://img.shields.io/github/issues/nbfontana/ngx-currency.png)](https://github.com/nbfontana/ngx-currency/issues)
 [![GitHub stars](https://img.shields.io/github/stars/nbfontana/ngx-currency.png)](https://github.com/nbfontana/ngx-currency/stargazers)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.png)](https://raw.githubusercontent.com/nbfontana/ngx-currency/master/LICENSE)
@@ -168,7 +167,17 @@ export class...
 Run `npm start` or `npm run demo` to start a development server on port 8000 with auto reload + tests.
 
 ### Testing
-Run `npm test` to run tests once or `npm run test:watch` to continually run tests.
+* Run `npm test` to run tests once
+* Run `npm run test:watch` to continually run tests in headless mode
+* Run `npm run test:watch-browser` to continually run tests in the Chrome browser
+
+When running in the Chrome browser, you can set code breakpoints to debug tests using these instructions:
+* From the main Karma browser page, click the `Debug` button to open the debug window
+* Press `ctrl + shift + i` to open Chrome developer tools
+* Press `ctrl + p` to search for a file to debug
+* Enter a file name like `input.handler.ts` and click the file
+* Within the file, click on a row number to set a breakpoint
+* Refresh the browser window to re-run tests and stop on the breakpoint
 
 ## License
 

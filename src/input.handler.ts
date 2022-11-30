@@ -19,41 +19,40 @@ export class InputHandler {
     }
 
     handleInput(event: any): void {
-        let keyCode = this.inputService.rawValue.charCodeAt(this.inputService.rawValue.length - 1);
+        let selectionStart = this.inputService.inputSelection.selectionStart;
+        let keyCode = this.inputService.rawValue.charCodeAt(selectionStart - 1);
         let rawValueLength = this.inputService.rawValue.length;
-        let rawValueSelectionEnd = this.inputService.inputSelection.selectionEnd;
         let storedRawValueLength = this.inputService.storedRawValue.length;
-        this.inputService.rawValue = this.inputService.storedRawValue;
 
-        if (rawValueLength != rawValueSelectionEnd || Math.abs(rawValueLength - storedRawValueLength) != 1) {
-            this.setCursorPosition(event);
+        if (Math.abs(rawValueLength - storedRawValueLength) != 1) {
+            this.inputService.updateFieldValue(selectionStart);
+            this.onModelChange(this.inputService.value);
             return;
         }
 
+        // Restore the old value.
+        this.inputService.rawValue = this.inputService.storedRawValue;
+
         if (rawValueLength < storedRawValueLength) {
-            this.inputService.removeNumber(8);
+            // Chrome Android seems to move the cursor in response to a backspace AFTER processing the
+            // input event, so we need to wrap this in a timeout.
+            this.timer(() => {
+                // Move the cursor to just after the deleted value.
+                this.inputService.updateFieldValue(selectionStart + 1);
+
+                // Then backspace it.
+                this.inputService.removeNumber(8);
+                this.onModelChange(this.inputService.value);  
+            }, 0);
         }
 
         if (rawValueLength > storedRawValueLength) {
-            switch (keyCode) {
-                case 43:
-                    this.inputService.changeToPositive();
-                    break;
-                case 45:
-                    this.inputService.changeToNegative();
-                    break;
-                default:
-                    if (!this.inputService.canInputMoreNumbers) {
-                        return;
-                    }
+            // Move the cursor to just before the new value.
+            this.inputService.updateFieldValue(selectionStart - 1);
 
-                    this.inputService.addNumber(keyCode);
-                    break;
-            }
+            // Process the character like a keypress.
+            this.handleKeypressImpl(keyCode);
         }
-
-        this.setCursorPosition(event);
-        this.onModelChange(this.inputService.value);
     }
 
     handleKeydown(event: any): void {
@@ -83,6 +82,10 @@ export class InputHandler {
             return;
         }
 
+        this.handleKeypressImpl(keyCode);
+    }
+
+    private handleKeypressImpl(keyCode: number): void {
         switch (keyCode) {
             case undefined:
             case 9:
@@ -142,9 +145,10 @@ export class InputHandler {
         this.inputService.value = value;
     }
 
-    private setCursorPosition(event: any): void {
-        setTimeout(function () {
-            event.target.setSelectionRange(event.target.value.length, event.target.value.length);
-        }, 0);
+    /**
+     * Passthrough to setTimeout that can be stubbed out in tests.
+     */
+    private timer(callback: () => void, delayMillis: number) {
+        setTimeout(callback, delayMillis);
     }
 }

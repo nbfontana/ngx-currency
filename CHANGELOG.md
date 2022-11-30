@@ -2,6 +2,89 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.5.3](https://github.com/nbfontana/ngx-currency/compare/v2.5.1...v2.5.3) (2021-09-20)
+
+
+### Bug Fixes
+
+* Account for negative numbers ([5542dc6](https://github.com/nbfontana/ngx-currency/commit/5542dc650ad2385b4410454708f0d9334e2d138f))
+* allow backspacing of single whole numbers in Natural mode prior to the decimal ([9530c9c](https://github.com/nbfontana/ngx-currency/commit/9530c9c5b14467e28d8399fb18f8ccb992304b56))
+* export configuration token ([be16f02](https://github.com/nbfontana/ngx-currency/commit/be16f02ac772837d01b780cfa2896728addcb3d1))
+* stack overflow issue for precision > 2 ([364644d](https://github.com/nbfontana/ngx-currency/commit/364644d70d27f81ffd7e420bef811a3970ca3fc7))
+
+### [2.5.2](https://github.com/nbfontana/ngx-currency/compare/v2.5.1...v2.5.2) (2020-11-10)
+
+
+### Bug Fixes
+
+* Account for negative numbers ([5542dc6](https://github.com/nbfontana/ngx-currency/commit/5542dc650ad2385b4410454708f0d9334e2d138f))
+* allow backspacing of single whole numbers in Natural mode prior to the decimal ([9530c9c](https://github.com/nbfontana/ngx-currency/commit/9530c9c5b14467e28d8399fb18f8ccb992304b56))
+
+### [2.5.1](https://github.com/nbfontana/ngx-currency/compare/v2.4.1...v2.5.1) (2020-08-05)
+
+
+### Bug Fixes
+
+* **ModuleWithProviders:** necessary add type ([fe6f64f](https://github.com/nbfontana/ngx-currency/commit/fe6f64f12f94331983e6898150383e1b0873fd15))
+
+## [2.5.0](https://github.com/nbfontana/ngx-currency/compare/v2.4.1...v2.5.0) (2020-08-05)
+
+
+### Bug Fixes
+
+* **ModuleWithProviders:** necessary add type ([fe6f64f](https://github.com/nbfontana/ngx-currency/commit/fe6f64f12f94331983e6898150383e1b0873fd15))
+
+## [2.5.0](https://github.com/nbfontana/ngx-currency/compare/v2.4.1...v2.5.0) (2020-08-05)
+
+
+### Bug Fixes
+
+* **ModuleWithProviders:** necessary add type ([fe6f64f](https://github.com/nbfontana/ngx-currency/commit/fe6f64f12f94331983e6898150383e1b0873fd15))
+
+## [2.5.0](https://github.com/nbfontana/ngx-currency/compare/v2.4.1...v2.5.0) (2020-08-05)
+
+
+### Bug Fixes
+
+* **ModuleWithProviders:** necessary add type ([fe6f64f](https://github.com/nbfontana/ngx-currency/commit/fe6f64f12f94331983e6898150383e1b0873fd15))
+
+## [2.5.0](https://github.com/nbfontana/ngx-currency/compare/v2.4.1...v2.5.0) (2020-08-05)
+
+
+### Bug Fixes
+
+* **ModuleWithProviders:** necessary add type ([fe6f64f](https://github.com/nbfontana/ngx-currency/commit/fe6f64f12f94331983e6898150383e1b0873fd15))
+
+### [2.4.1](https://github.com/nbfontana/ngx-currency/compare/v2.3.3...v2.4.1) (2020-08-05)
+
+
+### Bug Fixes
+
+* fix android chrome support ([c718534](https://github.com/nbfontana/ngx-currency/commit/c718534)), closes [#90](https://github.com/nbfontana/ngx-currency/issues/90) [#100](https://github.com/nbfontana/ngx-currency/issues/100)
+
+
+### Build System
+
+* **deps-dev:** bump codecov from 3.6.5 to 3.7.1 ([64a2cf1](https://github.com/nbfontana/ngx-currency/commit/64a2cf1))
+* **deps-dev:** bump standard-version from 6.0.1 to 8.0.1 ([1041bc0](https://github.com/nbfontana/ngx-currency/commit/1041bc0))
+
+
+
+## [2.4.0](https://github.com/nbfontana/ngx-currency/compare/v2.3.3...v2.4.0) (2020-08-05)
+
+
+### Bug Fixes
+
+* fix android chrome support ([c718534](https://github.com/nbfontana/ngx-currency/commit/c718534)), closes [#90](https://github.com/nbfontana/ngx-currency/issues/90) [#100](https://github.com/nbfontana/ngx-currency/issues/100)
+
+
+### Build System
+
+* **deps-dev:** bump codecov from 3.6.5 to 3.7.1 ([64a2cf1](https://github.com/nbfontana/ngx-currency/commit/64a2cf1))
+* **deps-dev:** bump standard-version from 6.0.1 to 8.0.1 ([1041bc0](https://github.com/nbfontana/ngx-currency/commit/1041bc0))
+
+
+
 ### [2.3.3](https://github.com/nbfontana/ngx-currency/compare/v2.3.2...v2.3.3) (2020-04-22)
 
 

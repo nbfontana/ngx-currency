@@ -1,4 +1,5 @@
 import { InputService } from './../src/input.service';
+import { CURRENCY_MASK_CONFIG } from '..';
 import { expect } from "chai";
 
 describe('Testing CurrencyMaskConfig', () => {
@@ -29,5 +30,9 @@ describe('Testing CurrencyMaskConfig', () => {
     inputService.updateOptions(option);
     inputService.value = null;
     expect(0).to.equals(inputService.clearMask(""));
+  });
+
+  it('should export the injection token', () => {
+    expect(CURRENCY_MASK_CONFIG).to.not.be.undefined;
   });
 });
