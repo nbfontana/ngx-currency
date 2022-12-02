@@ -119,6 +119,13 @@ export class CurrencyMaskDirective implements AfterViewInit, ControlValueAccesso
     }
   }
 
+  @HostListener("change", ["$event"])
+  handleChange(event: any) {
+    if (!this.isChromeAndroid()) {
+      !this.isReadOnly() && this.inputHandler.handleChange(event);
+    }
+  }
+
   isChromeAndroid(): boolean {
     return /chrome/i.test(navigator.userAgent) && /android/i.test(navigator.userAgent);
   }
