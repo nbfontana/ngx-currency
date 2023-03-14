@@ -30,7 +30,7 @@ describe('NgxCurrencyConfig', () => {
     };
     inputService.updateOptions(option);
     inputService.value = null;
-    expect<number | null>(null).toEqual(inputService.clearMask(''));
+    expect(inputService.clearMask('')).toEqual(null);
   });
 
   it('should return zero because the nullable parameterization is false', () => {
@@ -40,6 +40,6 @@ describe('NgxCurrencyConfig', () => {
     };
     inputService.updateOptions(option);
     inputService.value = null;
-    expect<number | null>(0).toEqual(inputService.clearMask(''));
+    expect(inputService.clearMask('')).toEqual(0);
   });
 });
