@@ -18,5 +18,12 @@
     "**/dist": true,
     "**/.angular/cache": true
   },
-  "cSpell.words": ["copyfiles", "devkit", "packagr"]
+  "cSpell.words": [
+    "commitlint",
+    "copyfiles",
+    "devkit",
+    "Fontana",
+    "Neri",
+    "packagr"
+  ]
 }

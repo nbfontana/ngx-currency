@@ -1,6 +1,6 @@
 {
   "name": "ngx-currency",
-  "version": "15.0.0",
+  "version": "16.0.0",
   "description": "A very simple currency mask directive that allows using a number attribute with the ngModel.",
   "author": "Neri Bez Fontana",
   "license": "MIT",
@@ -22,9 +22,9 @@
     "number"
   ],
   "peerDependencies": {
-    "@angular/common": "^15.0.0",
-    "@angular/core": "^15.0.0",
-    "@angular/forms": "^15.0.0"
+    "@angular/common": "^16.0.0",
+    "@angular/core": "^16.0.0",
+    "@angular/forms": "^16.0.0"
   },
   "dependencies": {
     "tslib": "^2.5.0"
