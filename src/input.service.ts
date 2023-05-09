@@ -86,7 +86,7 @@ export class InputService {
         let {allowNegative, decimal, precision, prefix, suffix, thousands, min, max, inputMode} = this.options;
 
         rawValue = isNumber ? new Number(rawValue).toFixed(precision) : rawValue;
-        let onlyNumbers = rawValue.replace(this.ONLY_NUMBERS_REGEX, "");
+        let onlyNumbers = rawValue.replace(suffix,"").replace(this.ONLY_NUMBERS_REGEX, "");
 
         if (!onlyNumbers && rawValue !== decimal) {
             return "";
