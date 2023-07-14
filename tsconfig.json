@@ -1,30 +1,33 @@
+/* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
+  "compileOnSave": false,
   "compilerOptions": {
-    "target": "ES5",
-    "module": "commonjs",
-    "moduleResolution": "node",
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
     "sourceMap": true,
-    "emitDecoratorMetadata": true,
+    "paths": {
+      "ngx-currency": ["dist/ngx-currency"]
+    },
+    "declaration": false,
+    "downlevelIteration": true,
     "experimentalDecorators": true,
-    "removeComments": false,
-    "noImplicitAny": false,
-    "lib": [
-      "es6",
-      "dom"
-    ],
-    "types": [
-      "node"
-    ],
-    "typeRoots": [
-      "node_modules/@types"
-    ]
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "target": "ES2022",
+    "module": "ES2022",
+    "useDefineForClassFields": false,
+    "lib": ["ES2022", "dom"]
   },
-  "include": [
-    "src/**/*",
-    "test/**/*",
-    "demo/**/*"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true
+  }
 }
