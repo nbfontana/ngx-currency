@@ -2,7 +2,6 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
     "strict": true,
@@ -10,9 +9,10 @@
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
+    "esModuleInterop": true,
     "sourceMap": true,
     "paths": {
-      "ngx-currency": ["dist/ngx-currency"]
+      "ngx-currency": ["./dist/ngx-currency"]
     },
     "declaration": false,
     "downlevelIteration": true,

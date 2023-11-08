@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import {
   NgxCurrencyDirective,
   NgxCurrencyInputMode,
-} from 'projects/ngx-currency/src/public-api';
+} from '../../projects/ngx-currency/src/public-api';
 
 @Component({
   standalone: true,
