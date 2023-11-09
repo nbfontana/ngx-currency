@@ -1,0 +1,5 @@
+{
+  "noVerify": true,
+  "packageFiles": ["./projects/ngx-currency/package.json"],
+  "bumpFiles": ["./projects/ngx-currency/package.json"]
+}
