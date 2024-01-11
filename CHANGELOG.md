@@ -2,6 +2,35 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [17.0.0](https://github.com/nbfontana/ngx-currency/compare/v3.0.0...v17.0.0) (2024-01-11)
+
+
+### ⚠ BREAKING CHANGES
+
+* Migrate to Angular 17
+* migration to standalone components
+* more predictable directive and config names
+feat: partial global config override allowed
+refactor: stronger typing
+refactor: using the standard Angular project structure
+
+### build
+
+* Angular 17 + Update .nvmrc ([3e01abe](https://github.com/nbfontana/ngx-currency/commit/3e01abe2e2ee1c10fb9f36a5b0240c2d94e54040))
+
+
+### Features
+
+* migrate to Angular 15 ([bb46fbe](https://github.com/nbfontana/ngx-currency/commit/bb46fbe1f3c91a4e4afe01febd875d7c2afc6274))
+* migrate to Angular 16 ([3bbd51e](https://github.com/nbfontana/ngx-currency/commit/3bbd51ed4849bb713f892fcf6b408aa0c4778ca9))
+* migrate to Angular 17 ([52bc42e](https://github.com/nbfontana/ngx-currency/commit/52bc42ee186141eca792762c734b3220768c0e61))
+
+
+### Bug Fixes
+
+* allow null for min and max ([5368031](https://github.com/nbfontana/ngx-currency/commit/5368031069cc918d2e6c967d9ae00396edb1f6b3))
+* swap actual and expected values in config tests ([745ee6a](https://github.com/nbfontana/ngx-currency/commit/745ee6a9e34116a74ef6366ba477677ab97d8f38))
+
 ## [4.0.0](https://github.com/dintecom/ngx-currency/compare/v3.0.0...v4.0.0) (2023-07-14)
 
 
