@@ -15,7 +15,6 @@
       "ngx-currency": ["./dist/ngx-currency"]
     },
     "declaration": false,
-    "downlevelIteration": true,
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "importHelpers": true,

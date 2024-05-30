@@ -16,9 +16,9 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { InputHandler } from './input.handler';
 import {
+  NGX_CURRENCY_CONFIG,
   NgxCurrencyConfig,
   NgxCurrencyInputMode,
-  NGX_CURRENCY_CONFIG,
 } from './ngx-currency.config';
 
 @Directive({
@@ -50,7 +50,7 @@ export class NgxCurrencyDirective
     @Inject(NGX_CURRENCY_CONFIG)
     globalOptions: Partial<NgxCurrencyConfig>,
     keyValueDiffers: KeyValueDiffers,
-    private readonly _elementRef: ElementRef
+    private readonly _elementRef: ElementRef,
   ) {
     this._optionsTemplate = {
       align: 'right',

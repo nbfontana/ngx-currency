@@ -2,7 +2,10 @@ class MockHtmlInputElement {
   focused = false;
   value = '';
 
-  constructor(public selectionStart: number, public selectionEnd: number) {}
+  constructor(
+    public selectionStart: number,
+    public selectionEnd: number,
+  ) {}
 
   focus(): void {
     this.focused = true;
@@ -16,9 +19,9 @@ class MockHtmlInputElement {
 
 export const createMockHtmlInputElement = (
   selectionStart: number,
-  selectionEnd: number
+  selectionEnd: number,
 ) =>
   new MockHtmlInputElement(
     selectionStart,
-    selectionEnd
+    selectionEnd,
   ) as unknown as HTMLInputElement;

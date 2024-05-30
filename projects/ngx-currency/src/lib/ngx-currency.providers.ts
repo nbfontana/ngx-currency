@@ -1,8 +1,8 @@
 import { EnvironmentProviders, makeEnvironmentProviders } from '@angular/core';
-import { NgxCurrencyConfig, NGX_CURRENCY_CONFIG } from './ngx-currency.config';
+import { NGX_CURRENCY_CONFIG, NgxCurrencyConfig } from './ngx-currency.config';
 
 export function provideEnvironmentNgxCurrency(
-  config: Partial<NgxCurrencyConfig>
+  config: Partial<NgxCurrencyConfig>,
 ): EnvironmentProviders {
   return makeEnvironmentProviders([
     {
