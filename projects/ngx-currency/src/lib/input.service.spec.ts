@@ -27,7 +27,7 @@ describe('InputService', () => {
           selectionStart: 0,
           selectionEnd: 0,
         } as HTMLInputElement,
-        options
+        options,
       );
 
       inputService.inputManager.rawValue = '1.234,50';
@@ -43,7 +43,7 @@ describe('InputService', () => {
           selectionStart: 2,
           selectionEnd: 2,
         } as HTMLInputElement,
-        options
+        options,
       );
 
       inputService.inputManager.rawValue = '0.01';
@@ -58,7 +58,7 @@ describe('InputService', () => {
           selectionStart: 1,
           selectionEnd: 1,
         } as HTMLInputElement,
-        options
+        options,
       );
 
       inputService.inputManager.rawValue = '1.234,50';
@@ -74,7 +74,7 @@ describe('InputService', () => {
           selectionStart: 6,
           selectionEnd: 6,
         } as HTMLInputElement,
-        options
+        options,
       );
 
       inputService.inputManager.rawValue = '1.234,50';
@@ -91,7 +91,7 @@ describe('InputService', () => {
           selectionStart: 2,
           selectionEnd: 2,
         } as HTMLInputElement,
-        options
+        options,
       );
 
       inputService.inputManager.rawValue = '$$1.234,50SUF';
@@ -108,7 +108,7 @@ describe('InputService', () => {
           selectionStart: 10,
           selectionEnd: 10,
         } as HTMLInputElement,
-        options
+        options,
       );
 
       inputService.inputManager.rawValue = '$$1.234,50SUF';

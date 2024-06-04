@@ -107,7 +107,7 @@ export class InputHandler {
         if (this.inputService.canInputMoreNumbers) {
           const selectionRangeLength = Math.abs(
             this.inputService.inputSelection.selectionEnd -
-              this.inputService.inputSelection.selectionStart
+              this.inputService.inputSelection.selectionStart,
           );
 
           if (

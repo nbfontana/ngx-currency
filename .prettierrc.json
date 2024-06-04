@@ -1,0 +1,24 @@
+{
+  "plugins": ["prettier-plugin-organize-imports"],
+  "tabWidth": 2,
+  "trailingComma": "all",
+  "arrowParens": "avoid",
+  "endOfLine": "lf",
+  "proseWrap": "preserve",
+  "htmlWhitespaceSensitivity": "ignore",
+  "overrides": [
+    {
+      "files": ["*.ts", "*.js"],
+      "options": {
+        "singleQuote": true
+      }
+    },
+    {
+      "files": ["*.html"],
+      "options": {
+        "parser": "angular",
+        "htmlWhitespaceSensitivity": "css"
+      }
+    }
+  ]
+}
