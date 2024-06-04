@@ -58,11 +58,7 @@ You can set options...
 
 ```html
 <!-- example for pt-BR money -->
-<input
-  currencyMask
-  formControlName="value"
-  [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }"
-/>
+<input [currencyMask]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" formControlName="value" />
 ```
 
 Available options:
