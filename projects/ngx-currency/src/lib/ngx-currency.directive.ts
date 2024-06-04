@@ -23,7 +23,7 @@ import {
 
 @Directive({
   standalone: true,
-  selector: '[currencyMask]',
+  selector: 'input[currencyMask]',
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -35,7 +35,20 @@ import {
 export class NgxCurrencyDirective
   implements AfterViewInit, ControlValueAccessor, DoCheck, OnInit
 {
-  @Input() options: Partial<NgxCurrencyConfig> = {};
+  @Input()
+  set currencyMask(value: Partial<NgxCurrencyConfig> | string) {
+    if (typeof value === 'string') return;
+
+    this._options = value;
+  }
+
+  /**
+   * @deprecated Use currencyMask input instead
+   */
+  @Input()
+  set options(value: Partial<NgxCurrencyConfig>) {
+    this._options = value;
+  }
 
   private _inputHandler!: InputHandler;
   private readonly _keyValueDiffer: KeyValueDiffer<
@@ -43,14 +56,15 @@ export class NgxCurrencyDirective
     unknown
   >;
 
-  private _optionsTemplate: NgxCurrencyConfig;
+  private _options: Partial<NgxCurrencyConfig> = {};
+  private readonly _optionsTemplate: NgxCurrencyConfig;
 
   constructor(
     @Optional()
     @Inject(NGX_CURRENCY_CONFIG)
     globalOptions: Partial<NgxCurrencyConfig>,
     keyValueDiffers: KeyValueDiffers,
-    private readonly _elementRef: ElementRef
+    private readonly _elementRef: ElementRef<HTMLInputElement>,
   ) {
     this._optionsTemplate = {
       align: 'right',
@@ -72,23 +86,23 @@ export class NgxCurrencyDirective
   ngOnInit() {
     this._inputHandler = new InputHandler(this._elementRef.nativeElement, {
       ...this._optionsTemplate,
-      ...this.options,
+      ...this._options,
     });
   }
 
   ngAfterViewInit() {
     this._elementRef.nativeElement.style.textAlign =
-      this.options?.align ?? this._optionsTemplate.align;
+      this._options?.align ?? this._optionsTemplate.align;
   }
 
   ngDoCheck() {
-    if (this._keyValueDiffer.diff(this.options)) {
+    if (this._keyValueDiffer.diff(this._options)) {
       this._elementRef.nativeElement.style.textAlign =
-        this.options?.align ?? this._optionsTemplate.align;
+        this._options?.align ?? this._optionsTemplate.align;
 
       this._inputHandler.updateOptions({
         ...this._optionsTemplate,
-        ...this.options,
+        ...this._options,
       });
     }
   }
