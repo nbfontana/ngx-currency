@@ -9,7 +9,6 @@ import {
   Input,
   KeyValueDiffer,
   KeyValueDiffers,
-  OnInit,
   Optional,
 } from '@angular/core';
 
@@ -33,7 +32,7 @@ import {
   ],
 })
 export class NgxCurrencyDirective
-  implements AfterViewInit, ControlValueAccessor, DoCheck, OnInit
+  implements AfterViewInit, ControlValueAccessor, DoCheck
 {
   @Input()
   set currencyMask(value: Partial<NgxCurrencyConfig> | string) {
@@ -50,7 +49,7 @@ export class NgxCurrencyDirective
     this._options = value;
   }
 
-  private _inputHandler!: InputHandler;
+  private readonly _inputHandler: InputHandler;
   private readonly _keyValueDiffer: KeyValueDiffer<
     keyof NgxCurrencyConfig,
     unknown
@@ -81,9 +80,7 @@ export class NgxCurrencyDirective
     };
 
     this._keyValueDiffer = keyValueDiffers.find({}).create();
-  }
 
-  ngOnInit() {
     this._inputHandler = new InputHandler(this._elementRef.nativeElement, {
       ...this._optionsTemplate,
       ...this._options,
