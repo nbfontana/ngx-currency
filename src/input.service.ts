@@ -2,8 +2,8 @@ import { InputManager } from "./input.manager";
 import { CurrencyMaskConfig, CurrencyMaskInputMode } from "./currency-mask.config";
 
 export class InputService {
-    private SINGLE_DIGIT_REGEX: RegExp = new RegExp(/^[0-9\u0660-\u0669\u06F0-\u06F9]$/);
-    private ONLY_NUMBERS_REGEX: RegExp = new RegExp(/[^0-9\u0660-\u0669\u06F0-\u06F9]/g);
+    private SINGLE_DIGIT_REGEX: RegExp = new RegExp(/^[0-9\u0660-\u0669\u06F0-\u06F9\uFF10-\uFF19]$/);
+    private ONLY_NUMBERS_REGEX: RegExp = new RegExp(/[^0-9\u0660-\u0669\u06F0-\u06F9\uFF10-\uFF19]/g);
 
     PER_AR_NUMBER: Map<string, string> = new Map<string, string>();
 
@@ -29,6 +29,18 @@ export class InputService {
         this.PER_AR_NUMBER.set("\u0667", "7");
         this.PER_AR_NUMBER.set("\u0668", "8");
         this.PER_AR_NUMBER.set("\u0669", "9");
+
+
+        this.PER_AR_NUMBER.set("\uFF10", "0");
+        this.PER_AR_NUMBER.set("\uFF11", "1");
+        this.PER_AR_NUMBER.set("\uFF12", "2");
+        this.PER_AR_NUMBER.set("\uFF13", "3");
+        this.PER_AR_NUMBER.set("\uFF14", "4");
+        this.PER_AR_NUMBER.set("\uFF15", "5");
+        this.PER_AR_NUMBER.set("\uFF16", "6");
+        this.PER_AR_NUMBER.set("\uFF17", "7");
+        this.PER_AR_NUMBER.set("\uFF18", "8");
+        this.PER_AR_NUMBER.set("\uFF19", "9");
     }
 
     inputManager: InputManager;
@@ -100,14 +112,15 @@ export class InputService {
         let integerPart = onlyNumbers.slice(0, onlyNumbers.length - precision)
             .replace(/^\u0660*/g, "")
             .replace(/^\u06F0*/g, "")
-            .replace(/^0*/g, "");
+            .replace(/^0*/g, "")
+            .replace(/^\uFF10*/g, "");
 
         if (integerPart == "") {
             integerPart = "0";
         }
         let integerValue = parseInt(integerPart);
 
-        integerPart = integerPart.replace(/\B(?=([0-9\u0660-\u0669\u06F0-\u06F9]{3})+(?![0-9\u0660-\u0669\u06F0-\u06F9]))/g, thousands);
+        integerPart = integerPart.replace(/\B(?=([0-9\u0660-\u0669\u06F0-\u06F9\uFF10-\uFF19]{3})+(?![0-9\u0660-\u0669\u06F0-\u06F9\uFF10-\uFF19]))/g, thousands);
         if (thousands && integerPart.startsWith(thousands)) {
             integerPart = integerPart.substring(1);
         }

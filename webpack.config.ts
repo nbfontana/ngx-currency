@@ -31,7 +31,8 @@ export default {
     port: 8000,
     inline: true,
     hot: true,
-    historyApiFallback: true
+    historyApiFallback: true,
+    host:'0.0.0.0'
   },
   plugins: [
     ...(IS_PROD ? [] : [
