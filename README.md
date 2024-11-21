@@ -47,7 +47,7 @@ export class AppComponent {}
 ### Using
 
 ```html
-<input type="tel" currencyMask formControlName="value" />
+<input type="text" inputmode="decimal" currencyMask formControlName="value" />
 ```
 
 - `ngModel` An attribute of type number. If is displayed `'$ 25.63'`, the attribute will be `'25.63'`.

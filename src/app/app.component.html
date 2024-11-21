@@ -46,7 +46,8 @@
       <div class="col-lg-3 col-sm-8 form-group">
         <label for="exampleInput" class="form-label">Example</label>
         <input
-          type="tel"
+          type="text"
+          inputmode="decimal"
           class="form-control"
           id="exampleInput"
           autofocus
@@ -58,7 +59,7 @@
     </div>
     <div class="row mb-3">
       <div class="col-lg-3 col-sm-8 form-group">
-        <label>Input Mode</label>
+        <span class="form-label">Input Mode</span>
         <div>
           <div class="form-check form-check-inline">
             <label class="form-check-label">
@@ -90,7 +91,7 @@
 
     <div class="row">
       <div class="col-lg-3 col-sm-8 form-group">
-        <label class="form-label">Value</label>
+        <span class="form-label">Value</span>
         <div class="alert alert-secondary" role="alert">
           <pre class="w-100 mb-0">{{ form.value | json }}</pre>
         </div>

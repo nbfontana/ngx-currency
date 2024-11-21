@@ -21,7 +21,6 @@ import {
 } from './ngx-currency.config';
 
 @Directive({
-  standalone: true,
   selector: 'input[currencyMask]',
   providers: [
     {
@@ -112,35 +111,35 @@ export class NgxCurrencyDirective
   @HostListener('cut')
   handleCut() {
     if (!this.isChromeAndroid()) {
-      !this.isReadOnly() && this._inputHandler.handleCut();
+      if (!this.isReadOnly()) this._inputHandler.handleCut();
     }
   }
 
   @HostListener('input')
   handleInput() {
     if (this.isChromeAndroid()) {
-      !this.isReadOnly() && this._inputHandler.handleInput();
+      if (!this.isReadOnly()) this._inputHandler.handleInput();
     }
   }
 
   @HostListener('keydown', ['$event'])
   handleKeydown(event: KeyboardEvent) {
     if (!this.isChromeAndroid()) {
-      !this.isReadOnly() && this._inputHandler.handleKeydown(event);
+      if (!this.isReadOnly()) this._inputHandler.handleKeydown(event);
     }
   }
 
   @HostListener('keypress', ['$event'])
   handleKeypress(event: KeyboardEvent) {
     if (!this.isChromeAndroid()) {
-      !this.isReadOnly() && this._inputHandler.handleKeypress(event);
+      if (!this.isReadOnly()) this._inputHandler.handleKeypress(event);
     }
   }
 
   @HostListener('paste')
   handlePaste() {
     if (!this.isChromeAndroid()) {
-      !this.isReadOnly() && this._inputHandler.handlePaste();
+      if (!this.isReadOnly()) this._inputHandler.handlePaste();
     }
   }
 

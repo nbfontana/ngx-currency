@@ -7,7 +7,6 @@ import {
 } from '../../projects/ngx-currency/src/public-api';
 
 @Component({
-  standalone: true,
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
