@@ -3,8 +3,8 @@ import { NgxCurrencyConfig } from './ngx-currency.config';
 
 export class InputHandler {
   inputService: InputService;
-  onModelChange!: (value: number | null) => void;
-  onModelTouched!: () => void;
+  onModelChange: (value: number | null) => void = () => undefined;
+  onModelTouched: () => void = () => undefined;
 
   constructor(htmlInputElement: HTMLInputElement, options: NgxCurrencyConfig) {
     this.inputService = new InputService(htmlInputElement, options);
