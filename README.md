@@ -11,13 +11,10 @@ https://nbfontana.github.io/ngx-currency/
 
 ## Table of contents
 
-- [About](#about)
-- [Installation](#installation)
+- [Getting Started](#getting-started)
 - [Documentation](https://nbfontana.github.io/ngx-currency/docs/)
 - [Development](#development)
 - [License](#license)
-
-## About
 
 ## Getting Started
 
@@ -26,7 +23,7 @@ https://nbfontana.github.io/ngx-currency/
 Install the package by command:
 
 ```sh
-    npm install ngx-currency --save
+npm install ngx-currency --save
 ```
 
 Import the directive
@@ -35,7 +32,6 @@ Import the directive
 import { NgxCurrencyDirective } from "ngx-currency";
 
 @Component({
-  standalone: true,
   selector: "app-root",
   templateUrl: "./app.component.html",
   imports: [NgxCurrencyDirective],
@@ -125,11 +121,27 @@ bootstrapApplication(AppComponent, {
 
 ### Development server
 
-Run `npm start` to start a development server.
+To start a local development server, run:
+
+```bash
+npm start
+```
+
+### Building
+
+To build the library run:
+
+```bash
+npm run build:lib
+```
 
 ### Testing
 
-- Run `npm test` to run tests
+To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+
+```bash
+npm test
+```
 
 When running in the Chrome browser, you can set code breakpoints to debug tests using these instructions:
 
