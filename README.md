@@ -1,6 +1,5 @@
 # ngx-currency
 
-[![Build Status](https://travis-ci.org/nbfontana/ngx-currency.svg?branch=master)](https://travis-ci.org/nbfontana/ngx-currency)
 [![npm version](https://badge.fury.io/js/ngx-currency.png)](http://badge.fury.io/js/ngx-currency)
 [![GitHub issues](https://img.shields.io/github/issues/nbfontana/ngx-currency.png)](https://github.com/nbfontana/ngx-currency/issues)
 [![GitHub stars](https://img.shields.io/github/stars/nbfontana/ngx-currency.png)](https://github.com/nbfontana/ngx-currency/stargazers)
@@ -12,13 +11,10 @@ https://nbfontana.github.io/ngx-currency/
 
 ## Table of contents
 
-- [About](#about)
-- [Installation](#installation)
+- [Getting Started](#getting-started)
 - [Documentation](https://nbfontana.github.io/ngx-currency/docs/)
 - [Development](#development)
 - [License](#license)
-
-## About
 
 ## Getting Started
 
@@ -27,7 +23,7 @@ https://nbfontana.github.io/ngx-currency/
 Install the package by command:
 
 ```sh
-    npm install ngx-currency --save
+npm install ngx-currency --save
 ```
 
 Import the directive
@@ -36,7 +32,6 @@ Import the directive
 import { NgxCurrencyDirective } from "ngx-currency";
 
 @Component({
-  standalone: true,
   selector: "app-root",
   templateUrl: "./app.component.html",
   imports: [NgxCurrencyDirective],
@@ -47,7 +42,7 @@ export class AppComponent {}
 ### Using
 
 ```html
-<input type="tel" currencyMask formControlName="value" />
+<input type="text" inputmode="decimal" currencyMask formControlName="value" />
 ```
 
 - `ngModel` An attribute of type number. If is displayed `'$ 25.63'`, the attribute will be `'25.63'`.
@@ -126,11 +121,27 @@ bootstrapApplication(AppComponent, {
 
 ### Development server
 
-Run `npm start` to start a development server.
+To start a local development server, run:
+
+```bash
+npm start
+```
+
+### Building
+
+To build the library run:
+
+```bash
+npm run build:lib
+```
 
 ### Testing
 
-- Run `npm test` to run tests
+To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+
+```bash
+npm test
+```
 
 When running in the Chrome browser, you can set code breakpoints to debug tests using these instructions:
 

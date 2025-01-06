@@ -9,7 +9,6 @@ import {
   Input,
   KeyValueDiffer,
   KeyValueDiffers,
-  OnInit,
   Optional,
 } from '@angular/core';
 
@@ -22,7 +21,6 @@ import {
 } from './ngx-currency.config';
 
 @Directive({
-  standalone: true,
   selector: 'input[currencyMask]',
   providers: [
     {
@@ -33,7 +31,7 @@ import {
   ],
 })
 export class NgxCurrencyDirective
-  implements AfterViewInit, ControlValueAccessor, DoCheck, OnInit
+  implements AfterViewInit, ControlValueAccessor, DoCheck
 {
   @Input()
   set currencyMask(value: Partial<NgxCurrencyConfig> | string) {
@@ -50,7 +48,7 @@ export class NgxCurrencyDirective
     this._options = value;
   }
 
-  private _inputHandler!: InputHandler;
+  private readonly _inputHandler: InputHandler;
   private readonly _keyValueDiffer: KeyValueDiffer<
     keyof NgxCurrencyConfig,
     unknown
@@ -81,9 +79,7 @@ export class NgxCurrencyDirective
     };
 
     this._keyValueDiffer = keyValueDiffers.find({}).create();
-  }
 
-  ngOnInit() {
     this._inputHandler = new InputHandler(this._elementRef.nativeElement, {
       ...this._optionsTemplate,
       ...this._options,
@@ -115,35 +111,35 @@ export class NgxCurrencyDirective
   @HostListener('cut')
   handleCut() {
     if (!this.isChromeAndroid()) {
-      !this.isReadOnly() && this._inputHandler.handleCut();
+      if (!this.isReadOnly()) this._inputHandler.handleCut();
     }
   }
 
   @HostListener('input')
   handleInput() {
     if (this.isChromeAndroid()) {
-      !this.isReadOnly() && this._inputHandler.handleInput();
+      if (!this.isReadOnly()) this._inputHandler.handleInput();
     }
   }
 
   @HostListener('keydown', ['$event'])
   handleKeydown(event: KeyboardEvent) {
     if (!this.isChromeAndroid()) {
-      !this.isReadOnly() && this._inputHandler.handleKeydown(event);
+      if (!this.isReadOnly()) this._inputHandler.handleKeydown(event);
     }
   }
 
   @HostListener('keypress', ['$event'])
   handleKeypress(event: KeyboardEvent) {
     if (!this.isChromeAndroid()) {
-      !this.isReadOnly() && this._inputHandler.handleKeypress(event);
+      if (!this.isReadOnly()) this._inputHandler.handleKeypress(event);
     }
   }
 
   @HostListener('paste')
   handlePaste() {
     if (!this.isChromeAndroid()) {
-      !this.isReadOnly() && this._inputHandler.handlePaste();
+      if (!this.isReadOnly()) this._inputHandler.handlePaste();
     }
   }
 

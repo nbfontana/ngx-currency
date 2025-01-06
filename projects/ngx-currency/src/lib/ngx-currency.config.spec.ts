@@ -19,7 +19,6 @@ describe('NgxCurrencyConfig', () => {
       inputMode: NgxCurrencyInputMode.Financial,
     };
 
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     inputService = new InputService(null!, globalOptions);
   });
 

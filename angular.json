@@ -17,6 +17,9 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
+            "security": {
+              "autoCsp": true
+            },
             "outputPath": "dist/ngx-currency-demo",
             "index": "src/index.html",
             "browser": "src/main.ts",
