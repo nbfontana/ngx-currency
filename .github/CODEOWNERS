@@ -1,0 +1,10 @@
+## Managed by admin team.  Please make an access control ticket if you need any changes.
+*                   @liquidxinc/liquidx-trade-team
+
+azure-pipelinex.yml @liquidxinc/liquidx-devsecops
+.github/            @liquidxinc/liquidx-devsecops
+CODE_OF_CONDUCT.md  @liquidxinc/liquidx-admins
+CONTRIBUTING.md     @liquidxinc/liquidx-admins
+LICENSE.md          @liquidxinc/liquidx-admins
+CODEOWNERS          @liquidxinc/liquidx-admins
+veracode.yml        @liquidxinc/liquidx-admins
