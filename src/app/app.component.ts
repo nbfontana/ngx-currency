@@ -1,5 +1,5 @@
 import { JsonPipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import {
   NgxCurrencyDirective,
@@ -24,12 +24,12 @@ export class AppComponent {
   };
   ngxCurrencyInputMode = NgxCurrencyInputMode;
 
-  form = this.formBuilder.nonNullable.group({
+  form = inject(FormBuilder).nonNullable.group({
     value: 0,
     inputMode: this.ngxCurrencyOptions.inputMode,
   });
 
-  constructor(private readonly formBuilder: FormBuilder) {
+  constructor() {
     this.form.controls.inputMode.valueChanges.subscribe(val => {
       this.ngxCurrencyOptions.inputMode = val;
 
