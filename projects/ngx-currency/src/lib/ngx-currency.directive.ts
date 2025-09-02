@@ -117,9 +117,7 @@ export class NgxCurrencyDirective
 
   @HostListener('input')
   handleInput() {
-    if (this.isChromeAndroid()) {
-      if (!this.isReadOnly()) this._inputHandler.handleInput();
-    }
+    if (!this.isReadOnly()) this._inputHandler.handleInput();
   }
 
   @HostListener('keydown', ['$event'])
