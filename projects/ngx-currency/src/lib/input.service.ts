@@ -2,14 +2,14 @@ import { InputManager } from './input.manager';
 import { NgxCurrencyConfig, NgxCurrencyInputMode } from './ngx-currency.config';
 
 export class InputService {
-  private readonly _singleDigitRegex = new RegExp(
+  private readonly singleDigitRegex = new RegExp(
     /^[0-9\u0660-\u0669\u06F0-\u06F9]$/,
   );
-  private readonly _onlyNumbersRegex = new RegExp(
+  private readonly onlyNumbersRegex = new RegExp(
     /[^0-9\u0660-\u0669\u06F0-\u06F9]/g,
   );
 
-  private readonly _perArNumber = new Map<string, string>([
+  private readonly perArNumber = new Map<string, string>([
     ['\u06F0', '0'],
     ['\u06F1', '1'],
     ['\u06F2', '2'],
@@ -37,15 +37,14 @@ export class InputService {
 
   constructor(
     htmlInputElement: HTMLInputElement,
-    private _options: NgxCurrencyConfig,
+    private options: NgxCurrencyConfig,
   ) {
     this.inputManager = new InputManager(htmlInputElement);
   }
 
-  addNumber(keyCode: number): void {
-    const { decimal, precision, inputMode } = this._options;
-    const keyChar = String.fromCharCode(keyCode);
-    const isDecimalChar = keyChar === this._options.decimal;
+  addNumber(keyChar: string): void {
+    const { decimal, precision, inputMode } = this.options;
+    const isDecimalChar = keyChar === this.options.decimal;
 
     if (!this.rawValue) {
       this.rawValue = this.applyMask(false, keyChar);
@@ -79,12 +78,12 @@ export class InputService {
       const newValue = rawValueStart + keyChar + rawValueEnd;
       let nextSelectionStart = selectionStart + 1;
       const isDecimalOrThousands =
-        isDecimalChar || keyChar === this._options.thousands;
+        isDecimalChar || keyChar === this.options.thousands;
       if (isDecimalOrThousands && keyChar === rawValueEnd[0]) {
         // If the cursor is just before the decimal or thousands separator and the user types the
         // decimal or thousands separator, move the cursor past it.
         nextSelectionStart++;
-      } else if (!this._singleDigitRegex.test(keyChar)) {
+      } else if (!this.singleDigitRegex.test(keyChar)) {
         // Ignore other non-numbers.
         return;
       }
@@ -108,12 +107,12 @@ export class InputService {
       thousands,
       min,
       inputMode,
-    } = this._options;
+    } = this.options;
 
-    let { max } = this._options;
+    let { max } = this.options;
 
     rawValue = isNumber ? new Number(rawValue).toFixed(precision) : rawValue;
-    let onlyNumbers = rawValue.replace(this._onlyNumbersRegex, '');
+    let onlyNumbers = rawValue.replace(this.onlyNumbersRegex, '');
 
     if (!onlyNumbers && rawValue !== decimal) {
       return '';
@@ -125,7 +124,7 @@ export class InputService {
       !disablePadAndTrim
     ) {
       rawValue = this.padOrTrimPrecision(rawValue);
-      onlyNumbers = rawValue.replace(this._onlyNumbersRegex, '');
+      onlyNumbers = rawValue.replace(this.onlyNumbersRegex, '');
     }
 
     let integerPart = onlyNumbers
@@ -187,7 +186,7 @@ export class InputService {
   }
 
   padOrTrimPrecision(rawValue: string): string {
-    const { decimal, precision } = this._options;
+    const { decimal, precision } = this.options;
 
     let decimalIndex = rawValue.lastIndexOf(decimal);
     if (decimalIndex === -1) {
@@ -197,7 +196,7 @@ export class InputService {
 
     let decimalPortion = rawValue
       .substring(decimalIndex)
-      .replace(this._onlyNumbersRegex, '');
+      .replace(this.onlyNumbersRegex, '');
     const actualPrecision = decimalPortion.length;
     if (actualPrecision < precision) {
       for (let i = actualPrecision; i < precision; i++) {
@@ -217,21 +216,18 @@ export class InputService {
     if (this.isNullable() && rawValue === '') return null;
 
     let value = (rawValue || '0')
-      .replace(this._options.prefix, '')
-      .replace(this._options.suffix, '');
+      .replace(this.options.prefix, '')
+      .replace(this.options.suffix, '');
 
-    if (this._options.thousands) {
-      value = value.replace(
-        new RegExp('\\' + this._options.thousands, 'g'),
-        '',
-      );
+    if (this.options.thousands) {
+      value = value.replace(new RegExp('\\' + this.options.thousands, 'g'), '');
     }
 
-    if (this._options.decimal) {
-      value = value.replace(this._options.decimal, '.');
+    if (this.options.decimal) {
+      value = value.replace(this.options.decimal, '.');
     }
 
-    this._perArNumber.forEach((val: string, key: string) => {
+    this.perArNumber.forEach((val: string, key: string) => {
       const re = new RegExp(key, 'g');
       value = value.replace(re, val);
     });
@@ -240,7 +236,7 @@ export class InputService {
 
   changeToNegative(): void {
     if (
-      this._options.allowNegative /*&& this.rawValue != ""*/ &&
+      this.options.allowNegative /*&& this.rawValue != ""*/ &&
       this.rawValue?.charAt(0) != '-' /*&& this.value != 0*/
     ) {
       // Apply the mask to ensure the min and max values are enforced.
@@ -259,8 +255,8 @@ export class InputService {
     );
   }
 
-  removeNumber(keyCode: number): void {
-    const { decimal, thousands, prefix, suffix, inputMode } = this._options;
+  removeNumber(key: string): void {
+    const { decimal, thousands, prefix, suffix, inputMode } = this.options;
 
     if (this.isNullable() && this.value == 0) {
       this.rawValue = null;
@@ -299,7 +295,7 @@ export class InputService {
       decimalIndex + 1 === selectionEnd;
 
     if (selectionEnd === selectionStart) {
-      if (keyCode == 8) {
+      if (key === 'Backspace') {
         if (selectionStart <= prefix.length) {
           return;
         }
@@ -326,7 +322,7 @@ export class InputService {
             insertChars += '0';
           }
         }
-      } else if (keyCode == 46 || keyCode == 63272) {
+      } else if (key === 'Delete') {
         if (selectionStart === suffixStart) {
           return;
         }
@@ -387,10 +383,10 @@ export class InputService {
     );
     selectionStart ??= this.rawValue?.length ?? 0;
     selectionStart = Math.max(
-      this._options.prefix.length,
+      this.options.prefix.length,
       Math.min(
         selectionStart,
-        (this.rawValue?.length ?? 0) - this._options.suffix.length,
+        (this.rawValue?.length ?? 0) - this.options.suffix.length,
       ),
     );
     this.inputManager.updateValueAndCursor(
@@ -402,20 +398,20 @@ export class InputService {
 
   updateOptions(options: NgxCurrencyConfig): void {
     const value = this.value;
-    this._options = options;
+    this.options = options;
     this.value = value;
   }
 
   prefixLength(): number {
-    return this._options.prefix.length;
+    return this.options.prefix.length;
   }
 
   suffixLength(): number {
-    return this._options.suffix.length;
+    return this.options.suffix.length;
   }
 
   isNullable() {
-    return this._options.nullable;
+    return this.options.nullable;
   }
 
   get canInputMoreNumbers(): boolean {
@@ -447,9 +443,5 @@ export class InputService {
 
   set value(value: number | null) {
     this.rawValue = this.applyMask(true, '' + value);
-  }
-
-  private _isNullOrUndefined(value: number | null | undefined): boolean {
-    return value === null || value === undefined;
   }
 }

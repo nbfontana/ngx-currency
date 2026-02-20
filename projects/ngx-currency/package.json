@@ -4,10 +4,10 @@
   "description": "A very simple currency mask directive that allows using a number attribute with the ngModel.",
   "author": "Neri Bez Fontana",
   "license": "MIT",
-  "homepage": "https://github.com/nbfontana/ngx-currency#readme",
+  "homepage": "https://github.com/nbfontana/ngx-currency",
   "repository": {
     "type": "git",
-    "url": "https://github.com/nbfontana/ngx-currency"
+    "url": "git+https://github.com/nbfontana/ngx-currency.git"
   },
   "bugs": {
     "url": "https://github.com/nbfontana/ngx-currency/issues"
@@ -22,9 +22,9 @@
     "number"
   ],
   "peerDependencies": {
-    "@angular/common": "^19.0.0",
-    "@angular/core": "^19.0.0",
-    "@angular/forms": "^19.0.0"
+    "@angular/common": "^21.0.0",
+    "@angular/core": "^21.0.0",
+    "@angular/forms": "^21.0.0"
   },
   "dependencies": {
     "tslib": "^2.5.0"

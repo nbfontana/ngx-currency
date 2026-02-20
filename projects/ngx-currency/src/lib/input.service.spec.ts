@@ -23,63 +23,51 @@ describe('InputService', () => {
   describe('removeNumber', () => {
     it('should remove leading . when deleting the first number followed by a .', () => {
       inputService = new InputService(
-        {
-          selectionStart: 0,
-          selectionEnd: 0,
-        } as HTMLInputElement,
+        createMockHtmlInputElement(0, 0),
         options,
       );
 
       inputService.inputManager.rawValue = '1.234,50';
-      spyOn(inputService, 'updateFieldValue');
-      inputService.removeNumber(46);
+      vi.spyOn(inputService, 'updateFieldValue');
+      inputService.removeNumber('Delete');
       expect(inputService.inputManager.rawValue).toEqual('234,50');
       expect(inputService.updateFieldValue).toHaveBeenCalledWith(0, true);
     });
 
     it('should call updateFieldValue with 2 when deleting the number after the .', () => {
       inputService = new InputService(
-        {
-          selectionStart: 2,
-          selectionEnd: 2,
-        } as HTMLInputElement,
+        createMockHtmlInputElement(2, 2),
         options,
       );
 
       inputService.inputManager.rawValue = '0.01';
-      spyOn(inputService, 'updateFieldValue');
-      inputService.removeNumber(46);
+      vi.spyOn(inputService, 'updateFieldValue');
+      inputService.removeNumber('Delete');
       expect(inputService.updateFieldValue).toHaveBeenCalledWith(2, true);
     });
 
     it('should remove leading . when backspacing the first number followed by a .', () => {
       inputService = new InputService(
-        {
-          selectionStart: 1,
-          selectionEnd: 1,
-        } as HTMLInputElement,
+        createMockHtmlInputElement(1, 1),
         options,
       );
 
       inputService.inputManager.rawValue = '1.234,50';
-      spyOn(inputService, 'updateFieldValue');
-      inputService.removeNumber(8);
+      vi.spyOn(inputService, 'updateFieldValue');
+      inputService.removeNumber('Backspace');
       expect(inputService.inputManager.rawValue).toEqual('234,50');
       expect(inputService.updateFieldValue).toHaveBeenCalledWith(0, true);
     });
 
     it('should call updateFieldValue with 2 less than the current position when backspacing any non-number character', () => {
       inputService = new InputService(
-        {
-          selectionStart: 6,
-          selectionEnd: 6,
-        } as HTMLInputElement,
+        createMockHtmlInputElement(6, 6),
         options,
       );
 
       inputService.inputManager.rawValue = '1.234,50';
-      spyOn(inputService, 'updateFieldValue');
-      inputService.removeNumber(8);
+      vi.spyOn(inputService, 'updateFieldValue');
+      inputService.removeNumber('Backspace');
       expect(inputService.updateFieldValue).toHaveBeenCalledWith(4, true);
     });
 
@@ -87,16 +75,13 @@ describe('InputService', () => {
       options.prefix = '$$';
       options.suffix = 'SUF';
       inputService = new InputService(
-        {
-          selectionStart: 2,
-          selectionEnd: 2,
-        } as HTMLInputElement,
+        createMockHtmlInputElement(2, 2),
         options,
       );
 
       inputService.inputManager.rawValue = '$$1.234,50SUF';
-      spyOn(inputService, 'updateFieldValue');
-      inputService.removeNumber(8);
+      vi.spyOn(inputService, 'updateFieldValue');
+      inputService.removeNumber('Backspace');
       expect(inputService.updateFieldValue).not.toHaveBeenCalled();
     });
 
@@ -104,16 +89,13 @@ describe('InputService', () => {
       options.prefix = '$$';
       options.suffix = 'SUF';
       inputService = new InputService(
-        {
-          selectionStart: 10,
-          selectionEnd: 10,
-        } as HTMLInputElement,
+        createMockHtmlInputElement(10, 10),
         options,
       );
 
       inputService.inputManager.rawValue = '$$1.234,50SUF';
-      spyOn(inputService, 'updateFieldValue');
-      inputService.removeNumber(46);
+      vi.spyOn(inputService, 'updateFieldValue');
+      inputService.removeNumber('Delete');
       expect(inputService.updateFieldValue).not.toHaveBeenCalled();
     });
 
@@ -124,7 +106,7 @@ describe('InputService', () => {
       inputService = new InputService(htmlInputElement, options);
 
       inputService.rawValue = '$$1.234.567,89SUF';
-      inputService.removeNumber(8);
+      inputService.removeNumber('Backspace');
       expect(inputService.rawValue).toEqual('$$123.567,89SUF');
       expect(htmlInputElement.selectionStart).toEqual(6);
       expect(htmlInputElement.selectionEnd).toEqual(6);
@@ -137,7 +119,7 @@ describe('InputService', () => {
       inputService = new InputService(htmlInputElement, options);
 
       inputService.rawValue = '$$1.234,56SUF';
-      inputService.removeNumber(8);
+      inputService.removeNumber('Backspace');
       expect(inputService.rawValue).toEqual('$$123,56SUF');
       expect(htmlInputElement.selectionStart).toEqual(6);
       expect(htmlInputElement.selectionEnd).toEqual(6);
@@ -150,7 +132,7 @@ describe('InputService', () => {
       inputService = new InputService(htmlInputElement, options);
 
       inputService.rawValue = '$$123.456,78SUF';
-      inputService.removeNumber(46);
+      inputService.removeNumber('Delete');
       expect(inputService.rawValue).toEqual('$$12.356,78SUF');
       expect(htmlInputElement.selectionStart).toEqual(6);
       expect(htmlInputElement.selectionEnd).toEqual(6);
@@ -164,37 +146,37 @@ describe('InputService', () => {
       inputService = new InputService(htmlInputElement, options);
       inputService.rawValue = '$$1.234,56SUF';
 
-      inputService.removeNumber(8);
+      inputService.removeNumber('Backspace');
       expect(inputService.rawValue).toEqual('$$1.234,50SUF');
       expect(htmlInputElement.selectionStart).toEqual(9);
       expect(htmlInputElement.selectionEnd).toEqual(9);
 
-      inputService.removeNumber(8);
+      inputService.removeNumber('Backspace');
       expect(inputService.rawValue).toEqual('$$1.234,00SUF');
       expect(htmlInputElement.selectionStart).toEqual(8);
       expect(htmlInputElement.selectionEnd).toEqual(8);
 
-      inputService.removeNumber(8);
+      inputService.removeNumber('Backspace');
       expect(inputService.rawValue).toEqual('$$123,00SUF');
       expect(htmlInputElement.selectionStart).toEqual(5);
       expect(htmlInputElement.selectionEnd).toEqual(5);
 
-      inputService.removeNumber(8);
+      inputService.removeNumber('Backspace');
       expect(inputService.rawValue).toEqual('$$12,00SUF');
       expect(htmlInputElement.selectionStart).toEqual(4);
       expect(htmlInputElement.selectionEnd).toEqual(4);
 
-      inputService.removeNumber(8);
+      inputService.removeNumber('Backspace');
       expect(inputService.rawValue).toEqual('$$1,00SUF');
       expect(htmlInputElement.selectionStart).toEqual(3);
       expect(htmlInputElement.selectionEnd).toEqual(3);
 
-      inputService.removeNumber(8);
+      inputService.removeNumber('Backspace');
       expect(inputService.rawValue).toEqual('$$0,00SUF');
       expect(htmlInputElement.selectionStart).toEqual(3);
       expect(htmlInputElement.selectionEnd).toEqual(3);
 
-      inputService.removeNumber(8);
+      inputService.removeNumber('Backspace');
       expect(inputService.rawValue).toEqual('$$0,00SUF');
       expect(htmlInputElement.selectionStart).toEqual(3);
       expect(htmlInputElement.selectionEnd).toEqual(3);
@@ -208,12 +190,12 @@ describe('InputService', () => {
       inputService = new InputService(htmlInputElement, options);
       inputService.rawValue = '$$1.234,56SUF';
 
-      inputService.removeNumber(46);
+      inputService.removeNumber('Delete');
       expect(inputService.rawValue).toEqual('$$1.234,06SUF');
       expect(htmlInputElement.selectionStart).toEqual(9);
       expect(htmlInputElement.selectionEnd).toEqual(9);
 
-      inputService.removeNumber(46);
+      inputService.removeNumber('Delete');
       expect(inputService.rawValue).toEqual('$$1.234,00SUF');
       expect(htmlInputElement.selectionStart).toEqual(10);
       expect(htmlInputElement.selectionEnd).toEqual(10);
@@ -227,7 +209,7 @@ describe('InputService', () => {
       inputService = new InputService(htmlInputElement, options);
       inputService.rawValue = '$$1,00SUF';
 
-      inputService.removeNumber(8);
+      inputService.removeNumber('Backspace');
       expect(inputService.rawValue).toEqual('$$0,00SUF');
       expect(htmlInputElement.selectionStart).toEqual(3);
       expect(htmlInputElement.selectionEnd).toEqual(3);
@@ -242,7 +224,7 @@ describe('InputService', () => {
       inputService = new InputService(htmlInputElement, options);
       inputService.rawValue = '$$1.234SUF';
 
-      inputService.removeNumber(46);
+      inputService.removeNumber('Delete');
       expect(inputService.rawValue).toEqual('$$134SUF');
       expect(htmlInputElement.selectionStart).toEqual(3);
       expect(htmlInputElement.selectionEnd).toEqual(3);
@@ -255,7 +237,7 @@ describe('InputService', () => {
       inputService = new InputService(htmlInputElement, options);
       inputService.rawValue = '$$1.234,56SUF';
 
-      inputService.removeNumber(46);
+      inputService.removeNumber('Delete');
       expect(inputService.rawValue).toEqual('$$1,26SUF');
       expect(htmlInputElement.selectionStart).toEqual(5);
       expect(htmlInputElement.selectionEnd).toEqual(5);
@@ -269,7 +251,7 @@ describe('InputService', () => {
       inputService = new InputService(htmlInputElement, options);
       inputService.rawValue = '$$1.234,56SUF';
 
-      inputService.removeNumber(8);
+      inputService.removeNumber('Backspace');
       expect(inputService.rawValue).toEqual('$$1,26SUF');
       expect(htmlInputElement.selectionStart).toEqual(5);
       expect(htmlInputElement.selectionEnd).toEqual(5);
@@ -282,7 +264,7 @@ describe('InputService', () => {
       inputService = new InputService(htmlInputElement, options);
       inputService.rawValue = '$$1.234,56SUF';
 
-      inputService.removeNumber(46);
+      inputService.removeNumber('Delete');
       expect(inputService.rawValue).toEqual('$$1.234,56SUF');
       expect(htmlInputElement.selectionStart).toEqual(2);
       expect(htmlInputElement.selectionEnd).toEqual(2);
@@ -295,7 +277,7 @@ describe('InputService', () => {
       inputService = new InputService(htmlInputElement, options);
       inputService.rawValue = '$$1.234,56SUF';
 
-      inputService.removeNumber(8);
+      inputService.removeNumber('Backspace');
       expect(inputService.rawValue).toEqual('$$1.234,56SUF');
       expect(htmlInputElement.selectionStart).toEqual(10);
       expect(htmlInputElement.selectionEnd).toEqual(10);
