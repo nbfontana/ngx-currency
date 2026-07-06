@@ -3,14 +3,14 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "paths": {
-      "ngx-currency": ["./dist/ngx-currency"]
-    },
     "strict": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
+    "paths": {
+      "ngx-currency": ["./dist/ngx-currency"]
+    },
     "skipLibCheck": true,
     "isolatedModules": true,
     "experimentalDecorators": true,
