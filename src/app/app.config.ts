@@ -1,11 +1,12 @@
 import { IMAGE_CONFIG } from '@angular/common';
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
-import { provideAnimations } from '@angular/platform-browser/animations';
+import {
+  ApplicationConfig,
+  provideBrowserGlobalErrorListeners,
+} from '@angular/core';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideAnimations(),
-    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideBrowserGlobalErrorListeners(),
     {
       provide: IMAGE_CONFIG,
       useValue: {

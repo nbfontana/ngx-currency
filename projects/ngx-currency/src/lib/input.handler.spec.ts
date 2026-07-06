@@ -28,7 +28,7 @@ describe('InputHandler', () => {
 
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     inputHandler.onModelChange = () => {};
-    spyOn(inputHandler, 'onModelChange');
+    vi.spyOn(inputHandler, 'onModelChange');
   });
 
   describe('handleInput', () => {
@@ -45,8 +45,53 @@ describe('InputHandler', () => {
       inputService.inputManager['_storedRawValue'] = '$123';
 
       inputHandler.handleInput();
+      // With the fix, it extracts numeric chars and processes them
       expect(inputService.rawValue).toEqual('$12.345');
       expect(inputHandler.onModelChange).toHaveBeenCalledWith(12345);
+    });
+
+    // Fix for: https://github.com/nbfontana/ngx-currency/issues/96
+    it('handles select-all and type multiple characters', () => {
+      // Simulate: field has "$12.345", user selects all, types "750"
+      // Browser replaces selected text with "750" in a single input event
+      // Length difference must be > 1 to trigger multi-char handling
+      inputService.rawValue = '750';
+      inputElement.selectionStart = 3;
+      inputService.inputManager['_storedRawValue'] = '$12.345'; // length 7
+
+      inputHandler.handleInput();
+
+      // Should process all three characters: 7, 5, 0
+      // abs(3 - 7) = 4, so this triggers multi-char handling
+      expect(inputService.rawValue).toEqual('$750');
+      expect(inputHandler.onModelChange).toHaveBeenCalledWith(750);
+    });
+
+    it('handles select-all and type with decimal', () => {
+      options.precision = 2;
+      options.inputMode = NgxCurrencyInputMode.Natural;
+
+      // Simulate: field has "$123.45", user selects all, types "99.50"
+      inputService.rawValue = '99.50';
+      inputElement.selectionStart = 5;
+      inputService.inputManager['_storedRawValue'] = '$123,45';
+
+      inputHandler.handleInput();
+
+      // Should correctly parse decimal value
+      expect(inputHandler.onModelChange).toHaveBeenCalled();
+    });
+
+    it('handles empty input after select-all delete', () => {
+      // Simulate: field has "$123", user selects all and deletes
+      inputService.rawValue = '';
+      inputElement.selectionStart = 0;
+      inputService.inputManager['_storedRawValue'] = '$123';
+
+      inputHandler.handleInput();
+
+      // Should handle empty input gracefully
+      expect(inputHandler.onModelChange).toHaveBeenCalled();
     });
 
     it('handles 1 character removed', () => {
@@ -116,14 +161,14 @@ describe('InputHandler', () => {
       inputService.rawValue = '$$$1,23SU';
       inputElement.selectionStart = 0;
       inputElement.selectionEnd = 9;
-      spyOn(inputHandler, 'clearValue');
+      vi.spyOn(inputHandler, 'clearValue');
 
       const event = {
-        keyCode: 8,
+        key: 'Backspace',
         // eslint-disable-next-line @typescript-eslint/no-empty-function
         preventDefault: () => {},
       } as KeyboardEvent;
-      spyOn(event, 'preventDefault');
+      vi.spyOn(event, 'preventDefault');
       inputHandler.handleKeydown(event);
       expect(event.preventDefault).toHaveBeenCalledTimes(1);
       expect(inputHandler.clearValue).toHaveBeenCalledTimes(1);
@@ -135,14 +180,14 @@ describe('InputHandler', () => {
       inputService.rawValue = '$$$1,23SU';
       inputElement.selectionStart = 1;
       inputElement.selectionEnd = 8;
-      spyOn(inputHandler, 'clearValue');
+      vi.spyOn(inputHandler, 'clearValue');
 
       const event = {
-        keyCode: 46,
+        key: 'Delete',
         // eslint-disable-next-line @typescript-eslint/no-empty-function
         preventDefault: () => {},
       } as KeyboardEvent;
-      spyOn(event, 'preventDefault');
+      vi.spyOn(event, 'preventDefault');
       inputHandler.handleKeydown(event);
       expect(event.preventDefault).toHaveBeenCalledTimes(1);
       expect(inputHandler.clearValue).toHaveBeenCalledTimes(1);
@@ -154,14 +199,14 @@ describe('InputHandler', () => {
       inputService.rawValue = '$$$1,23SU';
       inputElement.selectionStart = 3;
       inputElement.selectionEnd = 7;
-      spyOn(inputHandler, 'clearValue');
+      vi.spyOn(inputHandler, 'clearValue');
 
       const event = {
-        keyCode: 63272,
+        key: 'Delete',
         // eslint-disable-next-line @typescript-eslint/no-empty-function
         preventDefault: () => {},
       } as KeyboardEvent;
-      spyOn(event, 'preventDefault');
+      vi.spyOn(event, 'preventDefault');
 
       inputHandler.handleKeydown(event);
       expect(event.preventDefault).toHaveBeenCalledTimes(1);
@@ -174,18 +219,18 @@ describe('InputHandler', () => {
       inputService.rawValue = '$$$1,23SU';
       inputElement.selectionStart = 3;
       inputElement.selectionEnd = 4;
-      spyOn(inputService, 'removeNumber');
+      vi.spyOn(inputService, 'removeNumber');
 
       const event = {
-        keyCode: 46,
+        key: 'Delete',
         // eslint-disable-next-line @typescript-eslint/no-empty-function
         preventDefault: () => {},
       } as KeyboardEvent;
-      spyOn(event, 'preventDefault');
+      vi.spyOn(event, 'preventDefault');
 
       inputHandler.handleKeydown(event);
       expect(event.preventDefault).toHaveBeenCalledTimes(1);
-      expect(inputService.removeNumber).toHaveBeenCalledWith(46);
+      expect(inputService.removeNumber).toHaveBeenCalledWith('Delete');
       expect(inputHandler.onModelChange).toHaveBeenCalledTimes(1);
     });
 
@@ -195,18 +240,18 @@ describe('InputHandler', () => {
       inputService.rawValue = '$$$1,23SU';
       inputElement.selectionStart = 5;
       inputElement.selectionEnd = 5;
-      spyOn(inputService, 'removeNumber');
+      vi.spyOn(inputService, 'removeNumber');
 
       const event = {
-        keyCode: 8,
+        key: 'Backspace',
         // eslint-disable-next-line @typescript-eslint/no-empty-function
         preventDefault: () => {},
       } as KeyboardEvent;
-      spyOn(event, 'preventDefault');
+      vi.spyOn(event, 'preventDefault');
 
       inputHandler.handleKeydown(event);
       expect(event.preventDefault).toHaveBeenCalledTimes(1);
-      expect(inputService.removeNumber).toHaveBeenCalledWith(8);
+      expect(inputService.removeNumber).toHaveBeenCalledWith('Backspace');
       expect(inputHandler.onModelChange).toHaveBeenCalledTimes(1);
     });
   });

@@ -1,11 +1,11 @@
-// @ts-check
-const eslint = require('@eslint/js');
-const tseslint = require('typescript-eslint');
-const angular = require('angular-eslint');
+import eslint from "@eslint/js";
+import angular from "angular-eslint";
+import { defineConfig } from "eslint/config";
+import tseslint from "typescript-eslint";
 
-module.exports = tseslint.config(
+export default defineConfig(
   {
-    files: ['**/*.ts'],
+    files: ["**/*.ts"],
     languageOptions: {
       parserOptions: {
         projectService: true,
@@ -18,15 +18,18 @@ module.exports = tseslint.config(
       ...angular.configs.tsRecommended,
     ],
     processor: angular.processInlineTemplates,
+    rules: {
+      "@typescript-eslint/no-deprecated": "warn",
+    },
   },
   {
-    files: ['**/*.html'],
+    files: ["**/*.html"],
     extends: [
       ...angular.configs.templateRecommended,
       ...angular.configs.templateAccessibility,
     ],
     rules: {
-      '@angular-eslint/template/no-autofocus': 'off',
+      "@angular-eslint/template/no-autofocus": "off",
     },
   },
 );

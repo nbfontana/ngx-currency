@@ -1,3 +1,7 @@
 {
-  "recommendations": ["angular.ng-template", "esbenp.prettier-vscode"]
+  "recommendations": [
+    "angular.ng-template",
+    "editorconfig.editorconfig",
+    "esbenp.prettier-vscode"
+  ]
 }

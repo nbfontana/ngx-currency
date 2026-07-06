@@ -53,7 +53,7 @@
           autofocus
           placeholder="R$ 0,00"
           formControlName="value"
-          [currencyMask]="ngxCurrencyOptions"
+          [currencyMask]="ngxCurrencyOptions()"
         />
       </div>
     </div>
@@ -93,7 +93,7 @@
       <div class="col-lg-3 col-sm-8 form-group">
         <span class="form-label">Value</span>
         <div class="alert alert-secondary" role="alert">
-          <pre class="w-100 mb-0">{{ form.value | json }}</pre>
+          <pre class="w-100 mb-0">{{ value() | json }}</pre>
         </div>
       </div>
     </div>

@@ -29,14 +29,14 @@ npm install ngx-currency --save
 Import the directive
 
 ```ts
-import { NgxCurrencyDirective } from "ngx-currency";
+import { NgxCurrency } from "ngx-currency";
 
 @Component({
   selector: "app-root",
   templateUrl: "./app.component.html",
-  imports: [NgxCurrencyDirective],
+  imports: [NgxCurrency],
 })
-export class AppComponent {}
+export class App {}
 ```
 
 ### Using
@@ -90,7 +90,7 @@ You can also set options globally...
 ```ts
 import { provideEnvironmentNgxCurrency, NgxCurrencyInputMode } from 'ngx-currency';
 
-bootstrapApplication(AppComponent, {
+bootstrapApplication(App, {
   providers: [
     ...
     provideEnvironmentNgxCurrency({
@@ -137,7 +137,7 @@ npm run build:lib
 
 ### Testing
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+To execute unit tests with the [Vitest](https://vitest.dev) test runner, use the following command:
 
 ```bash
 npm test
@@ -145,7 +145,7 @@ npm test
 
 When running in the Chrome browser, you can set code breakpoints to debug tests using these instructions:
 
-- From the main Karma browser page, click the `Debug` button to open the debug window
+- From the main Vitest browser page, click the `Debug` button to open the debug window
 - Press `ctrl + shift + i` to open Chrome developer tools
 - Press `ctrl + p` to search for a file to debug
 - Enter a file name like `input.handler.ts` and click the file
